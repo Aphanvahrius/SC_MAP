@@ -1,2 +1,2 @@
 SHIPCORE INTERACTIVE MAP
-AUTOMATICALLY GENERATED WITH qgis2web plugin for QGIS DESKTOP 3.32.0 application
+generated automatically with qgis2web plugin for QGIS Desktop 3.32.0 application
