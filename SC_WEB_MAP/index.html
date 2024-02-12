@@ -1,0 +1,1275 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Regions_0.js"></script>
+        <script src="data/Lanes_1.js"></script>
+        <script src="data/Systems_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:18, minZoom:13
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+            map.setMaxBounds(map.getBounds());
+        }
+        function pop_Regions_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Nation</th>\
+                        <td class="visible-with-data" id="Nation">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ruler</th>\
+                        <td class="visible-with-data" id="Ruler">' + (feature.properties['Ruler'] !== null ? autolinker.link(feature.properties['Ruler'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_Regions_0_0(feature) {
+            switch(String(feature.properties['Nation'])) {
+                case 'Corporate Systems':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,225,22,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Duchy of Drakar':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,0,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Duchy of Meltisar':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,163,204,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Free Planets Alliance':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(168,211,37,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Ghost Sector':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(157,157,157,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Holy Ertan Republic':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,152,42,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Solar Imperium':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(210,43,48,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Solarian Federation':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,40,235,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'The Western Frontier Systems':
+                    return {
+                pane: 'pane_Regions_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(1,208,255,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Regions_0');
+        map.getPane('pane_Regions_0').style.zIndex = 400;
+        map.getPane('pane_Regions_0').style['mix-blend-mode'] = 'normal';
+        var layer_Regions_0 = new L.geoJson(json_Regions_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Regions_0',
+            layerName: 'layer_Regions_0',
+            pane: 'pane_Regions_0',
+            onEachFeature: pop_Regions_0,
+            style: style_Regions_0_0,
+        });
+        bounds_group.addLayer(layer_Regions_0);
+        map.addLayer(layer_Regions_0);
+        function pop_Lanes_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Status</th>\
+                        <td class="visible-with-data" id="Status">' + (feature.properties['Status'] !== null ? autolinker.link(feature.properties['Status'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Nation</th>\
+                        <td class="visible-with-data" id="Nation">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td class="visible-with-data" id="Type">' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_Lanes_1_0(feature) {
+            switch(String(feature.properties['Status'])) {
+                case 'In Developement':
+                    return {
+                pane: 'pane_Lanes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Operational':
+                    return {
+                pane: 'pane_Lanes_1',
+                opacity: 1,
+                color: 'rgba(229,229,229,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        function style_Lanes_1_1(feature) {
+            switch(String(feature.properties['Status'])) {
+                case 'In Developement':
+                    return {
+                pane: 'pane_Lanes_1',
+                opacity: 1,
+                color: 'rgba(238,238,238,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'Operational':
+                    return {
+                pane: 'pane_Lanes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Lanes_1');
+        map.getPane('pane_Lanes_1').style.zIndex = 401;
+        map.getPane('pane_Lanes_1').style['mix-blend-mode'] = 'normal';
+        var layer_Lanes_1 = new L.geoJson.multiStyle(json_Lanes_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Lanes_1',
+            layerName: 'layer_Lanes_1',
+            pane: 'pane_Lanes_1',
+            onEachFeature: pop_Lanes_1,
+            styles: [style_Lanes_1_0,style_Lanes_1_1,]
+        });
+        bounds_group.addLayer(layer_Lanes_1);
+        map.addLayer(layer_Lanes_1);
+        function pop_Systems_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Nation</th>\
+                        <td class="visible-with-data" id="Nation">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">System_Nam</th>\
+                        <td class="visible-with-data" id="System_Nam">' + (feature.properties['System_Nam'] !== null ? autolinker.link(feature.properties['System_Nam'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Notbl_Minb</th>\
+                        <td class="visible-with-data" id="Notbl_Minb">' + (feature.properties['Notbl_Minb'] !== null ? autolinker.link(feature.properties['Notbl_Minb'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Unexplored</th>\
+                        <td class="visible-with-data" id="Unexplored">' + (feature.properties['Unexplored'] !== null ? autolinker.link(feature.properties['Unexplored'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Inhabitabl</th>\
+                        <td class="visible-with-data" id="Inhabitabl">' + (feature.properties['Inhabitabl'] !== null ? autolinker.link(feature.properties['Inhabitabl'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Orbtl_Clny</th>\
+                        <td class="visible-with-data" id="Orbtl_Clny">' + (feature.properties['Orbtl_Clny'] !== null ? autolinker.link(feature.properties['Orbtl_Clny'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Capital</th>\
+                        <td class="visible-with-data" id="Capital">' + (feature.properties['Capital'] !== null ? autolinker.link(feature.properties['Capital'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Homeworld</th>\
+                        <td class="visible-with-data" id="Homeworld">' + (feature.properties['Homeworld'] !== null ? autolinker.link(feature.properties['Homeworld'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Unsurv_bod</th>\
+                        <td class="visible-with-data" id="Unsurv_bod">' + (feature.properties['Unsurv_bod'] !== null ? autolinker.link(feature.properties['Unsurv_bod'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">New_Lane</th>\
+                        <td class="visible-with-data" id="New_Lane">' + (feature.properties['New_Lane'] !== null ? autolinker.link(feature.properties['New_Lane'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Star_Presc</th>\
+                        <td class="visible-with-data" id="Star_Presc">' + (feature.properties['Star_Presc'] !== null ? autolinker.link(feature.properties['Star_Presc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_Systems_2_0(feature) {
+            switch(String(feature.properties['Star_Presc'])) {
+                case '0':
+                    return {
+                pane: 'pane_Systems_2',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(231,200,47,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '1':
+                    return {
+                pane: 'pane_Systems_2',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,251,1,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Systems_2');
+        map.getPane('pane_Systems_2').style.zIndex = 402;
+        map.getPane('pane_Systems_2').style['mix-blend-mode'] = 'normal';
+        var layer_Systems_2 = new L.geoJson(json_Systems_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Systems_2',
+            layerName: 'layer_Systems_2',
+            pane: 'pane_Systems_2',
+            onEachFeature: pop_Systems_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Systems_2_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Systems_2);
+        map.addLayer(layer_Systems_2);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Systems<br /><table><tr><td style="text-align: center;"><img src="legend/Systems_2_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/Systems_2_11.png" /></td><td>1</td></tr></table>': layer_Systems_2,'Lanes<br /><table><tr><td style="text-align: center;"><img src="legend/Lanes_1_InDevelopement0.png" /></td><td>In Developement</td></tr><tr><td style="text-align: center;"><img src="legend/Lanes_1_Operational1.png" /></td><td>Operational</td></tr></table>': layer_Lanes_1,'Regions<br /><table><tr><td style="text-align: center;"><img src="legend/Regions_0_CorporateSystems0.png" /></td><td>Corporate Systems</td></tr><tr><td style="text-align: center;"><img src="legend/Regions_0_DuchyOfDrakar1.png" /></td><td>Duchy Of Drakar</td></tr><tr><td style="text-align: center;"><img src="legend/Regions_0_DuchyOfMeltisar2.png" /></td><td>Duchy Of Meltisar</td></tr><tr><td style="text-align: center;"><img src="legend/Regions_0_FreePlanetsAlliance3.png" /></td><td>Free Planets Alliance</td></tr><tr><td style="text-align: center;"><img src="legend/Regions_0_GhostSector4.png" /></td><td>Ghost Sector</td></tr><tr><td style="text-align: center;"><img src="legend/Regions_0_HolyErtanRepublic5.png" /></td><td>Holy Ertan Republic</td></tr><tr><td style="text-align: center;"><img src="legend/Regions_0_SolarImperium6.png" /></td><td>Solar Imperium</td></tr><tr><td style="text-align: center;"><img src="legend/Regions_0_SolarianFederation7.png" /></td><td>Solarian Federation</td></tr><tr><td style="text-align: center;"><img src="legend/Regions_0_TheWesternFrontierSystems8.png" /></td><td>The Western Frontier Systems</td></tr></table>': layer_Regions_0,},{collapsed:false}).addTo(map);
+        map.on("zoomend", function(){
+
+                if (map.hasLayer(layer_Systems_2)) {
+                    if (map.getZoom() <= 14 && map.getZoom() >= 19) {
+                        layer_Systems_2.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_Systems_2.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        });
+        setBounds();
+                if (map.hasLayer(layer_Systems_2)) {
+                    if (map.getZoom() <= 14 && map.getZoom() >= 19) {
+                        layer_Systems_2.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_Systems_2.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Orbtl_Clny": "int","Unexplored": "int","Notbl_Minb": "int","Inhabitabl": "int","System_Nam": "str","Star_Presc": "str","Type": "str","Capital": "str","Homeworld": "str","Unsurv_bod": "str","Nation": "str","New_Lane": "str","Status": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Orbtl_Clny = document.createElement("div");
+            div_Orbtl_Clny.id = "div_Orbtl_Clny";
+            div_Orbtl_Clny.className = "slider";
+            document.getElementById("menu").appendChild(div_Orbtl_Clny);
+            var lab_Orbtl_Clny = document.createElement('div');
+            lab_Orbtl_Clny.innerHTML  = 'Orbtl_Clny: <span id="val_Orbtl_Clny"></span>';
+            lab_Orbtl_Clny.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Orbtl_Clny);
+            var reset_Orbtl_Clny = document.createElement('div');
+            reset_Orbtl_Clny.innerHTML = 'clear filter';
+            reset_Orbtl_Clny.className = 'filterlabel';
+            lab_Orbtl_Clny.className = 'filterlabel';
+            reset_Orbtl_Clny.onclick = function() {
+                sel_Orbtl_Clny.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Orbtl_Clny);
+            var sel_Orbtl_Clny = document.getElementById('div_Orbtl_Clny');
+            noUiSlider.create(sel_Orbtl_Clny, {
+                connect: true,
+                start: [0, 258],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 258
+                }
+            });
+            sel_Orbtl_Clny.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Orbtl_Clny = document.getElementById('val_Orbtl_Clny');
+            val_Orbtl_Clny.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Unexplored = document.createElement("div");
+            div_Unexplored.id = "div_Unexplored";
+            div_Unexplored.className = "slider";
+            document.getElementById("menu").appendChild(div_Unexplored);
+            var lab_Unexplored = document.createElement('div');
+            lab_Unexplored.innerHTML  = 'Unexplored: <span id="val_Unexplored"></span>';
+            lab_Unexplored.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Unexplored);
+            var reset_Unexplored = document.createElement('div');
+            reset_Unexplored.innerHTML = 'clear filter';
+            reset_Unexplored.className = 'filterlabel';
+            lab_Unexplored.className = 'filterlabel';
+            reset_Unexplored.onclick = function() {
+                sel_Unexplored.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Unexplored);
+            var sel_Unexplored = document.getElementById('div_Unexplored');
+            noUiSlider.create(sel_Unexplored, {
+                connect: true,
+                start: [0, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 4
+                }
+            });
+            sel_Unexplored.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Unexplored = document.getElementById('val_Unexplored');
+            val_Unexplored.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Notbl_Minb = document.createElement("div");
+            div_Notbl_Minb.id = "div_Notbl_Minb";
+            div_Notbl_Minb.className = "slider";
+            document.getElementById("menu").appendChild(div_Notbl_Minb);
+            var lab_Notbl_Minb = document.createElement('div');
+            lab_Notbl_Minb.innerHTML  = 'Notbl_Minb: <span id="val_Notbl_Minb"></span>';
+            lab_Notbl_Minb.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Notbl_Minb);
+            var reset_Notbl_Minb = document.createElement('div');
+            reset_Notbl_Minb.innerHTML = 'clear filter';
+            reset_Notbl_Minb.className = 'filterlabel';
+            lab_Notbl_Minb.className = 'filterlabel';
+            reset_Notbl_Minb.onclick = function() {
+                sel_Notbl_Minb.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Notbl_Minb);
+            var sel_Notbl_Minb = document.getElementById('div_Notbl_Minb');
+            noUiSlider.create(sel_Notbl_Minb, {
+                connect: true,
+                start: [0, 5],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 5
+                }
+            });
+            sel_Notbl_Minb.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Notbl_Minb = document.getElementById('val_Notbl_Minb');
+            val_Notbl_Minb.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Inhabitabl = document.createElement("div");
+            div_Inhabitabl.id = "div_Inhabitabl";
+            div_Inhabitabl.className = "slider";
+            document.getElementById("menu").appendChild(div_Inhabitabl);
+            var lab_Inhabitabl = document.createElement('div');
+            lab_Inhabitabl.innerHTML  = 'Inhabitabl: <span id="val_Inhabitabl"></span>';
+            lab_Inhabitabl.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Inhabitabl);
+            var reset_Inhabitabl = document.createElement('div');
+            reset_Inhabitabl.innerHTML = 'clear filter';
+            reset_Inhabitabl.className = 'filterlabel';
+            lab_Inhabitabl.className = 'filterlabel';
+            reset_Inhabitabl.onclick = function() {
+                sel_Inhabitabl.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Inhabitabl);
+            var sel_Inhabitabl = document.getElementById('div_Inhabitabl');
+            noUiSlider.create(sel_Inhabitabl, {
+                connect: true,
+                start: [0, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 4
+                }
+            });
+            sel_Inhabitabl.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Inhabitabl = document.getElementById('val_Inhabitabl');
+            val_Inhabitabl.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_System_Nam = document.createElement('div');
+            div_System_Nam.id = "div_System_Nam";
+            div_System_Nam.className= "filterselect";
+            document.getElementById("menu").appendChild(div_System_Nam);
+            sel_System_Nam = document.createElement('select');
+            sel_System_Nam.multiple = true;
+            sel_System_Nam.size = 10;
+            sel_System_Nam.id = "sel_System_Nam";
+            var System_Nam_options_str = "<option value='' unselected></option>";
+            sel_System_Nam.onchange = function(){filterFunc()};
+            System_Nam_options_str  += '<option value="1 Octantis">1 Octantis</option>';
+            System_Nam_options_str  += '<option value="1 Pavonis">1 Pavonis</option>';
+            System_Nam_options_str  += '<option value="10 Cassiopeiae">10 Cassiopeiae</option>';
+            System_Nam_options_str  += '<option value="101 Leonis">101 Leonis</option>';
+            System_Nam_options_str  += '<option value="102 Leonis">102 Leonis</option>';
+            System_Nam_options_str  += '<option value="103 Leonis">103 Leonis</option>';
+            System_Nam_options_str  += '<option value="104 Ceti">104 Ceti</option>';
+            System_Nam_options_str  += '<option value="106 Draconis">106 Draconis</option>';
+            System_Nam_options_str  += '<option value="107 Piscium">107 Piscium</option>';
+            System_Nam_options_str  += '<option value="109 Aquarii">109 Aquarii</option>';
+            System_Nam_options_str  += '<option value="110 Aquarii">110 Aquarii</option>';
+            System_Nam_options_str  += '<option value="111 Ceti">111 Ceti</option>';
+            System_Nam_options_str  += '<option value="111 Virginis">111 Virginis</option>';
+            System_Nam_options_str  += '<option value="112 Virginis">112 Virginis</option>';
+            System_Nam_options_str  += '<option value="113 Aquarii">113 Aquarii</option>';
+            System_Nam_options_str  += '<option value="113 Virginis">113 Virginis</option>';
+            System_Nam_options_str  += '<option value="114 Aquarii">114 Aquarii</option>';
+            System_Nam_options_str  += '<option value="114 Ceti">114 Ceti</option>';
+            System_Nam_options_str  += '<option value="114 Piscium">114 Piscium</option>';
+            System_Nam_options_str  += '<option value="114 Virginis">114 Virginis</option>';
+            System_Nam_options_str  += '<option value="115 Aquarii">115 Aquarii</option>';
+            System_Nam_options_str  += '<option value="115 Herculis">115 Herculis</option>';
+            System_Nam_options_str  += '<option value="115 Piscium">115 Piscium</option>';
+            System_Nam_options_str  += '<option value="115 Virginis">115 Virginis</option>';
+            System_Nam_options_str  += '<option value="116 Ceti">116 Ceti</option>';
+            System_Nam_options_str  += '<option value="116 Herculis">116 Herculis</option>';
+            System_Nam_options_str  += '<option value="116 Piscium">116 Piscium</option>';
+            System_Nam_options_str  += '<option value="116 Ursae Majoris">116 Ursae Majoris</option>';
+            System_Nam_options_str  += '<option value="116 Virginis">116 Virginis</option>';
+            System_Nam_options_str  += '<option value="117 Virginis">117 Virginis</option>';
+            System_Nam_options_str  += '<option value="118 Piscium">118 Piscium</option>';
+            System_Nam_options_str  += '<option value="118 Virginis">118 Virginis</option>';
+            System_Nam_options_str  += '<option value="119 Herculis">119 Herculis</option>';
+            System_Nam_options_str  += '<option value="119 Piscium">119 Piscium</option>';
+            System_Nam_options_str  += '<option value="119 Virginis">119 Virginis</option>';
+            System_Nam_options_str  += '<option value="120 Herculis">120 Herculis</option>';
+            System_Nam_options_str  += '<option value="120 Piscium">120 Piscium</option>';
+            System_Nam_options_str  += '<option value="120 Virginis">120 Virginis</option>';
+            System_Nam_options_str  += '<option value="121 Aquarii">121 Aquarii</option>';
+            System_Nam_options_str  += '<option value="121 Piscium">121 Piscium</option>';
+            System_Nam_options_str  += '<option value="121 Virginis">121 Virginis</option>';
+            System_Nam_options_str  += '<option value="122 Piscium">122 Piscium</option>';
+            System_Nam_options_str  += '<option value="123 Piscium">123 Piscium</option>';
+            System_Nam_options_str  += '<option value="124 Herculis">124 Herculis</option>';
+            System_Nam_options_str  += '<option value="124 Virginis">124 Virginis</option>';
+            System_Nam_options_str  += '<option value="125 Piscium">125 Piscium</option>';
+            System_Nam_options_str  += '<option value="125 Virginis">125 Virginis</option>';
+            System_Nam_options_str  += '<option value="126 Piscium">126 Piscium</option>';
+            System_Nam_options_str  += '<option value="126 Virginis">126 Virginis</option>';
+            System_Nam_options_str  += '<option value="13 Centauri">13 Centauri</option>';
+            System_Nam_options_str  += '<option value="131 Virginis">131 Virginis</option>';
+            System_Nam_options_str  += '<option value="132 Virginis">132 Virginis</option>';
+            System_Nam_options_str  += '<option value="135 Virginis">135 Virginis</option>';
+            System_Nam_options_str  += '<option value="14 Centauri">14 Centauri</option>';
+            System_Nam_options_str  += '<option value="142 Tauri">142 Tauri</option>';
+            System_Nam_options_str  += '<option value="144 Tauri">144 Tauri</option>';
+            System_Nam_options_str  += '<option value="15 Cassiopeiae">15 Cassiopeiae</option>';
+            System_Nam_options_str  += '<option value="16 Cassiopeiae">16 Cassiopeiae</option>';
+            System_Nam_options_str  += '<option value="2 Octantis">2 Octantis</option>';
+            System_Nam_options_str  += '<option value="25 Ursae Minoris">25 Ursae Minoris</option>';
+            System_Nam_options_str  += '<option value="36 Cephei">36 Cephei</option>';
+            System_Nam_options_str  += '<option value="52 Capricorni">52 Capricorni</option>';
+            System_Nam_options_str  += '<option value="56 Cassiopeiae">56 Cassiopeiae</option>';
+            System_Nam_options_str  += '<option value="57 Cassiopeiae">57 Cassiopeiae</option>';
+            System_Nam_options_str  += '<option value="6 Centauri">6 Centauri</option>';
+            System_Nam_options_str  += '<option value="6 Lupi">6 Lupi</option>';
+            System_Nam_options_str  += '<option value="61 Hydrae">61 Hydrae</option>';
+            System_Nam_options_str  += '<option value="61 Virginis">61 Virginis</option>';
+            System_Nam_options_str  += '<option value="63 Hydrae">63 Hydrae</option>';
+            System_Nam_options_str  += '<option value="64 Hydrae">64 Hydrae</option>';
+            System_Nam_options_str  += '<option value="69 Andromedae">69 Andromedae</option>';
+            System_Nam_options_str  += '<option value="7 Centauri">7 Centauri</option>';
+            System_Nam_options_str  += '<option value="7 Octantis">7 Octantis</option>';
+            System_Nam_options_str  += '<option value="70 Andromedae">70 Andromedae</option>';
+            System_Nam_options_str  += '<option value="70 Hydrae">70 Hydrae</option>';
+            System_Nam_options_str  += '<option value="73 Eridani">73 Eridani</option>';
+            System_Nam_options_str  += '<option value="75 Ophiuchi">75 Ophiuchi</option>';
+            System_Nam_options_str  += '<option value="76 Ophiuchi">76 Ophiuchi</option>';
+            System_Nam_options_str  += '<option value="78 Ophiuchi">78 Ophiuchi</option>';
+            System_Nam_options_str  += '<option value="80 Ophiuchi">80 Ophiuchi</option>';
+            System_Nam_options_str  += '<option value="81 Draconis">81 Draconis</option>';
+            System_Nam_options_str  += '<option value="81 Orionis">81 Orionis</option>';
+            System_Nam_options_str  += '<option value="82 Eridani">82 Eridani</option>';
+            System_Nam_options_str  += '<option value="83 Draconis">83 Draconis</option>';
+            System_Nam_options_str  += '<option value="84 Cancri">84 Cancri</option>';
+            System_Nam_options_str  += '<option value="84 Orionis">84 Orionis</option>';
+            System_Nam_options_str  += '<option value="85 Ophiuchi">85 Ophiuchi</option>';
+            System_Nam_options_str  += '<option value="85 Orionis">85 Orionis</option>';
+            System_Nam_options_str  += '<option value="86 Draconis">86 Draconis</option>';
+            System_Nam_options_str  += '<option value="86 Geminorum">86 Geminorum</option>';
+            System_Nam_options_str  += '<option value="87 Draconis">87 Draconis</option>';
+            System_Nam_options_str  += '<option value="88 Draconis">88 Draconis</option>';
+            System_Nam_options_str  += '<option value="88 Ophiuchi">88 Ophiuchi</option>';
+            System_Nam_options_str  += '<option value="89 Ursae Majoris">89 Ursae Majoris</option>';
+            System_Nam_options_str  += '<option value="9 Centauri">9 Centauri</option>';
+            System_Nam_options_str  += '<option value="90 Pegasi">90 Pegasi</option>';
+            System_Nam_options_str  += '<option value="90 Ursae Majoris">90 Ursae Majoris</option>';
+            System_Nam_options_str  += '<option value="91 Draconis">91 Draconis</option>';
+            System_Nam_options_str  += '<option value="91 Orionis">91 Orionis</option>';
+            System_Nam_options_str  += '<option value="92 Pegasi">92 Pegasi</option>';
+            System_Nam_options_str  += '<option value="94 Ursae Majoris">94 Ursae Majoris</option>';
+            System_Nam_options_str  += '<option value="96 Draconis">96 Draconis</option>';
+            System_Nam_options_str  += '<option value="97 Draconis">97 Draconis</option>';
+            System_Nam_options_str  += '<option value="97 Pegasi">97 Pegasi</option>';
+            System_Nam_options_str  += '<option value="97 Ursae Majoris">97 Ursae Majoris</option>';
+            System_Nam_options_str  += '<option value="98 Ceti">98 Ceti</option>';
+            System_Nam_options_str  += '<option value="98 Pegasi">98 Pegasi</option>';
+            System_Nam_options_str  += '<option value="99 Ceti">99 Ceti</option>';
+            System_Nam_options_str  += '<option value="99 Leonis">99 Leonis</option>';
+            System_Nam_options_str  += '<option value="99 Ursae Majoris">99 Ursae Majoris</option>';
+            System_Nam_options_str  += '<option value="AD Leonis">AD Leonis</option>';
+            System_Nam_options_str  += '<option value="AU Microscopii">AU Microscopii</option>';
+            System_Nam_options_str  += '<option value="AX Microscopii">AX Microscopii</option>';
+            System_Nam_options_str  += '<option value="Alpha Centauri">Alpha Centauri</option>';
+            System_Nam_options_str  += '<option value="Alpha Leonis Minoris">Alpha Leonis Minoris</option>';
+            System_Nam_options_str  += '<option value="Alpha Normae">Alpha Normae</option>';
+            System_Nam_options_str  += '<option value="Alpha Velorum">Alpha Velorum</option>';
+            System_Nam_options_str  += '<option value="Altair">Altair</option>';
+            System_Nam_options_str  += '<option value="Barnard&apos;s Star">Barnard&apos;s Star</option>';
+            System_Nam_options_str  += '<option value="Beta Antliae">Beta Antliae</option>';
+            System_Nam_options_str  += '<option value="Beta Hydri">Beta Hydri</option>';
+            System_Nam_options_str  += '<option value="Beta Puppis">Beta Puppis</option>';
+            System_Nam_options_str  += '<option value="Beta Telescopii">Beta Telescopii</option>';
+            System_Nam_options_str  += '<option value="Beta Virginis">Beta Virginis</option>';
+            System_Nam_options_str  += '<option value="CD Ceti">CD Ceti</option>';
+            System_Nam_options_str  += '<option value="Chi Arietis">Chi Arietis</option>';
+            System_Nam_options_str  += '<option value="Chi Cephei">Chi Cephei</option>';
+            System_Nam_options_str  += '<option value="Chi Draconis">Chi Draconis</option>';
+            System_Nam_options_str  += '<option value="Chi Librae">Chi Librae</option>';
+            System_Nam_options_str  += '<option value="DX Cancri">DX Cancri</option>';
+            System_Nam_options_str  += '<option value="Delta Camelopardalis">Delta Camelopardalis</option>';
+            System_Nam_options_str  += '<option value="Delta Capricorni">Delta Capricorni</option>';
+            System_Nam_options_str  += '<option value="Delta Carinae">Delta Carinae</option>';
+            System_Nam_options_str  += '<option value="Delta Pavonis">Delta Pavonis</option>';
+            System_Nam_options_str  += '<option value="Delta Pegasi">Delta Pegasi</option>';
+            System_Nam_options_str  += '<option value="Donner 91">Donner 91</option>';
+            System_Nam_options_str  += '<option value="EV Lacertae">EV Lacertae</option>';
+            System_Nam_options_str  += '<option value="EZ Aquarii">EZ Aquarii</option>';
+            System_Nam_options_str  += '<option value="Epsilon Eridani">Epsilon Eridani</option>';
+            System_Nam_options_str  += '<option value="Epsilon Horologii">Epsilon Horologii</option>';
+            System_Nam_options_str  += '<option value="Epsilon Indi">Epsilon Indi</option>';
+            System_Nam_options_str  += '<option value="Eta Boötis">Eta Boötis</option>';
+            System_Nam_options_str  += '<option value="Eta Cassiopeiae">Eta Cassiopeiae</option>';
+            System_Nam_options_str  += '<option value="Eta Monocerotis">Eta Monocerotis</option>';
+            System_Nam_options_str  += '<option value="Eta Sextantis">Eta Sextantis</option>';
+            System_Nam_options_str  += '<option value="FL Virginis">FL Virginis</option>';
+            System_Nam_options_str  += '<option value="FN Virginis">FN Virginis</option>';
+            System_Nam_options_str  += '<option value="GL Virginis">GL Virginis</option>';
+            System_Nam_options_str  += '<option value="Gamma Carinae">Gamma Carinae</option>';
+            System_Nam_options_str  += '<option value="Gamma Leporis">Gamma Leporis</option>';
+            System_Nam_options_str  += '<option value="Gamma Telescopii">Gamma Telescopii</option>';
+            System_Nam_options_str  += '<option value="Gamma Virginis">Gamma Virginis</option>';
+            System_Nam_options_str  += '<option value="Gliese 290">Gliese 290</option>';
+            System_Nam_options_str  += '<option value="Groombridge 34">Groombridge 34</option>';
+            System_Nam_options_str  += '<option value="HD 222834">HD 222834</option>';
+            System_Nam_options_str  += '<option value="HH Andromedae">HH Andromedae</option>';
+            System_Nam_options_str  += '<option value="Heintz 299">Heintz 299</option>';
+            System_Nam_options_str  += '<option value="Iota Comae Berenices">Iota Comae Berenices</option>';
+            System_Nam_options_str  += '<option value="Kappa Camelopardalis">Kappa Camelopardalis</option>';
+            System_Nam_options_str  += '<option value="Kappa Muscae">Kappa Muscae</option>';
+            System_Nam_options_str  += '<option value="Kapteyn&apos;s Star">Kapteyn&apos;s Star</option>';
+            System_Nam_options_str  += '<option value="Kruger 60">Kruger 60</option>';
+            System_Nam_options_str  += '<option value="Lacaille 9352">Lacaille 9352</option>';
+            System_Nam_options_str  += '<option value="Lalande">Lalande</option>';
+            System_Nam_options_str  += '<option value="Lambda Indi">Lambda Indi</option>';
+            System_Nam_options_str  += '<option value="Lambda Volantis">Lambda Volantis</option>';
+            System_Nam_options_str  += '<option value="Luhman 16">Luhman 16</option>';
+            System_Nam_options_str  += '<option value="Mu Camelopardalis">Mu Camelopardalis</option>';
+            System_Nam_options_str  += '<option value="Mu Delphini">Mu Delphini</option>';
+            System_Nam_options_str  += '<option value="Mu Pyxidis">Mu Pyxidis</option>';
+            System_Nam_options_str  += '<option value="Mu Reticuli">Mu Reticuli</option>';
+            System_Nam_options_str  += '<option value="Mu Tucanae">Mu Tucanae</option>';
+            System_Nam_options_str  += '<option value="Mu Ursae Minoris">Mu Ursae Minoris</option>';
+            System_Nam_options_str  += '<option value="Nu Crateris">Nu Crateris</option>';
+            System_Nam_options_str  += '<option value="Nu Muscae">Nu Muscae</option>';
+            System_Nam_options_str  += '<option value="Nu Reticuli">Nu Reticuli</option>';
+            System_Nam_options_str  += '<option value="Nu Ursae Minoris">Nu Ursae Minoris</option>';
+            System_Nam_options_str  += '<option value="Omega Arietis">Omega Arietis</option>';
+            System_Nam_options_str  += '<option value="Omega Ceti">Omega Ceti</option>';
+            System_Nam_options_str  += '<option value="Omega Gruis">Omega Gruis</option>';
+            System_Nam_options_str  += '<option value="Omega Sculptoris">Omega Sculptoris</option>';
+            System_Nam_options_str  += '<option value="Omicron Chamaeleontis">Omicron Chamaeleontis</option>';
+            System_Nam_options_str  += '<option value="Omicron Hydri">Omicron Hydri</option>';
+            System_Nam_options_str  += '<option value="Omicron Lyrae">Omicron Lyrae</option>';
+            System_Nam_options_str  += '<option value="Omikron Mensae">Omikron Mensae</option>';
+            System_Nam_options_str  += '<option value="P Eridani">P Eridani</option>';
+            System_Nam_options_str  += '<option value="Phi Arietis">Phi Arietis</option>';
+            System_Nam_options_str  += '<option value="Phi Librae">Phi Librae</option>';
+            System_Nam_options_str  += '<option value="Pi Leporis">Pi Leporis</option>';
+            System_Nam_options_str  += '<option value="Pi Librae">Pi Librae</option>';
+            System_Nam_options_str  += '<option value="Pi Pyxidis">Pi Pyxidis</option>';
+            System_Nam_options_str  += '<option value="Pi-3 Orionis">Pi-3 Orionis</option>';
+            System_Nam_options_str  += '<option value="Pollux">Pollux</option>';
+            System_Nam_options_str  += '<option value="Proxima Centauri">Proxima Centauri</option>';
+            System_Nam_options_str  += '<option value="Psi Arietis">Psi Arietis</option>';
+            System_Nam_options_str  += '<option value="Psi Cephei">Psi Cephei</option>';
+            System_Nam_options_str  += '<option value="Psi Ceti">Psi Ceti</option>';
+            System_Nam_options_str  += '<option value="Psi Gruis">Psi Gruis</option>';
+            System_Nam_options_str  += '<option value="Psi Herculis">Psi Herculis</option>';
+            System_Nam_options_str  += '<option value="QY Aurigae">QY Aurigae</option>';
+            System_Nam_options_str  += '<option value="Rho Canis Majoris">Rho Canis Majoris</option>';
+            System_Nam_options_str  += '<option value="Rho Librae">Rho Librae</option>';
+            System_Nam_options_str  += '<option value="Ross 128">Ross 128</option>';
+            System_Nam_options_str  += '<option value="SOL">SOL</option>';
+            System_Nam_options_str  += '<option value="SZ Crateris">SZ Crateris</option>';
+            System_Nam_options_str  += '<option value="SZ Ursae Majoris">SZ Ursae Majoris</option>';
+            System_Nam_options_str  += '<option value="Sanford 128">Sanford 128</option>';
+            System_Nam_options_str  += '<option value="Scholz&apos;s Star">Scholz&apos;s Star</option>';
+            System_Nam_options_str  += '<option value="Sigma Cephei">Sigma Cephei</option>';
+            System_Nam_options_str  += '<option value="Sigma Tucanae">Sigma Tucanae</option>';
+            System_Nam_options_str  += '<option value="Sirius">Sirius</option>';
+            System_Nam_options_str  += '<option value="Struve 2398">Struve 2398</option>';
+            System_Nam_options_str  += '<option value="TW Piscis Austrini">TW Piscis Austrini</option>';
+            System_Nam_options_str  += '<option value="TZ Arietis">TZ Arietis</option>';
+            System_Nam_options_str  += '<option value="Tau Tucanae">Tau Tucanae</option>';
+            System_Nam_options_str  += '<option value="Theta Corvi">Theta Corvi</option>';
+            System_Nam_options_str  += '<option value="Theta Horologii">Theta Horologii</option>';
+            System_Nam_options_str  += '<option value="Upsilon Cephei">Upsilon Cephei</option>';
+            System_Nam_options_str  += '<option value="V1216 Sagittarii">V1216 Sagittarii</option>';
+            System_Nam_options_str  += '<option value="V547 Cassiopeiae">V547 Cassiopeiae</option>';
+            System_Nam_options_str  += '<option value="Van Biesbroeck&apos;s Star">Van Biesbroeck&apos;s Star</option>';
+            System_Nam_options_str  += '<option value="Van Maanens Star">Van Maanens Star</option>';
+            System_Nam_options_str  += '<option value="Vyssotsky McCormic 541">Vyssotsky McCormic 541</option>';
+            System_Nam_options_str  += '<option value="Woolley 9833">Woolley 9833</option>';
+            System_Nam_options_str  += '<option value="Xi Boötis">Xi Boötis</option>';
+            System_Nam_options_str  += '<option value="Xi Chamaeleontis">Xi Chamaeleontis</option>';
+            System_Nam_options_str  += '<option value="Xi Fornacis">Xi Fornacis</option>';
+            System_Nam_options_str  += '<option value="Xi Leporis">Xi Leporis</option>';
+            System_Nam_options_str  += '<option value="Xi Muscae">Xi Muscae</option>';
+            System_Nam_options_str  += '<option value="YZ Ceti">YZ Ceti</option>';
+            System_Nam_options_str  += '<option value="Zeta Carinae">Zeta Carinae</option>';
+            System_Nam_options_str  += '<option value="Zeta Herculis">Zeta Herculis</option>';
+            System_Nam_options_str  += '<option value="Zeta Sextantis">Zeta Sextantis</option>';
+            System_Nam_options_str  += '<option value="Zeta-1 Reticuli">Zeta-1 Reticuli</option>';
+            System_Nam_options_str  += '<option value="kappa Ursae Minoris">kappa Ursae Minoris</option>';
+            sel_System_Nam.innerHTML = System_Nam_options_str;
+            div_System_Nam.appendChild(sel_System_Nam);
+            var lab_System_Nam = document.createElement('div');
+            lab_System_Nam.innerHTML = 'System_Nam';
+            lab_System_Nam.className = 'filterlabel';
+            div_System_Nam.appendChild(lab_System_Nam);
+            var reset_System_Nam = document.createElement('div');
+            reset_System_Nam.innerHTML = 'clear filter';
+            reset_System_Nam.className = 'filterlabel';
+            reset_System_Nam.onclick = function() {
+                var options = document.getElementById("sel_System_Nam").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_System_Nam.appendChild(reset_System_Nam);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Star_Presc = document.createElement('div');
+            div_Star_Presc.id = "div_Star_Presc";
+            div_Star_Presc.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Star_Presc);
+            sel_Star_Presc = document.createElement('select');
+            sel_Star_Presc.multiple = true;
+            sel_Star_Presc.size = 2;
+            sel_Star_Presc.id = "sel_Star_Presc";
+            var Star_Presc_options_str = "<option value='' unselected></option>";
+            sel_Star_Presc.onchange = function(){filterFunc()};
+            Star_Presc_options_str  += '<option value="0">0</option>';
+            Star_Presc_options_str  += '<option value="1">1</option>';
+            sel_Star_Presc.innerHTML = Star_Presc_options_str;
+            div_Star_Presc.appendChild(sel_Star_Presc);
+            var lab_Star_Presc = document.createElement('div');
+            lab_Star_Presc.innerHTML = 'Star_Presc';
+            lab_Star_Presc.className = 'filterlabel';
+            div_Star_Presc.appendChild(lab_Star_Presc);
+            var reset_Star_Presc = document.createElement('div');
+            reset_Star_Presc.innerHTML = 'clear filter';
+            reset_Star_Presc.className = 'filterlabel';
+            reset_Star_Presc.onclick = function() {
+                var options = document.getElementById("sel_Star_Presc").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Star_Presc.appendChild(reset_Star_Presc);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Type = document.createElement('div');
+            div_Type.id = "div_Type";
+            div_Type.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Type);
+            sel_Type = document.createElement('select');
+            sel_Type.multiple = true;
+            sel_Type.size = 2;
+            sel_Type.id = "sel_Type";
+            var Type_options_str = "<option value='' unselected></option>";
+            sel_Type.onchange = function(){filterFunc()};
+            Type_options_str  += '<option value="International">International</option>';
+            Type_options_str  += '<option value="National">National</option>';
+            sel_Type.innerHTML = Type_options_str;
+            div_Type.appendChild(sel_Type);
+            var lab_Type = document.createElement('div');
+            lab_Type.innerHTML = 'Type';
+            lab_Type.className = 'filterlabel';
+            div_Type.appendChild(lab_Type);
+            var reset_Type = document.createElement('div');
+            reset_Type.innerHTML = 'clear filter';
+            reset_Type.className = 'filterlabel';
+            reset_Type.onclick = function() {
+                var options = document.getElementById("sel_Type").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Type.appendChild(reset_Type);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Capital = document.createElement('div');
+            div_Capital.id = "div_Capital";
+            div_Capital.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Capital);
+            sel_Capital = document.createElement('select');
+            sel_Capital.multiple = true;
+            sel_Capital.size = 2;
+            sel_Capital.id = "sel_Capital";
+            var Capital_options_str = "<option value='' unselected></option>";
+            sel_Capital.onchange = function(){filterFunc()};
+            Capital_options_str  += '<option value="NULL">NULL</option>';
+            Capital_options_str  += '<option value="1">1</option>';
+            sel_Capital.innerHTML = Capital_options_str;
+            div_Capital.appendChild(sel_Capital);
+            var lab_Capital = document.createElement('div');
+            lab_Capital.innerHTML = 'Capital';
+            lab_Capital.className = 'filterlabel';
+            div_Capital.appendChild(lab_Capital);
+            var reset_Capital = document.createElement('div');
+            reset_Capital.innerHTML = 'clear filter';
+            reset_Capital.className = 'filterlabel';
+            reset_Capital.onclick = function() {
+                var options = document.getElementById("sel_Capital").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Capital.appendChild(reset_Capital);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Homeworld = document.createElement('div');
+            div_Homeworld.id = "div_Homeworld";
+            div_Homeworld.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Homeworld);
+            sel_Homeworld = document.createElement('select');
+            sel_Homeworld.multiple = true;
+            sel_Homeworld.size = 2;
+            sel_Homeworld.id = "sel_Homeworld";
+            var Homeworld_options_str = "<option value='' unselected></option>";
+            sel_Homeworld.onchange = function(){filterFunc()};
+            Homeworld_options_str  += '<option value="NULL">NULL</option>';
+            Homeworld_options_str  += '<option value="1">1</option>';
+            sel_Homeworld.innerHTML = Homeworld_options_str;
+            div_Homeworld.appendChild(sel_Homeworld);
+            var lab_Homeworld = document.createElement('div');
+            lab_Homeworld.innerHTML = 'Homeworld';
+            lab_Homeworld.className = 'filterlabel';
+            div_Homeworld.appendChild(lab_Homeworld);
+            var reset_Homeworld = document.createElement('div');
+            reset_Homeworld.innerHTML = 'clear filter';
+            reset_Homeworld.className = 'filterlabel';
+            reset_Homeworld.onclick = function() {
+                var options = document.getElementById("sel_Homeworld").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Homeworld.appendChild(reset_Homeworld);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Unsurv_bod = document.createElement('div');
+            div_Unsurv_bod.id = "div_Unsurv_bod";
+            div_Unsurv_bod.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Unsurv_bod);
+            sel_Unsurv_bod = document.createElement('select');
+            sel_Unsurv_bod.multiple = true;
+            sel_Unsurv_bod.size = 2;
+            sel_Unsurv_bod.id = "sel_Unsurv_bod";
+            var Unsurv_bod_options_str = "<option value='' unselected></option>";
+            sel_Unsurv_bod.onchange = function(){filterFunc()};
+            Unsurv_bod_options_str  += '<option value="NULL">NULL</option>';
+            Unsurv_bod_options_str  += '<option value="1">1</option>';
+            sel_Unsurv_bod.innerHTML = Unsurv_bod_options_str;
+            div_Unsurv_bod.appendChild(sel_Unsurv_bod);
+            var lab_Unsurv_bod = document.createElement('div');
+            lab_Unsurv_bod.innerHTML = 'Unsurv_bod';
+            lab_Unsurv_bod.className = 'filterlabel';
+            div_Unsurv_bod.appendChild(lab_Unsurv_bod);
+            var reset_Unsurv_bod = document.createElement('div');
+            reset_Unsurv_bod.innerHTML = 'clear filter';
+            reset_Unsurv_bod.className = 'filterlabel';
+            reset_Unsurv_bod.onclick = function() {
+                var options = document.getElementById("sel_Unsurv_bod").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Unsurv_bod.appendChild(reset_Unsurv_bod);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Nation = document.createElement('div');
+            div_Nation.id = "div_Nation";
+            div_Nation.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Nation);
+            sel_Nation = document.createElement('select');
+            sel_Nation.multiple = true;
+            sel_Nation.size = 10;
+            sel_Nation.id = "sel_Nation";
+            var Nation_options_str = "<option value='' unselected></option>";
+            sel_Nation.onchange = function(){filterFunc()};
+            Nation_options_str  += '<option value="NULL">NULL</option>';
+            Nation_options_str  += '<option value="Corporate Systems">Corporate Systems</option>';
+            Nation_options_str  += '<option value="Duchy of Drakar">Duchy of Drakar</option>';
+            Nation_options_str  += '<option value="Duchy of Meltisar">Duchy of Meltisar</option>';
+            Nation_options_str  += '<option value="Free Planets Alliance">Free Planets Alliance</option>';
+            Nation_options_str  += '<option value="Ghost Sector">Ghost Sector</option>';
+            Nation_options_str  += '<option value="Holy Ertan Republic">Holy Ertan Republic</option>';
+            Nation_options_str  += '<option value="Solar Imperium">Solar Imperium</option>';
+            Nation_options_str  += '<option value="Solarian Federation">Solarian Federation</option>';
+            Nation_options_str  += '<option value="The Western Frontier Systems">The Western Frontier Systems</option>';
+            sel_Nation.innerHTML = Nation_options_str;
+            div_Nation.appendChild(sel_Nation);
+            var lab_Nation = document.createElement('div');
+            lab_Nation.innerHTML = 'Nation';
+            lab_Nation.className = 'filterlabel';
+            div_Nation.appendChild(lab_Nation);
+            var reset_Nation = document.createElement('div');
+            reset_Nation.innerHTML = 'clear filter';
+            reset_Nation.className = 'filterlabel';
+            reset_Nation.onclick = function() {
+                var options = document.getElementById("sel_Nation").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Nation.appendChild(reset_Nation);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_New_Lane = document.createElement('div');
+            div_New_Lane.id = "div_New_Lane";
+            div_New_Lane.className= "filterselect";
+            document.getElementById("menu").appendChild(div_New_Lane);
+            sel_New_Lane = document.createElement('select');
+            sel_New_Lane.multiple = true;
+            sel_New_Lane.size = 2;
+            sel_New_Lane.id = "sel_New_Lane";
+            var New_Lane_options_str = "<option value='' unselected></option>";
+            sel_New_Lane.onchange = function(){filterFunc()};
+            New_Lane_options_str  += '<option value="NULL">NULL</option>';
+            New_Lane_options_str  += '<option value="1">1</option>';
+            sel_New_Lane.innerHTML = New_Lane_options_str;
+            div_New_Lane.appendChild(sel_New_Lane);
+            var lab_New_Lane = document.createElement('div');
+            lab_New_Lane.innerHTML = 'New_Lane';
+            lab_New_Lane.className = 'filterlabel';
+            div_New_Lane.appendChild(lab_New_Lane);
+            var reset_New_Lane = document.createElement('div');
+            reset_New_Lane.innerHTML = 'clear filter';
+            reset_New_Lane.className = 'filterlabel';
+            reset_New_Lane.onclick = function() {
+                var options = document.getElementById("sel_New_Lane").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_New_Lane.appendChild(reset_New_Lane);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Status = document.createElement('div');
+            div_Status.id = "div_Status";
+            div_Status.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Status);
+            sel_Status = document.createElement('select');
+            sel_Status.multiple = true;
+            sel_Status.size = 2;
+            sel_Status.id = "sel_Status";
+            var Status_options_str = "<option value='' unselected></option>";
+            sel_Status.onchange = function(){filterFunc()};
+            Status_options_str  += '<option value="In Developement">In Developement</option>';
+            Status_options_str  += '<option value="Operational">Operational</option>';
+            sel_Status.innerHTML = Status_options_str;
+            div_Status.appendChild(sel_Status);
+            var lab_Status = document.createElement('div');
+            lab_Status.innerHTML = 'Status';
+            lab_Status.className = 'filterlabel';
+            div_Status.appendChild(lab_Status);
+            var reset_Status = document.createElement('div');
+            reset_Status.innerHTML = 'clear filter';
+            reset_Status.className = 'filterlabel';
+            reset_Status.onclick = function() {
+                var options = document.getElementById("sel_Status").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Status.appendChild(reset_Status);
+        resetLabels([layer_Regions_0,layer_Systems_2]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Regions_0,layer_Systems_2]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Regions_0,layer_Systems_2]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Regions_0,layer_Systems_2]);
+        });
+        </script>
+    </body>
+</html>
