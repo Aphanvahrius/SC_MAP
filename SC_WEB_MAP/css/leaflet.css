@@ -468,18 +468,29 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	text-align: center;
 	margin-bottom: 20px;
 	}
+
 .leaflet-popup-content-wrapper {
-	padding: 1px;
+	padding: 2px;
 	text-align: left;
 	border-radius: 12px;
+	text-wrap: nowrap;
 	}
 .leaflet-popup-content {
 	margin: 13px 19px;
 	line-height: 1.4;
+
 	}
+
 .leaflet-popup-content p {
 	margin: 18px 0;
 	}
+
+.leaflet-popup-content th, td {
+	padding-bottom: 10px;
+	padding-left: 5px;
+	font-size: 13px;
+	}
+
 .leaflet-popup-tip-container {
 	width: 40px;
 	height: 20px;
@@ -489,6 +500,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	overflow: hidden;
 	pointer-events: none;
 	}
+	
 .leaflet-popup-tip {
 	width: 17px;
 	height: 17px;
@@ -501,12 +513,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	    -ms-transform: rotate(45deg);
 	        transform: rotate(45deg);
 	}
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
 	background: white;
 	color: #333;
 	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
 	}
+
 .leaflet-container a.leaflet-popup-close-button {
 	position: absolute;
 	top: 0;
@@ -522,9 +535,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	font-weight: bold;
 	background: transparent;
 	}
+
 .leaflet-container a.leaflet-popup-close-button:hover {
 	color: #999;
 	}
+	
 .leaflet-popup-scrolled {
 	overflow: auto;
 	border-bottom: 1px solid #ddd;
