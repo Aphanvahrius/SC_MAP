@@ -1,0 +1,13 @@
+#Homeworld {
+    color: mediumblue;
+}
+
+#Unsurv_bod {
+    color: darkred;
+}
+
+#Homeworld, #Capital, #Core_Sys, #Unsurv_bod, #Idustr_Sys, #Mining_Sys, #Fuel_Depot, #Mt_Base, #Regular_Sys {
+	text-align: center;
+	font-size: 14px;
+	font-weight: 900;
+}

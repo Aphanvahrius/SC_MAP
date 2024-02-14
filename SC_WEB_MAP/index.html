@@ -7,6 +7,7 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
 
+        <link rel="stylesheet" href="css/specialElements.css">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
@@ -423,12 +424,12 @@
             function pop_Lanes_1(feature, layer) {
                 var popupContent = '<table>\
                         <tr>\
-                            <th scope="row">Lane Status</th>\
-                            <td class="visible-with-data" id="Status">' + (feature.properties['Status'] !== null ? autolinker.link(feature.properties['Status'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
                             <th scope="row">Region</th>\
                             <td class="visible-with-data" id="Nation">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <th scope="row">Lane Status</th>\
+                            <td class="visible-with-data" id="Status">' + (feature.properties['Status'] !== null ? autolinker.link(feature.properties['Status'].toLocaleString()) : '') + '</td>\
                         </tr>\
                         <tr>\
                             <th scope="row">Lane Type</th>\
@@ -526,6 +527,33 @@
             function pop_Systems_2(feature, layer) {
                 var popupContent = '<table>\
                         <tr>\
+                            <td id="Regular_Sys" colspan="2">' + ((feature.properties['Capital'] !== null || feature.properties['Core_Sys'] !== null || feature.properties['Idustr_Sys'] !== null || feature.properties['Mining_Sys'] !== null || feature.properties['Fuel_Depot'] !== null || feature.properties['Mt_Base'] !== null) ? '' : 'Regular System') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="visible-with-data" id="Capital" colspan="2">' + (feature.properties['Capital'] !== null ? 'Capital System' : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="visible-with-data" id="Core_Sys" colspan="2">' + (feature.properties['Core_Sys'] !== null ? 'Core System' : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="visible-with-data" id="Idustr_Sys" colspan="2">' + (feature.properties['Idustr_Sys'] !== null ? 'Industrial System' : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="visible-with-data" id="Mining_Sys" colspan="2">' + (feature.properties['Mining_Sys'] !== null ? 'Mining System' : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="visible-with-data" id="Fuel_Depot" colspan="2">' + (feature.properties['Fuel_Depot'] !== null ? 'Fuel Depot' : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="visible-with-data" id="Mt_Base" colspan="2">' + (feature.properties['Mt_Base'] !== null ? 'Maintenance Base' : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="visible-with-data" id="Homeworld" colspan="2">' + (feature.properties['Homeworld'] !== null ? 'Homeworld of Humanity' : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <td class="visible-with-data" id="Unsurv_bod" colspan="2">' + (feature.properties['Unsurv_bod'] !== null ? 'Unsurveyed Bodies' : '') + '</td>\
+                        </tr>\
+                        <tr>\
                             <th scope="row">System Name</th>\
                             <td class="visible-with-data" id="System_Nam">' + (feature.properties['System_Nam'] !== null ? autolinker.link(feature.properties['System_Nam'].toLocaleString()) : '') + '</td>\
                         </tr>\
@@ -542,31 +570,19 @@
                             <td class="visible-with-data" id="Inhabitabl">' + (feature.properties['Inhabitabl'] !== null ? autolinker.link(feature.properties['Inhabitabl'].toLocaleString()) : '') + '</td>\
                         </tr>\
                         <tr>\
-                            <th scope="row">Orbital or Colony on Unhabitable Celestial Bodies: </th>\
+                            <th scope="row">Orbital/Colony on</br>Unhabitable Bodies: </th>\
                             <td class="visible-with-data" id="Orbtl_Clny">' + (feature.properties['Orbtl_Clny'] !== null ? autolinker.link(feature.properties['Orbtl_Clny'].toLocaleString()) : '') + '</td>\
                         </tr>\
                         <tr>\
-                            <th scope="row">Notable Minable Celestial Bodies or Rogue Planets: </th>\
+                            <th scope="row">Minable Bodies/</br>Rogue Planets: </th>\
                             <td class="visible-with-data" id="Notbl_Minb">' + (feature.properties['Notbl_Minb'] !== null ? autolinker.link(feature.properties['Notbl_Minb'].toLocaleString()) : '') + '</td>\
                         </tr>\
                         <tr>\
-                            <th scope="row">Unexplored Jump Lanes: </th>\
+                            <th scope="row">Unexplored Jump</br>Lanes: </th>\
                             <td class="visible-with-data" id="Unexplored">' + (feature.properties['Unexplored'] !== null ? autolinker.link(feature.properties['Unexplored'].toLocaleString()) : '') + '</td>\
                         </tr>\
-                        <tr>\
-                            <th scope="row">Unsurveyed Celestial Bodies Remaining in System</th>\
-                            <td class="visible-with-data" id="Unsurv_bod">' + (feature.properties['Unsurv_bod'] !== null ? autolinker.link(feature.properties['Unsurv_bod'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Capital System</th>\
-                            <td class="visible-with-data" id="Capital">' + (feature.properties['Capital'] !== null ? '' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Homeworld of Humanity</th>\
-                            <td class="visible-with-data" id="Homeworld">' + (feature.properties['Homeworld'] !== null ? '' : '') + '</td>\
-                        </tr>\
                     </table>';
-                layer.bindPopup(popupContent, {maxHeight: 400});
+                layer.bindPopup(popupContent, {maxHeight: 600});
                 var popup = layer.getPopup();
                 var content = popup.getContent();
                 var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
@@ -636,7 +652,7 @@
             
             var baseMaps = {};
             L.control.layers(baseMaps,{
-                'Systems<br />\
+                '<span class="layer-name">Systems</span><br />\
                 <table>\
                     <tr>\
                         <td style="text-align: center;"><img src="legend/Systems_2_11.png" /></td>\
@@ -648,7 +664,7 @@
                     </tr>\
                 </table>': layer_Systems_2,
 
-                'Lanes<br />\
+                '<span class="layer-name">Lanes</span><br />\
                 <table>\
                     <tr>\
                         <td style="text-align: center;"><img src="legend/Lanes_1_InDevelopement0.png" /></td>\
@@ -660,7 +676,7 @@
                     </tr>\
                 </table>': layer_Lanes_1,
 
-                'Regions<br />\
+                '<span class="layer-name">Regions</span><br />\
                 <table>\
                     <tr>\
                         <td style="text-align: center;"><img src="legend/Regions_0_CorporateSystems0.png" /></td>\
@@ -746,7 +762,9 @@
             document.getElementById("all").appendChild(col1);
             document.getElementById("all").appendChild(col2);
             col1.appendChild(mapDiv)
+
             var Filters = {"Orbtl_Clny": "int","Unexplored": "int","Notbl_Minb": "int","Inhabitabl": "int","System_Nam": "str","Star_Presc": "str","Type": "str","Capital": "str","Homeworld": "str","Unsurv_bod": "str","Nation": "str","New_Lane": "str","Status": "str"};
+            
             function filterFunc() {
             map.eachLayer(function(lyr){
             if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -775,38 +793,37 @@
                     }
                     }
                     if (Filters[key] == "int"){
-                    sliderVals =  document.getElementById(
-                        "div_" + keyS).noUiSlider.get();
-                    try{
-                        if (key in features[0].properties){
-                        for (i = features.length - 1; i >= 0; --i){
-                        if (parseInt(features[i].properties[key])
-                            < sliderVals[0]
-                            || parseInt(features[i].properties[key])
-                            > sliderVals[1]){
-                                features.splice(i,1);
+                        sliderVals =  document.getElementById("div_" + keyS).noUiSlider.get();
+                        try{
+                            if (key in features[0].properties){
+                                for (i = features.length - 1; i >= 0; --i){
+                                    var propertyValue = parseInt(features[i].properties[key]);
+                                    if (isNaN(propertyValue)){
+                                        propertyValue = 0;
+                                    }
+                                    if (propertyValue < sliderVals[0] || propertyValue > sliderVals[1]){
+                                            features.splice(i,1);
+                                    }
+                                }
                             }
-                            }
-                        }
-                        } catch(err){
-                        }
+                        } catch(err){}
                     }
+
                     if (Filters[key] == "real"){
-                    sliderVals =  document.getElementById(
-                        "div_" + keyS).noUiSlider.get();
-                    try{
-                        if (key in features[0].properties){
-                        for (i = features.length - 1; i >= 0; --i){
-                        if (features[i].properties[key]
-                            < sliderVals[0]
-                            || features[i].properties[key]
-                            > sliderVals[1]){
-                                features.splice(i,1);
+                        sliderVals =  document.getElementById("div_" + keyS).noUiSlider.get();
+                        try{
+                            if (key in features[0].properties){
+                                for (i = features.length - 1; i >= 0; --i){
+                                    var propertyValue = parseFloat(features[i].properties[key]);
+                                    if (isNaN(propertyValue)){
+                                        propertyValue = 0;
+                                    }
+                                    if (propertyValue < sliderVals[0] || propertyValue > sliderVals[1]){
+                                            features.splice(i,1);
+                                    }
+                                }
                             }
-                            }
-                        }
-                        } catch(err){
-                        }
+                        } catch(err){}
                     }
                     if (Filters[key] == "date"
                     || Filters[key] == "datetime"
@@ -850,11 +867,13 @@
                 reset_Orbtl_Clny.innerHTML = 'clear filter';
                 reset_Orbtl_Clny.className = 'filterlabel';
                 lab_Orbtl_Clny.className = 'filterlabel';
+
                 reset_Orbtl_Clny.onclick = function() {
                     sel_Orbtl_Clny.noUiSlider.reset();
                 };
                 document.getElementById("menu").appendChild(reset_Orbtl_Clny);
                 var sel_Orbtl_Clny = document.getElementById('div_Orbtl_Clny');
+
                 noUiSlider.create(sel_Orbtl_Clny, {
                     connect: true,
                     start: [0, 258],
@@ -867,15 +886,21 @@
                     max: 258
                     }
                 });
+
                 sel_Orbtl_Clny.noUiSlider.on('update', function (values) {
                 filterVals =[];
                 for (value in values){
-                filterVals.push(parseInt(value))
+                    if (values[value] === null) {
+                        filterVals.push(0);
+                    } else {
+                        filterVals.push(parseInt(value))
+                    }
                 }
                 val_Orbtl_Clny = document.getElementById('val_Orbtl_Clny');
                 val_Orbtl_Clny.innerHTML = values.join(' - ');
                     filterFunc()
                 });
+
                 document.getElementById("menu").appendChild(
                     document.createElement("div"));
                 var div_Unexplored = document.createElement("div");
