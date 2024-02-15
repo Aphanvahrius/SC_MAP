@@ -100,7 +100,10 @@
             var bounds_group = new L.featureGroup([]);
 
             function setBounds() {
-                map.setMaxBounds([[-0.05,-0.1],[0.15,0.2]]);
+                if (bounds_group.getLayers().length) {
+                    map.fitBounds(bounds_group.getBounds());
+                }
+                map.setMaxBounds([[-0.05,-0.1],[0.14,0.25]]);
             }
 
             function revealSpoiler() {
