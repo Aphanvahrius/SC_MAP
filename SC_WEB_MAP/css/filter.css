@@ -15,6 +15,8 @@
   vertical-align: top;
   display: inline-block;
   width: 20%;
+  height: 100%;
+  overflow-y: auto;
 }
 .filterselect{
   
@@ -37,18 +39,22 @@
   margin-bottom: 0px;
 }
 .filterlabel {
-    font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font: 16px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+    text-shadow: 2px 2px 4px rgb(24, 24, 24);
+    margin-top: 3vh;
     /*width: 50%;
     float: right;*/
     margin-right: 10px;
     padding: 0px;
     border: 0px;
+    text-align: center;
     /*clear: left;*/
 }
 .filterlabel + .filterlabel {
+    margin-top: 0px;
     clear: none;
     text-align: right;
-    color: #999;
+    color: #8888ee;
 }
 .slider {
   font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;

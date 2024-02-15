@@ -11,3 +11,25 @@
 	font-size: 14px;
 	font-weight: 900;
 }
+
+.maptitle {
+    font: 26px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+    padding: 0px;
+    border: 0px;
+	font-weight: bold;
+	display: grid;
+	align-items: center;
+	text-align: center;
+	text-shadow: 2px 2px 4px rgb(24, 24, 24);
+}
+
+.menuheader {
+    font: 20px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+	margin-top: 1vh;
+    margin-right: 10px;
+    padding: 0px;
+    border: 0px;
+	text-align: center;
+	font-weight: bold;
+	text-shadow: 2px 2px 4px rgb(24, 24, 24);
+}
