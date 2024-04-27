@@ -796,92 +796,90 @@
             var Filters = {"Orbtl_Clny": "int","Unexplored": "int","Notbl_Minb": "int","Inhabitabl": "int","System_Nam": "str","Star_Presc": "str","Type": "str","Capital": "str","Homeworld": "str","Unsurv_bod": "str","Nation": "str","New_Lane": "str","Status": "str"};
             
             function filterFunc() {
-            map.eachLayer(function(lyr){
-            if ("options" in lyr && "dataVar" in lyr["options"]){
-                features = this[lyr["options"]["dataVar"]].features.slice(0);
-                try{
-                for (key in Filters){
-                    keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
-                    if (Filters[key] == "str" || Filters[key] == "bool"){
-                    var selection = [];
-                    var options = document.getElementById("sel_" + keyS).options
-                    for (var i=0; i < options.length; i++) {
-                        if (options[i].selected) selection.push(options[i].value);
-                    }
+                map.eachLayer(function(lyr){
+                    if ("options" in lyr && "dataVar" in lyr["options"]){
+                        features = this[lyr["options"]["dataVar"]].features.slice(0);
                         try{
-                        if (key in features[0].properties){
-                            for (i = features.length - 1;
-                            i >= 0; --i){
-                            if (selection.indexOf(
-                            features[i].properties[key])<0
-                            && selection.length>0) {
-                            features.splice(i,1);
-                            }
-                            }
-                        }
-                        } catch(err){
-                    }
-                    }
-                    if (Filters[key] == "int"){
-                        sliderVals =  document.getElementById("div_" + keyS).noUiSlider.get();
-                        try{
-                            if (key in features[0].properties){
-                                for (i = features.length - 1; i >= 0; --i){
-                                    var propertyValue = parseInt(features[i].properties[key]);
-                                    if (isNaN(propertyValue)){
-                                        propertyValue = 0;
-                                    }
-                                    if (propertyValue < sliderVals[0] || propertyValue > sliderVals[1]){
-                                            features.splice(i,1);
-                                    }
+                            for (key in Filters){
+                                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                                if (Filters[key] == "str" || Filters[key] == "bool"){
+                                var selection = [];
+                                var options = document.getElementById("sel_" + keyS).options
+                                for (var i=0; i < options.length; i++) {
+                                    if (options[i].selected) selection.push(options[i].value);
                                 }
-                            }
-                        } catch(err){}
-                    }
+                                    try{
+                                    if (key in features[0].properties){
+                                        for (i = features.length - 1;
+                                        i >= 0; --i){
+                                        if (selection.indexOf(
+                                        features[i].properties[key])<0
+                                        && selection.length>0) {
+                                        features.splice(i,1);
+                                        }
+                                        }
+                                    }
+                                    } catch(err){
+                                }
+                                }
+                                if (Filters[key] == "int"){
+                                    sliderVals =  document.getElementById("div_" + keyS).noUiSlider.get();
+                                    try{
+                                        if (key in features[0].properties){
+                                            for (i = features.length - 1; i >= 0; --i){
+                                                var propertyValue = parseInt(features[i].properties[key]);
+                                                if (isNaN(propertyValue)){
+                                                    propertyValue = 0;
+                                                }
+                                                if (propertyValue < sliderVals[0] || propertyValue > sliderVals[1]){
+                                                        features.splice(i,1);
+                                                }
+                                            }
+                                        }
+                                    } catch(err){}
+                                }
 
-                    if (Filters[key] == "real"){
-                        sliderVals =  document.getElementById("div_" + keyS).noUiSlider.get();
-                        try{
-                            if (key in features[0].properties){
-                                for (i = features.length - 1; i >= 0; --i){
-                                    var propertyValue = parseFloat(features[i].properties[key]);
-                                    if (isNaN(propertyValue)){
-                                        propertyValue = 0;
-                                    }
-                                    if (propertyValue < sliderVals[0] || propertyValue > sliderVals[1]){
-                                            features.splice(i,1);
-                                    }
+                                if (Filters[key] == "real"){
+                                    sliderVals =  document.getElementById("div_" + keyS).noUiSlider.get();
+                                    try{
+                                        if (key in features[0].properties){
+                                            for (i = features.length - 1; i >= 0; --i){
+                                                var propertyValue = parseFloat(features[i].properties[key]);
+                                                if (isNaN(propertyValue)){
+                                                    propertyValue = 0;
+                                                }
+                                                if (propertyValue < sliderVals[0] || propertyValue > sliderVals[1]){
+                                                        features.splice(i,1);
+                                                }
+                                            }
+                                        }
+                                    } catch(err){}
+                                }
+                                if (Filters[key] == "date"
+                                || Filters[key] == "datetime"
+                                || Filters[key] == "time"){
+                                    try{
+                                        if (key in features[0].properties){
+                                            HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                                            startdate = document.getElementById("dat_" +
+                                                HTMLkey + "_date1").value.replace(" ", "T");
+                                            enddate = document.getElementById("dat_" +
+                                                HTMLkey + "_date2").value.replace(" ", "T");
+                                            for (i = features.length - 1; i >= 0; --i){
+                                                if (features[i].properties[key] < startdate
+                                                || features[i].properties[key] > enddate){
+                                                    features.splice(i,1);
+                                                }
+                                            }
+                                        }
+                                    } catch(err){}
                                 }
                             }
                         } catch(err){}
+                        this[lyr["options"]["layerName"]].clearLayers();
+                        this[lyr["options"]["layerName"]].addData(features);
                     }
-                    if (Filters[key] == "date"
-                    || Filters[key] == "datetime"
-                    || Filters[key] == "time"){
-                    try{
-                        if (key in features[0].properties){
-                        HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
-                        startdate = document.getElementById("dat_" +
-                            HTMLkey + "_date1").value.replace(" ", "T");
-                        enddate = document.getElementById("dat_" +
-                            HTMLkey + "_date2").value.replace(" ", "T");
-                        for (i = features.length - 1; i >= 0; --i){
-                            if (features[i].properties[key] < startdate
-                            || features[i].properties[key] > enddate){
-                            features.splice(i,1);
-                            }
-                        }
-                        }
-                    } catch(err){
-                    }
-                    }
-                }
-                } catch(err){
-                }
-            this[lyr["options"]["layerName"]].clearLayers();
-            this[lyr["options"]["layerName"]].addData(features);
-            }
-            })
+                })
             }
                 // Orbital/Colony Slider Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
@@ -1215,6 +1213,41 @@
                 Capital_options_str  += '<option value="1">SHOW</option>';
                 sel_Capital.innerHTML = Capital_options_str;
                 div_Capital.appendChild(sel_Capital);
+
+                // Core System Select Filter
+                document.getElementById("menu").appendChild(document.createElement("div"));
+
+                var div_Core = document.createElement('div');
+                div_Core.id = "div_Core";
+                div_Core.className= "filterselect";
+                document.getElementById("menu").appendChild(div_Core);
+                sel_Core = document.createElement('select');
+                sel_Core.multiple = true;
+                sel_Core.size = 1;
+                sel_Core.id = "sel_Core";
+
+                var lab_Core = document.createElement('div');
+                lab_Core.innerHTML = 'CORE SYSTEMS';
+                lab_Core.className = 'filterlabel';
+                div_Core.appendChild(lab_Core);
+
+                var reset_Core = document.createElement('div');
+                reset_Core.innerHTML = 'clear filter';
+                reset_Core.className = 'filterlabel';
+                reset_Core.onclick = function() {
+                    var options = document.getElementById("sel_Core").options;
+                    for (var i=0; i < options.length; i++) {
+                        options[i].selected = false;
+                    }
+                    filterFunc();
+                };
+                div_Core.appendChild(reset_Core);
+
+                var Core_options_str = "";
+                sel_Core.onchange = function(){filterFunc()};
+                Core_options_str  += '<option value="1">SHOW</option>';
+                sel_Core.innerHTML = Core_options_str;
+                div_Core.appendChild(sel_Core);
 
                 // Unsurveyed Bodies Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
