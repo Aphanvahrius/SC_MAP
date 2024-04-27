@@ -1,4 +1,5 @@
 <!doctype html>
+// MAIN
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -10,9 +11,11 @@
         <link rel="stylesheet" href="css/specialElements.css">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/filter.css">
         <link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
 
         <style>
             html, body, #map {
@@ -51,17 +54,22 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <script src="js/tailDT.js"></script>
         <script src="js/nouislider.min.js"></script>
         <script src="js/wNumb.js"></script>
         <script src="data/Regions_0.js"></script>
         <script src="data/Lanes_1.js"></script>
         <script src="data/Systems_2.js"></script>
+        <script src="data/Sectors_3.js"></script>
+        <script src="data/Characters_4.js"></script>
+        <script src="data/Routes_5.js"></script>
 
         <svg width="0" height="0" style="position:absolute;"><defs></defs></svg>
 
         <script>
-            var map = L.map('map', {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:18, minZoom:13.5, zoom:14});
+            var map = L.map('map', {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:11});
 
             var hash = new L.Hash(map);
 
@@ -97,13 +105,24 @@
                 return tempDiv.innerHTML;
             }
 
+            var measureControl = new L.Control.Measure({
+                position: 'topleft',
+                primaryLengthUnit: 'meters',
+                secondaryLengthUnit: 'kilometers',
+                primaryAreaUnit: 'sqmeters',
+                secondaryAreaUnit: 'hectares'
+            });
+            measureControl.addTo(map);
+            document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
+            document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
+
             var bounds_group = new L.featureGroup([]);
 
             function setBounds() {
                 if (bounds_group.getLayers().length) {
                     map.fitBounds(bounds_group.getBounds());
                 }
-                map.setMaxBounds([[-0.05,-0.1],[0.14,0.25]]);
+                map.setMaxBounds([[-0.6,-1],[1.4,2]]); // D L U R
             }
 
             function revealSpoiler() {
@@ -523,7 +542,7 @@
                         break;
                 }
             }
-
+            
             map.createPane('pane_Lanes_1');
             map.getPane('pane_Lanes_1').style.zIndex = 401;
             map.getPane('pane_Lanes_1').style['mix-blend-mode'] = 'normal';
@@ -806,7 +825,8 @@
                 "New_Lane": "str",
                 "System_Nam": "str",
                 "Type": "str",
-                "Status": "str"
+                "Status": "str",
+                "Core_Sys": "str"
             };
             
             function filterFunc() {
@@ -892,7 +912,7 @@
                     }
                 })
             }
-            
+
                 // Orbital/Colony Slider Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
@@ -1225,6 +1245,41 @@
                 Capital_options_str  += '<option value="1">SHOW</option>';
                 sel_Capital.innerHTML = Capital_options_str;
                 div_Capital.appendChild(sel_Capital);
+
+                // Core System Select Filter
+                document.getElementById("menu").appendChild(document.createElement("div"));
+
+                var div_Core = document.createElement('div');
+                div_Core.id = "div_Core";
+                div_Core.className= "filterselect";
+                document.getElementById("menu").appendChild(div_Core);
+                sel_Core = document.createElement('select');
+                sel_Core.multiple = true;
+                sel_Core.size = 1;
+                sel_Core.id = "sel_Core";
+
+                var lab_Core = document.createElement('div');
+                lab_Core.innerHTML = 'CORE SYSTEMS';
+                lab_Core.className = 'filterlabel';
+                div_Core.appendChild(lab_Core);
+
+                var reset_Core = document.createElement('div');
+                reset_Core.innerHTML = 'clear filter';
+                reset_Core.className = 'filterlabel';
+                reset_Core.onclick = function() {
+                    var options = document.getElementById("sel_Core").options;
+                    for (var i=0; i < options.length; i++) {
+                        options[i].selected = false;
+                    }
+                    filterFunc();
+                };
+                div_Core.appendChild(reset_Core);
+
+                var Core_options_str = "";
+                sel_Core.onchange = function(){filterFunc()};
+                Core_options_str  += '<option value="1">SHOW</option>';
+                sel_Core.innerHTML = Core_options_str;
+                div_Core.appendChild(sel_Core);
 
                 // Unsurveyed Bodies Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
