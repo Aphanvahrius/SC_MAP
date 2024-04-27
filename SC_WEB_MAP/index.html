@@ -822,24 +822,20 @@
                             for (key in Filters){
                                 keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
                                 if (Filters[key] == "str" || Filters[key] == "bool"){
-                                var selection = [];
-                                var options = document.getElementById("sel_" + keyS).options
-                                for (var i=0; i < options.length; i++) {
-                                    if (options[i].selected) selection.push(options[i].value);
-                                }
-                                    try{
-                                    if (key in features[0].properties){
-                                        for (i = features.length - 1;
-                                        i >= 0; --i){
-                                        if (selection.indexOf(
-                                        features[i].properties[key])<0
-                                        && selection.length>0) {
-                                        features.splice(i,1);
-                                        }
-                                        }
+                                    var selection = [];
+                                    var options = document.getElementById("sel_" + keyS).options
+                                    for (var i=0; i < options.length; i++) {
+                                        if (options[i].selected) selection.push(options[i].value);
                                     }
-                                    } catch(err){
-                                }
+                                    try{
+                                        if (key in features[0].properties){
+                                            for (i = features.length - 1; i >= 0; --i){
+                                                if (selection.indexOf(features[i].properties[key])<0 && selection.length>0) {
+                                                    features.splice(i,1);
+                                                }
+                                            }
+                                        }
+                                    } catch(err){}
                                 }
                                 if (Filters[key] == "int"){
                                     sliderVals =  document.getElementById("div_" + keyS).noUiSlider.get();
