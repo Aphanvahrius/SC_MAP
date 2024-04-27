@@ -793,7 +793,21 @@
             col1.appendChild(mapTitle)
             col1.appendChild(mapDiv)
             
-            var Filters = {"Orbtl_Clny": "int","Unexplored": "int","Notbl_Minb": "int","Inhabitabl": "int","System_Nam": "str","Star_Presc": "str","Type": "str","Capital": "str","Homeworld": "str","Unsurv_bod": "str","Nation": "str","New_Lane": "str","Status": "str"};
+            var Filters = {
+                "Orbtl_Clny": "int",
+                "Unexplored": "int",
+                "Notbl_Minb": "int",
+                "Inhabitabl": "int",
+                "System_Nam": "str",
+                "Star_Presc": "str",
+                "Type": "str",
+                "Capital": "str",
+                "Homeworld": "str",
+                "Unsurv_bod": "str",
+                "Nation": "str",
+                "New_Lane": "str",
+                "Status": "str"
+            };
             
             function filterFunc() {
                 map.eachLayer(function(lyr){
