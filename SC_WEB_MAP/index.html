@@ -1146,41 +1146,6 @@
                 sel_Star_Presc.innerHTML = Star_Presc_options_str;
                 div_Star_Presc.appendChild(sel_Star_Presc);
 
-                // Capital System Select Filter
-                document.getElementById("menu").appendChild(document.createElement("div"));
-
-                var div_Capital = document.createElement('div');
-                div_Capital.id = "div_Capital";
-                div_Capital.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Capital);
-                sel_Capital = document.createElement('select');
-                sel_Capital.multiple = true;
-                sel_Capital.size = 1;
-                sel_Capital.id = "sel_Capital";
-
-                var lab_Capital = document.createElement('div');
-                lab_Capital.innerHTML = 'CAPITAL SYSTEMS';
-                lab_Capital.className = 'filterlabel';
-                div_Capital.appendChild(lab_Capital);
-
-                var reset_Capital = document.createElement('div');
-                reset_Capital.innerHTML = 'clear filter';
-                reset_Capital.className = 'filterlabel';
-                reset_Capital.onclick = function() {
-                    var options = document.getElementById("sel_Capital").options;
-                    for (var i=0; i < options.length; i++) {
-                        options[i].selected = false;
-                    }
-                    filterFunc();
-                };
-                div_Capital.appendChild(reset_Capital);
-
-                var Capital_options_str = "";
-                sel_Capital.onchange = function(){filterFunc()};
-                Capital_options_str  += '<option value="1">SHOW</option>';
-                sel_Capital.innerHTML = Capital_options_str;
-                div_Capital.appendChild(sel_Capital);
-
                 // Homeworld Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
@@ -1215,6 +1180,41 @@
                 Homeworld_options_str  += '<option value="1">SHOW</option>';
                 sel_Homeworld.innerHTML = Homeworld_options_str;
                 div_Homeworld.appendChild(sel_Homeworld);
+
+                // Capital System Select Filter
+                document.getElementById("menu").appendChild(document.createElement("div"));
+
+                var div_Capital = document.createElement('div');
+                div_Capital.id = "div_Capital";
+                div_Capital.className= "filterselect";
+                document.getElementById("menu").appendChild(div_Capital);
+                sel_Capital = document.createElement('select');
+                sel_Capital.multiple = true;
+                sel_Capital.size = 1;
+                sel_Capital.id = "sel_Capital";
+
+                var lab_Capital = document.createElement('div');
+                lab_Capital.innerHTML = 'CAPITAL SYSTEMS';
+                lab_Capital.className = 'filterlabel';
+                div_Capital.appendChild(lab_Capital);
+
+                var reset_Capital = document.createElement('div');
+                reset_Capital.innerHTML = 'clear filter';
+                reset_Capital.className = 'filterlabel';
+                reset_Capital.onclick = function() {
+                    var options = document.getElementById("sel_Capital").options;
+                    for (var i=0; i < options.length; i++) {
+                        options[i].selected = false;
+                    }
+                    filterFunc();
+                };
+                div_Capital.appendChild(reset_Capital);
+
+                var Capital_options_str = "";
+                sel_Capital.onchange = function(){filterFunc()};
+                Capital_options_str  += '<option value="1">SHOW</option>';
+                sel_Capital.innerHTML = Capital_options_str;
+                div_Capital.appendChild(sel_Capital);
 
                 // Unsurveyed Bodies Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
