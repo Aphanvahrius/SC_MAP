@@ -1,5 +1,5 @@
 <!doctype html>
-// MAIN
+<!--MAIN-->
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -542,9 +542,9 @@
                         break;
                 }
             }
-            
+
             map.createPane('pane_Lanes_1');
-            map.getPane('pane_Lanes_1').style.zIndex = 401;
+            map.getPane('pane_Lanes_1').style.zIndex = 410;
             map.getPane('pane_Lanes_1').style['mix-blend-mode'] = 'normal';
 
             var layer_Lanes_1 = new L.geoJson.multiStyle(json_Lanes_1, {
@@ -664,7 +664,7 @@
             }
 
             map.createPane('pane_Systems_2');
-            map.getPane('pane_Systems_2').style.zIndex = 402;
+            map.getPane('pane_Systems_2').style.zIndex = 420;
             map.getPane('pane_Systems_2').style['mix-blend-mode'] = 'normal';
 
             var layer_Systems_2 = new L.geoJson(json_Systems_2, {
@@ -685,6 +685,304 @@
 
             bounds_group.addLayer(layer_Systems_2);
             map.addLayer(layer_Systems_2);
+
+            function pop_Sectors_3(feature, layer) {
+            }
+
+            function style_Sectors_3_0(feature) {
+                switch(String(feature.properties['Sector'])) {
+                    case 'Agrarian Sector':
+                        return {
+                    pane: 'pane_Sectors_3',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(51,160,44,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Consumer Sector':
+                        return {
+                    pane: 'pane_Sectors_3',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(226,110,133,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Duchy of Drakar':
+                        return {
+                    pane: 'pane_Sectors_3',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(194,79,30,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Free Planets Alliance':
+                        return {
+                    pane: 'pane_Sectors_3',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(133,158,95,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Frontier Sector':
+                        return {
+                    pane: 'pane_Sectors_3',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(168,211,37,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Industrial Sector':
+                        return {
+                    pane: 'pane_Sectors_3',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(210,43,48,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Research Sector':
+                        return {
+                    pane: 'pane_Sectors_3',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(1,175,255,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Trade Sector':
+                        return {
+                    pane: 'pane_Sectors_3',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(225,190,3,1.0)',
+                    interactive: true,
+                }
+                        break;
+                }
+            }
+            map.createPane('pane_Sectors_3');
+            map.getPane('pane_Sectors_3').style.zIndex = 405;
+            map.getPane('pane_Sectors_3').style['mix-blend-mode'] = 'normal';
+            var layer_Sectors_3 = new L.geoJson(json_Sectors_3, {
+                attribution: '',
+                interactive: true,
+                dataVar: 'json_Sectors_3',
+                layerName: 'layer_Sectors_3',
+                pane: 'pane_Sectors_3',
+                onEachFeature: pop_Sectors_3,
+                style: style_Sectors_3_0,
+            });
+            bounds_group.addLayer(layer_Sectors_3);
+            map.addLayer(layer_Sectors_3);
+
+            function pop_Characters_4(feature, layer) {
+            }
+
+            function style_Characters_4_0(feature) {
+                switch(String(feature.properties['Character'])) {
+                    case 'Abbey':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(0,0,0,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 8.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                    case 'Alex':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(0,0,0,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 8.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                    case 'Elis':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(0,0,0,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 8.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                    case 'Thea':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(0,0,0,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 8.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                    case 'Tia':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(0,0,0,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 8.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                }
+            }
+            function style_Characters_4_1(feature) {
+                switch(String(feature.properties['Character'])) {
+                    case 'Abbey':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(1,175,255,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 6.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                    case 'Alex':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(31,120,180,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 6.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                    case 'Elis':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(210,43,48,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 6.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                    case 'Thea':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(251,255,0,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 6.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                    case 'Tia':
+                        return {
+                    pane: 'pane_Characters_4',
+                    opacity: 1,
+                    color: 'rgba(238,238,238,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 6.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+                        break;
+                }
+            }
+            map.createPane('pane_Characters_4');
+            map.getPane('pane_Characters_4').style.zIndex = 415;
+            map.getPane('pane_Characters_4').style['mix-blend-mode'] = 'normal';
+            var layer_Characters_4 = new L.geoJson.multiStyle(json_Characters_4, {
+                attribution: '',
+                interactive: true,
+                dataVar: 'json_Characters_4',
+                layerName: 'layer_Characters_4',
+                pane: 'pane_Characters_4',
+                onEachFeature: pop_Characters_4,
+                styles: [style_Characters_4_0,style_Characters_4_1,]
+            });
+            bounds_group.addLayer(layer_Characters_4);
+            map.addLayer(layer_Characters_4);
             
             var baseMaps = {};
             L.control.layers(baseMaps,{
@@ -751,11 +1049,71 @@
                         <td>The Western Frontier Systems</td>\
                     </tr>\
                 </table>': layer_Regions_0,
-            },{collapsed:false}).addTo(map);
+
+                '<span class="layer-name">Character Journey</span><br />\
+                        <table>\
+                            <tr>\
+                                <td style="text-align: center;"><img src="legend/Characters_4_Abbey0.png" /></td>\
+                                <td>Abbey</td>\
+                            </tr>\
+                            <tr>\
+                                <td style="text-align: center;"><img src="legend/Characters_4_Alex1.png" /></td>\
+                                <td>Alex</td>\
+                            </tr>\
+                            <tr>\
+                                <td style="text-align: center;"><img src="legend/Characters_4_Elis2.png" /></td>\
+                                <td>Elis</td>\
+                            </tr>\
+                            <tr>\
+                                <td style="text-align: center;"><img src="legend/Characters_4_Thea3.png" /></td>\
+                                <td>Thea</td>\
+                            </tr>\
+                            <tr>\
+                                <td style="text-align: center;"><img src="legend/Characters_4_Tia4.png" /></td>\
+                                <td>Tia</td>\
+                            </tr>\
+                        </table>': layer_Characters_4,
+                    
+                        '<span class="layer-name">Economic Sectors</span><br />\
+                            <table>\
+                                <tr>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_AgrarianSector0.png" /></td>\
+                                    <td>Agrarian Sector</td>\
+                                </tr>\
+                                <tr>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_ConsumerSector1.png" /></td>\
+                                    <td>Consumer Sector</td>\
+                                </tr>\
+                                <tr>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_DuchyofDrakar2.png" /></td>\
+                                    <td>Duchy of Drakar</td>\
+                                </tr>\
+                                <tr>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_FreePlanetsAlliance3.png" /></td>\
+                                    <td>Free Planets Alliance</td>\
+                                </tr>\
+                                <tr>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_FrontierSector4.png" /></td>\
+                                    <td>Frontier Sector</td>\
+                                </tr>\
+                                <tr>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_IndustrialSector5.png" /></td>\
+                                    <td>Industrial Sector</td>\
+                                </tr>\
+                                <tr>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_ResearchSector6.png" /></td>\
+                                    <td>Research Sector</td>\
+                                </tr>\
+                                <tr>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_TradeSector7.png" /></td>\
+                                    <td>Trade Sector</td>\
+                                </tr>\
+                            </table>': layer_Sectors_3,
+            }).addTo(map);
             
             map.on("zoomend", function(){
-                    if (map.hasLayer(layer_Systems_2)) {
-                        if (map.getZoom() <= 13 && map.getZoom() >= 18) {
+                if (map.hasLayer(layer_Systems_2)) {
+                    if (map.getZoom() <= 10.5 && map.getZoom() >= 15) {
                             layer_Systems_2.eachLayer(function (layer) {
                                 layer.openTooltip();
                             });
@@ -769,7 +1127,7 @@
 
             setBounds();
             if (map.hasLayer(layer_Systems_2)) {
-                if (map.getZoom() <= 13 && map.getZoom() >= 18) {
+                if (map.getZoom() <= 10.5 && map.getZoom() >= 15) {
                     layer_Systems_2.eachLayer(function (layer) {
                         layer.openTooltip();
                     });
@@ -779,6 +1137,14 @@
                     });
                 }
             }
+
+            map.addControl(new L.Control.Search({
+            layer: layer_Systems_2,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'System_Nam'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
 
             var mapDiv = document.getElementById('map');
             mapDiv.style.height = "95%";
@@ -821,12 +1187,19 @@
                 "Star_Presc": "str",
                 "Homeworld": "str",
                 "Capital": "str",
+                "Core_Sys": "str",
+                "Mining_Sys": "str",
+                "Idustr_Sys": "str",
+                "Fuel_Depot": "str",
+                "Mt_Base": "str",
                 "Unsurv_bod": "str",
                 "New_Lane": "str",
                 "System_Nam": "str",
                 "Type": "str",
                 "Status": "str",
-                "Core_Sys": "str"
+                "Character": "str",
+                "Book": "str",
+                "Sector": "str"
             };
             
             function filterFunc() {
@@ -836,7 +1209,6 @@
                         try{
                             for (key in Filters){
                                 keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
-
                                 if (Filters[key] == "str" || Filters[key] == "bool"){
                                     var selection = [];
                                     var options = document.getElementById("sel_" + keyS).options
@@ -891,17 +1263,14 @@
                                 if (Filters[key] == "date" || Filters[key] == "datetime" || Filters[key] == "time"){
                                     try{
                                         if (key in features[0].properties){
-                                        HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
-                                        startdate = document.getElementById("dat_" +
-                                            HTMLkey + "_date1").value.replace(" ", "T");
-                                        enddate = document.getElementById("dat_" +
-                                            HTMLkey + "_date2").value.replace(" ", "T");
-                                        for (i = features.length - 1; i >= 0; --i){
-                                            if (features[i].properties[key] < startdate
-                                            || features[i].properties[key] > enddate){
-                                            features.splice(i,1);
+                                            HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                                            startdate = document.getElementById("dat_" + HTMLkey + "_date1").value.replace(" ", "T");
+                                            enddate = document.getElementById("dat_" + HTMLkey + "_date2").value.replace(" ", "T");
+                                            for (i = features.length - 1; i >= 0; --i){
+                                                if (features[i].properties[key] < startdate || features[i].properties[key] > enddate){
+                                                    features.splice(i,1);
+                                                }
                                             }
-                                        }
                                         }
                                     } catch(err){}
                                 }
@@ -1100,6 +1469,7 @@
 
                 // Region Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
+
                 var div_Nation = document.createElement('div');
                 div_Nation.id = "div_Nation";
                 div_Nation.className= "filterselect";
@@ -1142,7 +1512,7 @@
 
                 // System Star Presence Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
-
+                
                 var div_Star_Presc = document.createElement('div');
                 div_Star_Presc.id = "div_Star_Presc";
                 div_Star_Presc.className= "filterselect";
@@ -1249,38 +1619,177 @@
                 // Core System Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
-                var div_Core = document.createElement('div');
-                div_Core.id = "div_Core";
-                div_Core.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Core);
-                sel_Core = document.createElement('select');
-                sel_Core.multiple = true;
-                sel_Core.size = 1;
-                sel_Core.id = "sel_Core";
+                var div_Core_Sys = document.createElement('div');
+                div_Core_Sys.id = "div_Core_Sys";
+                div_Core_Sys.className= "filterselect";
+                document.getElementById("menu").appendChild(div_Core_Sys);
+                sel_Core_Sys = document.createElement('select');
+                sel_Core_Sys.multiple = true;
+                sel_Core_Sys.size = 1;
+                sel_Core_Sys.id = "sel_Core_Sys";
 
-                var lab_Core = document.createElement('div');
-                lab_Core.innerHTML = 'CORE SYSTEMS';
-                lab_Core.className = 'filterlabel';
-                div_Core.appendChild(lab_Core);
-
-                var reset_Core = document.createElement('div');
-                reset_Core.innerHTML = 'clear filter';
-                reset_Core.className = 'filterlabel';
-                reset_Core.onclick = function() {
-                    var options = document.getElementById("sel_Core").options;
+                var lab_Core_Sys = document.createElement('div');
+                lab_Core_Sys.innerHTML = 'CORE SYSTEMS';
+                lab_Core_Sys.className = 'filterlabel';
+                div_Core_Sys.appendChild(lab_Core_Sys);
+                var reset_Core_Sys = document.createElement('div');
+                reset_Core_Sys.innerHTML = 'clear filter';
+                reset_Core_Sys.className = 'filterlabel';
+                reset_Core_Sys.onclick = function() {
+                    var options = document.getElementById("sel_Core_Sys").options;
                     for (var i=0; i < options.length; i++) {
                         options[i].selected = false;
                     }
                     filterFunc();
                 };
-                div_Core.appendChild(reset_Core);
+                div_Core_Sys.appendChild(reset_Core_Sys);
 
-                var Core_options_str = "";
-                sel_Core.onchange = function(){filterFunc()};
-                Core_options_str  += '<option value="1">SHOW</option>';
-                sel_Core.innerHTML = Core_options_str;
-                div_Core.appendChild(sel_Core);
+                var Core_Sys_options_str = "";
+                sel_Core_Sys.onchange = function(){filterFunc()};
+                Core_Sys_options_str  += '<option value="1">SHOW</option>';
+                sel_Core_Sys.innerHTML = Core_Sys_options_str;
+                div_Core_Sys.appendChild(sel_Core_Sys);
 
+                // Mining System Select Filter
+                document.getElementById("menu").appendChild(document.createElement("div"));
+
+                var div_Mining_Sys = document.createElement('div');
+                div_Mining_Sys.id = "div_Mining_Sys";
+                div_Mining_Sys.className= "filterselect";
+                document.getElementById("menu").appendChild(div_Mining_Sys);
+                sel_Mining_Sys = document.createElement('select');
+                sel_Mining_Sys.multiple = true;
+                sel_Mining_Sys.size = 1;
+                sel_Mining_Sys.id = "sel_Mining_Sys";
+
+                var lab_Mining_Sys = document.createElement('div');
+                lab_Mining_Sys.innerHTML = 'MINING SYSTEMS';
+                lab_Mining_Sys.className = 'filterlabel';
+                div_Mining_Sys.appendChild(lab_Mining_Sys);
+
+                var reset_Mining_Sys = document.createElement('div');
+                reset_Mining_Sys.innerHTML = 'clear filter';
+                reset_Mining_Sys.className = 'filterlabel';
+                reset_Mining_Sys.onclick = function() {
+                    var options = document.getElementById("sel_Mining_Sys").options;
+                    for (var i=0; i < options.length; i++) {
+                        options[i].selected = false;
+                    }
+                    filterFunc();
+                };
+                div_Mining_Sys.appendChild(reset_Mining_Sys);
+
+                var Mining_Sys_options_str = "";
+                sel_Mining_Sys.onchange = function(){filterFunc()};
+                Mining_Sys_options_str  += '<option value="1">SHOW</option>';
+                sel_Mining_Sys.innerHTML = Mining_Sys_options_str;
+                div_Mining_Sys.appendChild(sel_Mining_Sys);
+
+                // Mining System Select Filter
+                document.getElementById("menu").appendChild(document.createElement("div"));
+
+                var div_Idustr_Sys = document.createElement('div');
+                div_Idustr_Sys.id = "div_Idustr_Sys";
+                div_Idustr_Sys.className= "filterselect";
+                document.getElementById("menu").appendChild(div_Idustr_Sys);
+                sel_Idustr_Sys = document.createElement('select');
+                sel_Idustr_Sys.multiple = true;
+                sel_Idustr_Sys.size = 1;
+                sel_Idustr_Sys.id = "sel_Idustr_Sys";
+
+                var lab_Idustr_Sys = document.createElement('div');
+                lab_Idustr_Sys.innerHTML = 'INDUSTRIAL SYSTEMS';
+                lab_Idustr_Sys.className = 'filterlabel';
+                div_Idustr_Sys.appendChild(lab_Idustr_Sys);
+                
+                var reset_Idustr_Sys = document.createElement('div');
+                reset_Idustr_Sys.innerHTML = 'clear filter';
+                reset_Idustr_Sys.className = 'filterlabel';
+                reset_Idustr_Sys.onclick = function() {
+                    var options = document.getElementById("sel_Idustr_Sys").options;
+                    for (var i=0; i < options.length; i++) {
+                        options[i].selected = false;
+                    }
+                    filterFunc();
+                };
+                div_Idustr_Sys.appendChild(reset_Idustr_Sys);
+
+                var Idustr_Sys_options_str = "";
+                sel_Idustr_Sys.onchange = function(){filterFunc()};
+                Idustr_Sys_options_str  += '<option value="1">SHOW</option>';
+                sel_Idustr_Sys.innerHTML = Idustr_Sys_options_str;
+                div_Idustr_Sys.appendChild(sel_Idustr_Sys);
+
+                // Fuel Depot in System Select Filter
+                document.getElementById("menu").appendChild(document.createElement("div"));
+
+                var div_Fuel_Depot = document.createElement('div');
+                div_Fuel_Depot.id = "div_Fuel_Depot";
+                div_Fuel_Depot.className= "filterselect";
+                document.getElementById("menu").appendChild(div_Fuel_Depot);
+                sel_Fuel_Depot = document.createElement('select');
+                sel_Fuel_Depot.multiple = true;
+                sel_Fuel_Depot.size = 1;
+                sel_Fuel_Depot.id = "sel_Fuel_Depot";
+
+                var lab_Fuel_Depot = document.createElement('div');
+                lab_Fuel_Depot.innerHTML = 'FUEL DEPOTS';
+                lab_Fuel_Depot.className = 'filterlabel';
+                div_Fuel_Depot.appendChild(lab_Fuel_Depot);
+
+                var reset_Fuel_Depot = document.createElement('div');
+                reset_Fuel_Depot.innerHTML = 'clear filter';
+                reset_Fuel_Depot.className = 'filterlabel';
+                reset_Fuel_Depot.onclick = function() {
+                    var options = document.getElementById("sel_Fuel_Depot").options;
+                    for (var i=0; i < options.length; i++) {
+                        options[i].selected = false;
+                    }
+                    filterFunc();
+                };
+                div_Fuel_Depot.appendChild(reset_Fuel_Depot);
+
+                var Fuel_Depot_options_str = "";
+                sel_Fuel_Depot.onchange = function(){filterFunc()};
+                Fuel_Depot_options_str  += '<option value="1">SHOW</option>';
+                sel_Fuel_Depot.innerHTML = Fuel_Depot_options_str;
+                div_Fuel_Depot.appendChild(sel_Fuel_Depot);
+
+                // Maintenence Base in System Select Filter
+                document.getElementById("menu").appendChild(document.createElement("div"));
+
+                var div_Mt_Base = document.createElement('div');
+                div_Mt_Base.id = "div_Mt_Base";
+                div_Mt_Base.className= "filterselect";
+                document.getElementById("menu").appendChild(div_Mt_Base);
+                sel_Mt_Base = document.createElement('select');
+                sel_Mt_Base.multiple = true;
+                sel_Mt_Base.size = 1;
+                sel_Mt_Base.id = "sel_Mt_Base";
+
+                var lab_Mt_Base = document.createElement('div');
+                lab_Mt_Base.innerHTML = 'MAINTENENCE BASES';
+                lab_Mt_Base.className = 'filterlabel';
+                div_Mt_Base.appendChild(lab_Mt_Base);
+
+                var reset_Mt_Base = document.createElement('div');
+                reset_Mt_Base.innerHTML = 'clear filter';
+                reset_Mt_Base.className = 'filterlabel';
+                reset_Mt_Base.onclick = function() {
+                    var options = document.getElementById("sel_Mt_Base").options;
+                    for (var i=0; i < options.length; i++) {
+                        options[i].selected = false;
+                    }
+                    filterFunc();
+                };
+                div_Mt_Base.appendChild(reset_Mt_Base);
+
+                var Mt_Base_options_str = "";
+                sel_Mt_Base.onchange = function(){filterFunc()};
+                Mt_Base_options_str  += '<option value="1">SHOW</option>';
+                sel_Mt_Base.innerHTML = Mt_Base_options_str;
+                div_Mt_Base.appendChild(sel_Mt_Base);
+                
                 // Unsurveyed Bodies Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
@@ -1353,7 +1862,6 @@
 
                 // Systems Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
-
 
                 var div_System_Nam = document.createElement('div');
                 div_System_Nam.id = "div_System_Nam";
@@ -1600,6 +2108,7 @@
                 System_Nam_options_str  += '<option value="Tau Tucanae">Tau Tucanae</option>';
                 System_Nam_options_str  += '<option value="Theta Corvi">Theta Corvi</option>';
                 System_Nam_options_str  += '<option value="Theta Horologii">Theta Horologii</option>';
+                System_Nam_options_str  += '<option value="Unknown Yellow Dwarf">Unknown Yellow Dwarf</option>';
                 System_Nam_options_str  += '<option value="Upsilon Cephei">Upsilon Cephei</option>';
                 System_Nam_options_str  += '<option value="V1216 Sagittarii">V1216 Sagittarii</option>';
                 System_Nam_options_str  += '<option value="V547 Cassiopeiae">V547 Cassiopeiae</option>';
@@ -1693,6 +2202,125 @@
                 sel_Status.innerHTML = Status_options_str;
                 div_Status.appendChild(sel_Status);
 
+            // Character Select Filter
+            document.getElementById("menu").appendChild(document.createElement("div"));
+
+            var div_Character = document.createElement('div');
+            div_Character.id = "div_Character";
+            div_Character.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Character);
+            sel_Character = document.createElement('select');
+            sel_Character.multiple = true;
+            sel_Character.size = 5;
+            sel_Character.id = "sel_Character";
+
+            var lab_Character = document.createElement('div');
+            lab_Character.innerHTML = 'CHARACTER';
+            lab_Character.className = 'filterlabel';
+            div_Character.appendChild(lab_Character);
+
+            var reset_Character = document.createElement('div');
+            reset_Character.innerHTML = 'clear filter';
+            reset_Character.className = 'filterlabel';
+            reset_Character.onclick = function() {
+                var options = document.getElementById("sel_Character").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Character.appendChild(reset_Character);
+
+            var Character_options_str = "";
+            sel_Character.onchange = function(){filterFunc()};
+            Character_options_str  += '<option value="Abbey">Abbey</option>';
+            Character_options_str  += '<option value="Alex">Alex</option>';
+            Character_options_str  += '<option value="Elis">Elis</option>';
+            Character_options_str  += '<option value="Thea">Thea</option>';
+            Character_options_str  += '<option value="Tia">Tia</option>';
+            sel_Character.innerHTML = Character_options_str;
+            div_Character.appendChild(sel_Character);
+
+            // Book Volume Select Filter
+            document.getElementById("menu").appendChild(document.createElement("div"));
+
+            var div_Book = document.createElement('div');
+            div_Book.id = "div_Book";
+            div_Book.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Book);
+            sel_Book = document.createElement('select');
+            sel_Book.multiple = true;
+            sel_Book.size = 5;
+            sel_Book.id = "sel_Book";
+
+            var lab_Book = document.createElement('div');
+            lab_Book.innerHTML = 'BOOK VOLUME';
+            lab_Book.className = 'filterlabel';
+            div_Book.appendChild(lab_Book);
+
+            var reset_Book = document.createElement('div');
+            reset_Book.innerHTML = 'clear filter';
+            reset_Book.className = 'filterlabel';
+            reset_Book.onclick = function() {
+                var options = document.getElementById("sel_Book").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Book.appendChild(reset_Book);
+
+            var Book_options_str = "";
+            sel_Book.onchange = function(){filterFunc()};
+            Book_options_str  += '<option value="A1">A1</option>';
+            Book_options_str  += '<option value="A2">A2</option>';
+            Book_options_str  += '<option value="A3">A3</option>';
+            Book_options_str  += '<option value="A4">A4</option>';
+            Book_options_str  += '<option value="A5">A5</option>';
+            sel_Book.innerHTML = Book_options_str;
+            div_Book.appendChild(sel_Book);
+
+            // Economic Sector Select Filter
+            document.getElementById("menu").appendChild(document.createElement("div"));
+
+            var div_Sector = document.createElement('div');
+            div_Sector.id = "div_Sector";
+            div_Sector.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Sector);
+            sel_Sector = document.createElement('select');
+            sel_Sector.multiple = true;
+            sel_Sector.size = 5;
+            sel_Sector.id = "sel_Sector";
+
+            var lab_Sector = document.createElement('div');
+            lab_Sector.innerHTML = 'ECONOMIC SECTOR';
+            lab_Sector.className = 'filterlabel';
+            div_Sector.appendChild(lab_Sector);
+
+            var reset_Sector = document.createElement('div');
+            reset_Sector.innerHTML = 'clear filter';
+            reset_Sector.className = 'filterlabel';
+            reset_Sector.onclick = function() {
+                var options = document.getElementById("sel_Sector").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Sector.appendChild(reset_Sector);
+
+            var Sector_options_str = "";
+            sel_Sector.onchange = function(){filterFunc()};
+            Sector_options_str  += '<option value="Agrarian Sector">Agrarian Sector</option>';
+            Sector_options_str  += '<option value="Consumer Sector">Consumer Sector</option>';
+            Sector_options_str  += '<option value="Duchy of Drakar">Duchy of Drakar</option>';
+            Sector_options_str  += '<option value="Free Planets Alliance">Free Planets Alliance</option>';
+            Sector_options_str  += '<option value="Frontier Sector">Frontier Sector</option>';
+            Sector_options_str  += '<option value="Industrial Sector">Industrial Sector</option>';
+            Sector_options_str  += '<option value="Research Sector">Research Sector</option>';
+            Sector_options_str  += '<option value="Trade Sector">Trade Sector</option>';
+            sel_Sector.innerHTML = Sector_options_str;
+            div_Sector.appendChild(sel_Sector);
 
             resetLabels([layer_Regions_0,layer_Systems_2]);
             map.on("zoomend", function(){
