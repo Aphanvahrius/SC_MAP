@@ -687,6 +687,16 @@
             map.addLayer(layer_Systems_2);
 
             function pop_Sectors_3(feature, layer) {
+                var popupContent = '<table>\
+                        <tr>\
+                            <td class="visible-with-data" id="Sector" colspan="2">' + (feature.properties['Sector'] !== null ? autolinker.link(feature.properties['Sector'].toLocaleString()) : '') + '</td>\
+                        </tr>\
+                    </table>';
+                layer.bindPopup(popupContent, {maxHeight: 400});
+                var popup = layer.getPopup();
+                var content = popup.getContent();
+                var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+                popup.setContent(updatedContent);
             }
 
             function style_Sectors_3_0(feature) {
@@ -721,7 +731,7 @@
                     interactive: true,
                 }
                         break;
-                    case 'Duchy of Drakar':
+                    case 'Autarkic Sector':
                         return {
                     pane: 'pane_Sectors_3',
                     opacity: 1,
@@ -828,6 +838,25 @@
             bounds_group.addLayer(layer_Sectors_3);
 
             function pop_Characters_4(feature, layer) {
+                var popupContent = '<table>\
+                        <tr>\
+                            <th scope="row">Character</th>\
+                            <td class="visible-with-data" id="Character">' + (feature.properties['Character'] !== null ? autolinker.link(feature.properties['Character'].toLocaleString()) : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <th scope="row">Book</th>\
+                            <td class="visible-with-data" id="Book">' + (feature.properties['Book'] !== null ? autolinker.link(feature.properties['Book'].toLocaleString()) : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <th scope="row">Lane Type</th>\
+                            <td class="visible-with-data" id="Date">' + (feature.properties['Date'] !== null ? autolinker.link(feature.properties['Date'].toLocaleString()) : '') + '</td>\
+                        </tr>\
+                    </table>';
+                layer.bindPopup(popupContent, {maxHeight: 400});
+                var popup = layer.getPopup();
+                var content = popup.getContent();
+                var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+                popup.setContent(updatedContent);
             }
 
             function style_Characters_4_0(feature) {
@@ -981,6 +1010,7 @@
                 styles: [style_Characters_4_0,style_Characters_4_1,]
             });
             bounds_group.addLayer(layer_Characters_4);
+            map.addLayer(layer_Characters_4);
             
             var baseMaps = {};
             L.control.layers(baseMaps,{
@@ -1083,8 +1113,8 @@
                                     <td>Consumer Sector</td>\
                                 </tr>\
                                 <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_DuchyofDrakar2.png" /></td>\
-                                    <td>Duchy of Drakar</td>\
+                                    <td style="text-align: center;"><img src="legend/Sectors_3_AutarkicSector2.png" /></td>\
+                                    <td>Autarkic Sector</td>\
                                 </tr>\
                                 <tr>\
                                     <td style="text-align: center;"><img src="legend/Sectors_3_FreePlanetsAlliance3.png" /></td>\
@@ -2238,6 +2268,8 @@
             Character_options_str  += '<option value="Tia">Tia</option>';
             sel_Character.innerHTML = Character_options_str;
             div_Character.appendChild(sel_Character);
+            sel_Character.selectedIndex = 1;
+            sel_Character.dispatchEvent(new Event('change'));
 
             // Book Volume Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
@@ -2277,6 +2309,8 @@
             Book_options_str  += '<option value="A5">A5</option>';
             sel_Book.innerHTML = Book_options_str;
             div_Book.appendChild(sel_Book);
+            sel_Book.selectedIndex = 0;
+            sel_Book.dispatchEvent(new Event('change'));
 
             // Economic Sector Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
@@ -2311,7 +2345,7 @@
             sel_Sector.onchange = function(){filterFunc()};
             Sector_options_str  += '<option value="Agrarian Sector">Agrarian Sector</option>';
             Sector_options_str  += '<option value="Consumer Sector">Consumer Sector</option>';
-            Sector_options_str  += '<option value="Duchy of Drakar">Duchy of Drakar</option>';
+            Sector_options_str  += '<option value="Autarkic Sector">Autarkic Sector</option>';
             Sector_options_str  += '<option value="Free Planets Alliance">Free Planets Alliance</option>';
             Sector_options_str  += '<option value="Frontier Sector">Frontier Sector</option>';
             Sector_options_str  += '<option value="Industrial Sector">Industrial Sector</option>';
