@@ -65,10 +65,17 @@
         <script src="data/Sectors_3.js"></script>
         <script src="data/Characters_4.js"></script>
         <script src="data/Routes_5.js"></script>
+        <script src="data/Diplomacy_6.js"></script>
 
         <svg width="0" height="0" style="position:absolute;"><defs></defs></svg>
 
         <script>
+            var highlightLayer;
+            function highlightFeature(e) {
+                highlightLayer = e.target;
+                highlightLayer.openPopup();
+            }      
+
             var map = L.map('map', {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:11});
 
             var hash = new L.Hash(map);
@@ -1011,8 +1018,190 @@
             });
             bounds_group.addLayer(layer_Characters_4);
             map.addLayer(layer_Characters_4);
+
+            function pop_Diplomacy_6(feature, layer) {
+                var popupContent = '<table>\
+                        <tr>\
+                            <th scope="row">Nation</th>\
+                            <td class="visible-with-data" id="Neighbor">' + (feature.properties['Neighbor'] !== null ? autolinker.link(feature.properties['Neighbor'].toLocaleString()) : '') + '</td>\
+                        </tr>\
+                        <tr>\
+                            <th scope="row">Relation Status</th>\
+                            <td class="visible-with-data" id="Relation">' + (feature.properties['Relation'] !== 'Self' ? autolinker.link(feature.properties['Relation'].toLocaleString()) : 'Our Country') + '</td>\
+                        </tr>\
+                    </table>';
+                layer.bindPopup(popupContent, {maxHeight: 400});
+                var popup = layer.getPopup();
+                var content = popup.getContent();
+                var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+                popup.setContent(updatedContent);
+            }
+
+            function style_Diplomacy_6_0(feature) {
+                switch(String(feature.properties['Relation'])) {
+                    case 'Self':
+                        return {
+                    pane: 'pane_Diplomacy_6',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(19,101,201,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Friendly':
+                        return {
+                    pane: 'pane_Diplomacy_6',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(51,160,44,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Amicable':
+                        return {
+                    pane: 'pane_Diplomacy_6',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(168,211,37,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Neutral':
+                        return {
+                    pane: 'pane_Diplomacy_6',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(157,157,157,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Reserved':
+                        return {
+                    pane: 'pane_Diplomacy_6',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(255,127,0,1.0)',
+                    interactive: true,
+                }
+                        break;
+                    case 'Hostile':
+                        return {
+                    pane: 'pane_Diplomacy_6',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 1.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(210,43,48,1.0)',
+                    interactive: true,
+                }
+                        break;
+                }
+            }
+            map.createPane('pane_Diplomacy_6');
+            map.getPane('pane_Diplomacy_6').style.zIndex = 406;
+            map.getPane('pane_Diplomacy_6').style['mix-blend-mode'] = 'normal';
+            var layer_Diplomacy_6 = new L.geoJson(json_Diplomacy_6, {
+                attribution: '',
+                interactive: true,
+                dataVar: 'json_Diplomacy_6',
+                layerName: 'layer_Diplomacy_6',
+                pane: 'pane_Diplomacy_6',
+                onEachFeature: pop_Diplomacy_6,
+                style: style_Diplomacy_6_0,
+            });
+            bounds_group.addLayer(layer_Diplomacy_6);
+
+            function pop_Routes_5(feature, layer) {
+                layer.on({
+                    mouseout: function(e) {
+                        if (typeof layer.closePopup == 'function') {
+                            layer.closePopup();
+                        } else {
+                            layer.eachLayer(function(feature){
+                                feature.closePopup()
+                            });
+                        }
+                    },
+                    mouseover: highlightFeature,
+                });
+            }
+
+            function style_Routes_5_0() {
+                return {
+                    pane: 'pane_Routes_5',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 8.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+            }
+            function style_Routes_5_1() {
+                return {
+                    pane: 'pane_Routes_5',
+                    opacity: 1,
+                    color: 'rgba(255,158,23,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 4.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+            }
+            map.createPane('pane_Routes_5');
+            map.getPane('pane_Routes_5').style.zIndex = 404;
+            map.getPane('pane_Routes_5').style['mix-blend-mode'] = 'normal';
+            var layer_Routes_5 = new L.geoJson.multiStyle(json_Routes_5, {
+                attribution: '',
+                interactive: true,
+                dataVar: 'json_Routes_5',
+                layerName: 'layer_Routes_5',
+                pane: 'pane_Routes_5',
+                onEachFeature: pop_Routes_5,
+                styles: [style_Routes_5_0,style_Routes_5_1,]
+            });
+            bounds_group.addLayer(layer_Routes_5);
             
             var baseMaps = {};
+            
             L.control.layers(baseMaps,{
                 '<span class="layer-name">Systems</span><br />\
                 <table>\
@@ -1079,65 +1268,93 @@
                 </table>': layer_Regions_0,
 
                 '<span class="layer-name">Character Journey</span><br />\
+                <table>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Characters_4_Abbey0.png" /></td>\
+                        <td>Abbey</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Characters_4_Alex1.png" /></td>\
+                        <td>Alex</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Characters_4_Elis2.png" /></td>\
+                        <td>Elis</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Characters_4_Thea3.png" /></td>\
+                        <td>Thea</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Characters_4_Tia4.png" /></td>\
+                        <td>Tia</td>\
+                    </tr>\
+                </table>': layer_Characters_4,
+
+                '<span class="layer-name">Economic Sectors</span><br />\
+                    <table>\
+                        <tr>\
+                            <td style="text-align: center;"><img src="legend/Sectors_3_AgrarianSector0.png" /></td>\
+                            <td>Agrarian Sector</td>\
+                        </tr>\
+                        <tr>\
+                            <td style="text-align: center;"><img src="legend/Sectors_3_ConsumerSector1.png" /></td>\
+                            <td>Consumer Sector</td>\
+                        </tr>\
+                        <tr>\
+                            <td style="text-align: center;"><img src="legend/Sectors_3_AutarkicSector2.png" /></td>\
+                            <td>Autarkic Sector</td>\
+                        </tr>\
+                        <tr>\
+                            <td style="text-align: center;"><img src="legend/Sectors_3_FreePlanetsAlliance3.png" /></td>\
+                            <td>Free Planets Alliance</td>\
+                        </tr>\
+                        <tr>\
+                            <td style="text-align: center;"><img src="legend/Sectors_3_FrontierSector4.png" /></td>\
+                            <td>Frontier Sector</td>\
+                        </tr>\
+                        <tr>\
+                            <td style="text-align: center;"><img src="legend/Sectors_3_IndustrialSector5.png" /></td>\
+                            <td>Industrial Sector</td>\
+                        </tr>\
+                        <tr>\
+                            <td style="text-align: center;"><img src="legend/Sectors_3_ResearchSector6.png" /></td>\
+                            <td>Research Sector</td>\
+                        </tr>\
+                        <tr>\
+                            <td style="text-align: center;"><img src="legend/Sectors_3_TradeSector7.png" /></td>\
+                            <td>Trade Sector</td>\
+                        </tr>\
+                    </table>': layer_Sectors_3,
+
+                    '<span class="layer-name">Diplomacy</span><br />\
                         <table>\
                             <tr>\
-                                <td style="text-align: center;"><img src="legend/Characters_4_Abbey0.png" /></td>\
-                                <td>Abbey</td>\
+                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Self0.png" /></td>\
+                                <td>Self</td>\
                             </tr>\
                             <tr>\
-                                <td style="text-align: center;"><img src="legend/Characters_4_Alex1.png" /></td>\
-                                <td>Alex</td>\
+                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Friendly1.png" /></td>\
+                                <td>Friendly</td>\
                             </tr>\
                             <tr>\
-                                <td style="text-align: center;"><img src="legend/Characters_4_Elis2.png" /></td>\
-                                <td>Elis</td>\
+                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Amicable2.png" /></td>\
+                                <td>Amicable</td>\
                             </tr>\
                             <tr>\
-                                <td style="text-align: center;"><img src="legend/Characters_4_Thea3.png" /></td>\
-                                <td>Thea</td>\
+                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Neutral3.png" /></td>\
+                                <td>Neutral</td>\
                             </tr>\
                             <tr>\
-                                <td style="text-align: center;"><img src="legend/Characters_4_Tia4.png" /></td>\
-                                <td>Tia</td>\
+                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Reserved4.png" /></td>\
+                                <td>Reserved</td>\
                             </tr>\
-                        </table>': layer_Characters_4,
-                    
-                        '<span class="layer-name">Economic Sectors</span><br />\
-                            <table>\
-                                <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_AgrarianSector0.png" /></td>\
-                                    <td>Agrarian Sector</td>\
-                                </tr>\
-                                <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_ConsumerSector1.png" /></td>\
-                                    <td>Consumer Sector</td>\
-                                </tr>\
-                                <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_AutarkicSector2.png" /></td>\
-                                    <td>Autarkic Sector</td>\
-                                </tr>\
-                                <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_FreePlanetsAlliance3.png" /></td>\
-                                    <td>Free Planets Alliance</td>\
-                                </tr>\
-                                <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_FrontierSector4.png" /></td>\
-                                    <td>Frontier Sector</td>\
-                                </tr>\
-                                <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_IndustrialSector5.png" /></td>\
-                                    <td>Industrial Sector</td>\
-                                </tr>\
-                                <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_ResearchSector6.png" /></td>\
-                                    <td>Research Sector</td>\
-                                </tr>\
-                                <tr>\
-                                    <td style="text-align: center;"><img src="legend/Sectors_3_TradeSector7.png" /></td>\
-                                    <td>Trade Sector</td>\
-                                </tr>\
-                            </table>': layer_Sectors_3,
-            }).addTo(map);
+                            <tr>\
+                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Hostile5.png" /></td>\
+                                <td>Hostile</td>\
+                            </tr>\
+                        </table>': layer_Diplomacy_6,
+            },{collapsed:true}).addTo(map);
             
             map.on("zoomend", function(){
                 if (map.hasLayer(layer_Systems_2)) {
