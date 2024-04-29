@@ -76,7 +76,7 @@
                 highlightLayer.openPopup();
             }      
 
-            var map = L.map('map', {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:11});
+            var map = L.map('map', {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10, zoom:11});
 
             var hash = new L.Hash(map);
 
@@ -1132,7 +1132,7 @@
                 }
             }
             map.createPane('pane_Diplomacy_6');
-            map.getPane('pane_Diplomacy_6').style.zIndex = 406;
+            map.getPane('pane_Diplomacy_6').style.zIndex = 430;
             map.getPane('pane_Diplomacy_6').style['mix-blend-mode'] = 'normal';
             var layer_Diplomacy_6 = new L.geoJson(json_Diplomacy_6, {
                 attribution: '',
@@ -1358,7 +1358,7 @@
             
             map.on("zoomend", function(){
                 if (map.hasLayer(layer_Systems_2)) {
-                    if (map.getZoom() <= 10.5 && map.getZoom() >= 15) {
+                    if (map.getZoom() <= 10 && map.getZoom() >= 15) {
                             layer_Systems_2.eachLayer(function (layer) {
                                 layer.openTooltip();
                             });
@@ -1372,7 +1372,7 @@
 
             setBounds();
             if (map.hasLayer(layer_Systems_2)) {
-                if (map.getZoom() <= 10.5 && map.getZoom() >= 15) {
+                if (map.getZoom() <= 10 && map.getZoom() >= 15) {
                     layer_Systems_2.eachLayer(function (layer) {
                         layer.openTooltip();
                     });
