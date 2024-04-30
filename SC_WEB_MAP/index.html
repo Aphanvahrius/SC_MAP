@@ -44,11 +44,13 @@
     <body style="background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e); color: #eeeefe; text-shadow: 0.2px 0.1px 1px rgba(80, 80, 80, 0.8); overflow: hidden;">
         <div id="map"></div>
 
-        <script src="js/qgis2web_expressions.js"></script>
+        <!--<script src="js/qgis2web_expressions.js"></script>
+            <script src="js/leaflet.rotatedMarker.js"></script>
+            <script src="js/leaflet.pattern.js"></script>
+            <script src="js/tailDT.js"></script>
+            -->
         <script src="js/leaflet.js"></script>
         <script src="js/multi-style-layer.js"></script>
-        <script src="js/leaflet.rotatedMarker.js"></script>
-        <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
         <script src="js/Autolinker.min.js"></script>
         <script src="js/rbush.min.js"></script>
@@ -56,7 +58,6 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="js/leaflet-search.js"></script>
-        <script src="js/tailDT.js"></script>
         <script src="js/nouislider.min.js"></script>
         <script src="js/wNumb.js"></script>
         <script src="data/Regions_0.js"></script>
@@ -66,29 +67,24 @@
         <script src="data/Characters_4.js"></script>
         <script src="data/Routes_5.js"></script>
         <script src="data/Diplomacy_6.js"></script>
+        <script src="js/popups.js"></script>
+        <script src="js/gradient-definitions.js"></script>
+        <script src="js/layer-styles.js"></script>
+        <script src="js/general-functions.js"></script>
 
         <svg width="0" height="0" style="position:absolute;"><defs></defs></svg>
 
         <script>
-            var highlightLayer;
-            function highlightFeature(e) {
-                highlightLayer = e.target;
-                highlightLayer.openPopup();
-            }      
-
-            var map = L.map('map', {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10, zoom:11});
+            // Create map
+            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10, zoom:11};
+            var map = L.map('map', zoomOptions);
 
             var hash = new L.Hash(map);
 
-            var popup = L.popup();
-            function onMapClick(e) {
-                popup
-                .setLatLng(e.latlng)
-                .setContent("Coordinates: " + e.latlng.toString())
-                .openOn(map);
-            }
-            map.on('click', onMapClick);
+            // Coords popup
+            map.on('click', display_Coords);
 
+            // Create attributions
             map.attributionControl.setPrefix('\
                 <a href="https://github.com/tomchadwin/qgis2web" target="_blank" rel="noopener noreferrer">qgis2web</a> &middot;\
                 <a href="https://leafletjs.com" title="A JS library for interactive maps" target="_blank" rel="noopener noreferrer">Leaflet</a> &middot;\
@@ -96,22 +92,10 @@
                 <a href="https://www.royalroad.com/fiction/41463/shipcore" target="_blank" rel="noopener noreferrer">ShipCore</a>'
             );
 
+            // Create autolinker
             var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
 
-            function removeEmptyRowsFromPopupContent(content, feature) {
-                var tempDiv = document.createElement('div');
-                tempDiv.innerHTML = content;
-                var rows = tempDiv.querySelectorAll('tr');
-                for (var i = 0; i < rows.length; i++) {
-                    var td = rows[i].querySelector('td.visible-with-data');
-                    var key = td ? td.id : '';
-                    if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
-                        rows[i].parentNode.removeChild(rows[i]);
-                    }
-                }
-                return tempDiv.innerHTML;
-            }
-
+            // Add distance/area measuring tool
             var measureControl = new L.Control.Measure({
                 position: 'topleft',
                 primaryLengthUnit: 'meters',
@@ -123,171 +107,10 @@
             document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
             document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
 
+            //Create bounds group
             var bounds_group = new L.featureGroup([]);
 
-            function setBounds() {
-                if (bounds_group.getLayers().length) {
-                    map.fitBounds(bounds_group.getBounds());
-                }
-                map.setMaxBounds([[-0.6,-1],[1.4,2]]); // D L U R
-            }
-
-            function revealSpoiler() {
-                var spoiler = document.getElementById('spoiler');
-                spoiler.style.display = 'none';
-                
-                var ruler = document.getElementById('Ruler');
-                ruler.innerHTML = ruler.getAttribute('data-original-content');
-            }
-
-            function pop_Regions_0(feature, layer) {
-                var rulerText = feature.properties['Ruler'] !== null ? autolinker.link(feature.properties['Ruler'].toLocaleString()) : '';
-                var spoilerTextList = ["Celestia Astraea Psi", "The Pirate King", "The Council", "God of the Drakar"]; // List of spoilered info
-                
-                var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">Region</th>\
-                        <td class="visible-with-data" id="Region">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Ruler</th>\
-                        <td class="visible-with-data" id="Ruler" data-original-content="' + rulerText + '">' +
-                            (rulerText === spoilerTextList[0] ? 
-                                'Fleet Admiral Wilkes <span id="spoiler" class="spoiler" onclick="revealSpoiler()">SPOILER</span>' :
-                                (spoilerTextList.includes(rulerText) ? '<span id="spoiler" class="spoiler" onclick="revealSpoiler()">SPOILER</span>' : rulerText))
-                        + '</td>\
-                    </tr>\
-                </table>';
-                
-                layer.bindPopup(popupContent, {maxHeight: 400});
-            }
-
-            // Corporate Systems Fill
-            function gradientStyleCS() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientCS");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#ffff00"/>' +
-                                            '<stop offset="40%" stop-color="#fff20e"/>' +
-                                            '<stop offset="70%" stop-color="#fee616"/>' +
-                                            '<stop offset="100%" stop-color="#f9ce1f"/>';
-                return radialGradient;
-            }
-
-            // Holy Ertan Republic Fill
-            function gradientStyleHER() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientHER");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#00b339"/>' +
-                                            '<stop offset="40%" stop-color="#0ba740"/>' +
-                                            '<stop offset="70%" stop-color="#119b43"/>' +
-                                            '<stop offset="100%" stop-color="#168343"/>';
-                return radialGradient;
-            }
-
-            // Solarian Federation Fill
-            function gradientStyleSF() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientSF");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "40%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#a600ff"/>' +
-                                            '<stop offset="40%" stop-color="#a601ef"/>' +
-                                            '<stop offset="70%" stop-color="#a502e1"/>' +
-                                            '<stop offset="100%" stop-color="#a104c8"/>';
-                return radialGradient;
-            }
-
-            // Solar Imperium Fill
-            function gradientStyleSI() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientSI");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#ff0000"/>' +
-                                            '<stop offset="40%" stop-color="#f10202"/>' +
-                                            '<stop offset="70%" stop-color="#e30303"/>' +
-                                            '<stop offset="100%" stop-color="#c80404"/>';
-                return radialGradient;
-            }
-
-            // Duchy of Meltisar Fill
-            function gradientStyleDoM() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientDoM");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#005eff"/>' +
-                                            '<stop offset="40%" stop-color="#0253fb"/>' +
-                                            '<stop offset="70%" stop-color="#0348f8"/>' +
-                                            '<stop offset="100%" stop-color="#0627f9"/>';
-                return radialGradient;
-            }
-
-            // Duchy of Drakar Fill
-            function gradientStyleDoD() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientDoD");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#aa0000"/>' +
-                                            '<stop offset="40%" stop-color="#910202"/>' +
-                                            '<stop offset="70%" stop-color="#730303"/>' +
-                                            '<stop offset="100%" stop-color="#540404"/>';
-                return radialGradient;
-            }
-
-            // Free Planets Alliance Fill
-            function gradientStyleFPA() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientFPA");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#7bf906"/>' +
-                                            '<stop offset="40%" stop-color="#81ec06"/>' +
-                                            '<stop offset="70%" stop-color="#85df06"/>' +
-                                            '<stop offset="100%" stop-color="#86c705"/>';
-                return radialGradient;
-            }
-
-            // Western Frontier Fill
-            function gradientStyleWFS() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientWFS");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#737d8c"/>' +
-                                            '<stop offset="40%" stop-color="#6c7485"/>' +
-                                            '<stop offset="70%" stop-color="#666c7e"/>' +
-                                            '<stop offset="100%" stop-color="#5a5a72"/>';
-                return radialGradient;
-            }
-
-            // Ghost Sector Fill
-            function gradientStyleGS() {
-                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientGS");
-                radialGradient.setAttribute("cx", "50%");
-                radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "40%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#A0A0A0"/>' +
-                                            '<stop offset="40%" stop-color="#9B9B9B"/>' +
-                                            '<stop offset="70%" stop-color="#959595"/>' +
-                                            '<stop offset="100%" stop-color="#888888"/>';
-                return radialGradient;
-            }
-
+            // Colect gradient fills for regions
             var gradientDefs = document.querySelector('svg defs');
             gradientDefs.appendChild(gradientStyleCS());
             gradientDefs.appendChild(gradientStyleHER());
@@ -299,156 +122,20 @@
             gradientDefs.appendChild(gradientStyleWFS());
             gradientDefs.appendChild(gradientStyleGS());
 
-            function style_Regions_0_0(feature) {
-                switch(String(feature.properties['Nation'])) {
-                    case 'Corporate Systems':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientCS)',
-                            interactive: true,
-                        }
-                        break;
-                    
-                    case 'Holy Ertan Republic':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientHER)',
-                            interactive: true,
-                        }
-                        break;
+            // Set layer order
+            var order = {
+                regions: 400,
+                sectors: 410,
+                lanes: 420,
+                routes: 430,
+                characters: 440,
+                systems: 450,
+                diplomacy: 460
+            };
 
-                    case 'Solarian Federation':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientSF)',
-                            interactive: true,
-                        }
-                        break;
-                    
-                    case 'Solar Imperium':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientSI)',
-                            interactive: true,
-                        }
-                        break;
-
-                    case 'Duchy of Meltisar':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientDoM)',
-                            interactive: true,
-                        }
-                        break;
-
-                    case 'Duchy of Drakar':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientDoD)',
-                            interactive: true,
-                        }
-                        break;
-
-                    case 'Free Planets Alliance':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientFPA)',
-                            interactive: true,
-                        }
-                        break;
-
-                    case 'Ghost Sector':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientGS)',
-                            interactive: true,
-                        }
-                        break;
-
-                    case 'The Western Frontier Systems':
-                        return {
-                            pane: 'pane_Regions_0',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0, 
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'url(#gradientWFS)',
-                            interactive: true,
-                        }
-                        break;
-                }
-            }
-
+            //Create regions layer
             map.createPane('pane_Regions_0');
-            map.getPane('pane_Regions_0').style.zIndex = 400;
+            map.getPane('pane_Regions_0').style.zIndex = order.regions;
             map.getPane('pane_Regions_0').style['mix-blend-mode'] = 'normal';
 
             var layer_Regions_0 = new L.geoJson(json_Regions_0, {
@@ -460,98 +147,12 @@
                 onEachFeature: pop_Regions_0,
                 style: style_Regions_0_0,
             });
-
             bounds_group.addLayer(layer_Regions_0);
             map.addLayer(layer_Regions_0);
 
-            function pop_Lanes_1(feature, layer) {
-                var popupContent = '<table>\
-                        <tr>\
-                            <th scope="row">Region</th>\
-                            <td class="visible-with-data" id="Nation">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Lane Status</th>\
-                            <td class="visible-with-data" id="Status">' + (feature.properties['Status'] !== null ? autolinker.link(feature.properties['Status'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Lane Type</th>\
-                            <td class="visible-with-data" id="Type">' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                    </table>';
-                layer.bindPopup(popupContent, {maxHeight: 400});
-                var popup = layer.getPopup();
-                var content = popup.getContent();
-                var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-                popup.setContent(updatedContent);
-            }
-
-            function style_Lanes_1_0(feature) {
-                switch(String(feature.properties['Status'])) {
-                    case 'In Developement':
-                        return {
-                            pane: 'pane_Lanes_1',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'square',
-                            lineJoin: 'bevel',
-                            weight: 3.0,
-                            fillOpacity: 0,
-                            interactive: true,
-                        }
-                        break;
-
-                    case 'Operational':
-                        return {
-                            pane: 'pane_Lanes_1',
-                            opacity: 1,
-                            color: 'rgba(229,229,229,1.0)',
-                            dashArray: '',
-                            lineCap: 'square',
-                            lineJoin: 'bevel',
-                            weight: 3.0,
-                            fillOpacity: 0,
-                            interactive: true,
-                        }
-                        break;
-                }
-            }
-
-            function style_Lanes_1_1(feature) {
-                switch(String(feature.properties['Status'])) {
-                    case 'In Developement':
-                        return {
-                            pane: 'pane_Lanes_1',
-                            opacity: 1,
-                            color: 'rgba(238,238,238,1.0)',
-                            dashArray: '',
-                            lineCap: 'square',
-                            lineJoin: 'bevel',
-                            weight: 2.0,
-                            fillOpacity: 0,
-                            interactive: true,
-                        }
-                        break;
-
-                    case 'Operational':
-                        return {
-                            pane: 'pane_Lanes_1',
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'square',
-                            lineJoin: 'bevel',
-                            weight: 2.0,
-                            fillOpacity: 0,
-                            interactive: true,
-                        }
-                        break;
-                }
-            }
-
+            // Create starlanes layer
             map.createPane('pane_Lanes_1');
-            map.getPane('pane_Lanes_1').style.zIndex = 410;
+            map.getPane('pane_Lanes_1').style.zIndex = order.lanes;
             map.getPane('pane_Lanes_1').style['mix-blend-mode'] = 'normal';
 
             var layer_Lanes_1 = new L.geoJson.multiStyle(json_Lanes_1, {
@@ -563,115 +164,12 @@
                 onEachFeature: pop_Lanes_1,
                 styles: [style_Lanes_1_0,style_Lanes_1_1,]
             });
-
             bounds_group.addLayer(layer_Lanes_1);
             map.addLayer(layer_Lanes_1);
 
-            function pop_Systems_2(feature, layer) {
-                var popupContent = '<table>\
-                        <tr>\
-                            <td id="Regular_Sys" colspan="2">' + ((feature.properties['Capital'] !== null || feature.properties['Core_Sys'] !== null || feature.properties['Idustr_Sys'] !== null || feature.properties['Mining_Sys'] !== null || feature.properties['Fuel_Depot'] !== null || feature.properties['Mt_Base'] !== null) ? '' : 'Regular System') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="visible-with-data" id="Capital" colspan="2">' + (feature.properties['Capital'] !== null ? 'Capital System' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="visible-with-data" id="Core_Sys" colspan="2">' + (feature.properties['Core_Sys'] !== null ? 'Core System' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="visible-with-data" id="Idustr_Sys" colspan="2">' + (feature.properties['Idustr_Sys'] !== null ? 'Industrial System' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="visible-with-data" id="Mining_Sys" colspan="2">' + (feature.properties['Mining_Sys'] !== null ? 'Mining System' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="visible-with-data" id="Fuel_Depot" colspan="2">' + (feature.properties['Fuel_Depot'] !== null ? 'Fuel Depot' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="visible-with-data" id="Mt_Base" colspan="2">' + (feature.properties['Mt_Base'] !== null ? 'Maintenance Base' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="visible-with-data" id="Homeworld" colspan="2">' + (feature.properties['Homeworld'] !== null ? 'Homeworld of Humanity' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <td class="visible-with-data" id="Unsurv_bod" colspan="2">' + (feature.properties['Unsurv_bod'] !== null ? 'Unsurveyed Bodies' : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">System Name</th>\
-                            <td class="visible-with-data" id="System_Nam">' + (feature.properties['System_Nam'] !== null ? autolinker.link(feature.properties['System_Nam'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Star Presence</th>\
-                            <td class="visible-with-data" id="Star_Presc">' + (feature.properties['Star_Presc'] !== '0' ? 'Yes' : 'No') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Region</th>\
-                            <td class="visible-with-data" id="Nation">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Inhabitable Worlds: </th>\
-                            <td class="visible-with-data" id="Inhabitabl">' + (feature.properties['Inhabitabl'] !== null ? autolinker.link(feature.properties['Inhabitabl'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Orbital/Colony on</br>Unhabitable Bodies: </th>\
-                            <td class="visible-with-data" id="Orbtl_Clny">' + (feature.properties['Orbtl_Clny'] !== null ? autolinker.link(feature.properties['Orbtl_Clny'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Minable Bodies/</br>Rogue Planets: </th>\
-                            <td class="visible-with-data" id="Notbl_Minb">' + (feature.properties['Notbl_Minb'] !== null ? autolinker.link(feature.properties['Notbl_Minb'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Unexplored Jump</br>Lanes: </th>\
-                            <td class="visible-with-data" id="Unexplored">' + (feature.properties['Unexplored'] !== null ? autolinker.link(feature.properties['Unexplored'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                    </table>';
-                layer.bindPopup(popupContent, {maxHeight: 600});
-                var popup = layer.getPopup();
-                var content = popup.getContent();
-                var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-                popup.setContent(updatedContent);
-            }
-
-            function style_Systems_2_0(feature) {
-                switch(String(feature.properties['Star_Presc'])) {
-                    case '0':
-                        return {
-                            pane: 'pane_Systems_2',
-                            radius: 8.0,
-                            opacity: 1,
-                            color: 'rgba(231,200,47,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0,
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'rgba(0,0,0,1.0)',
-                            interactive: true,
-                        }
-                        break;
-
-                    case '1':
-                        return {
-                            pane: 'pane_Systems_2',
-                            radius: 8.0,
-                            opacity: 1,
-                            color: 'rgba(35,35,35,1.0)',
-                            dashArray: '',
-                            lineCap: 'butt',
-                            lineJoin: 'miter',
-                            weight: 2.0,
-                            fill: true,
-                            fillOpacity: 1,
-                            fillColor: 'rgba(255,251,1,1.0)',
-                            interactive: true,
-                        }
-                        break;
-                }
-            }
-
+            // Create star systems layer
             map.createPane('pane_Systems_2');
-            map.getPane('pane_Systems_2').style.zIndex = 420;
+            map.getPane('pane_Systems_2').style.zIndex = order.systems;
             map.getPane('pane_Systems_2').style['mix-blend-mode'] = 'normal';
 
             var layer_Systems_2 = new L.geoJson(json_Systems_2, {
@@ -689,149 +187,12 @@
                     return L.circleMarker(latlng, style_Systems_2_0(feature));
                 },
             });
-
             bounds_group.addLayer(layer_Systems_2);
             map.addLayer(layer_Systems_2);
 
-            function pop_Sectors_3(feature, layer) {
-                var popupContent = '<table>\
-                        <tr>\
-                            <td class="visible-with-data" id="Sector" colspan="2">' + (feature.properties['Sector'] !== null ? autolinker.link(feature.properties['Sector'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                    </table>';
-                layer.bindPopup(popupContent, {maxHeight: 400});
-                var popup = layer.getPopup();
-                var content = popup.getContent();
-                var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-                popup.setContent(updatedContent);
-            }
-
-            function style_Sectors_3_0(feature) {
-                switch(String(feature.properties['Sector'])) {
-                    case 'Agrarian Sector':
-                        return {
-                    pane: 'pane_Sectors_3',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(51,160,44,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Consumer Sector':
-                        return {
-                    pane: 'pane_Sectors_3',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(226,110,133,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Autarkic Sector':
-                        return {
-                    pane: 'pane_Sectors_3',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(194,79,30,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Free Planets Alliance':
-                        return {
-                    pane: 'pane_Sectors_3',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(133,158,95,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Frontier Sector':
-                        return {
-                    pane: 'pane_Sectors_3',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(168,211,37,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Industrial Sector':
-                        return {
-                    pane: 'pane_Sectors_3',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(210,43,48,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Research Sector':
-                        return {
-                    pane: 'pane_Sectors_3',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(1,175,255,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Trade Sector':
-                        return {
-                    pane: 'pane_Sectors_3',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(225,190,3,1.0)',
-                    interactive: true,
-                }
-                        break;
-                }
-            }
+            // Create econimic sectors layer
             map.createPane('pane_Sectors_3');
-            map.getPane('pane_Sectors_3').style.zIndex = 405;
+            map.getPane('pane_Sectors_3').style.zIndex = order.sectors;
             map.getPane('pane_Sectors_3').style['mix-blend-mode'] = 'normal';
             var layer_Sectors_3 = new L.geoJson(json_Sectors_3, {
                 attribution: '',
@@ -844,168 +205,9 @@
             });
             bounds_group.addLayer(layer_Sectors_3);
 
-            function pop_Characters_4(feature, layer) {
-                var popupContent = '<table>\
-                        <tr>\
-                            <th scope="row">Character</th>\
-                            <td class="visible-with-data" id="Character">' + (feature.properties['Character'] !== null ? autolinker.link(feature.properties['Character'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Book</th>\
-                            <td class="visible-with-data" id="Book">' + (feature.properties['Book'] !== null ? autolinker.link(feature.properties['Book'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Travel Date</th>\
-                            <td class="visible-with-data" id="Date">' + (feature.properties['Date'] !== null ? autolinker.link(feature.properties['Date'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                    </table>';
-                layer.bindPopup(popupContent, {maxHeight: 400});
-                var popup = layer.getPopup();
-                var content = popup.getContent();
-                var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-                popup.setContent(updatedContent);
-            }
-
-            function style_Characters_4_0(feature) {
-                switch(String(feature.properties['Character'])) {
-                    case 'Abbey':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(0,0,0,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 8.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                    case 'Alex':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(0,0,0,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 8.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                    case 'Elis':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(0,0,0,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 8.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                    case 'Thea':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(0,0,0,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 8.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                    case 'Tia':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(0,0,0,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 8.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                }
-            }
-            function style_Characters_4_1(feature) {
-                switch(String(feature.properties['Character'])) {
-                    case 'Abbey':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(1,175,255,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 6.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                    case 'Alex':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(31,120,180,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 6.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                    case 'Elis':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(210,43,48,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 6.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                    case 'Thea':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(251,255,0,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 6.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                    case 'Tia':
-                        return {
-                    pane: 'pane_Characters_4',
-                    opacity: 1,
-                    color: 'rgba(238,238,238,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 6.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-                        break;
-                }
-            }
+            // Create characters' travels layer
             map.createPane('pane_Characters_4');
-            map.getPane('pane_Characters_4').style.zIndex = 415;
+            map.getPane('pane_Characters_4').style.zIndex = order.characters;
             map.getPane('pane_Characters_4').style['mix-blend-mode'] = 'normal';
             var layer_Characters_4 = new L.geoJson.multiStyle(json_Characters_4, {
                 attribution: '',
@@ -1019,175 +221,9 @@
             bounds_group.addLayer(layer_Characters_4);
             map.addLayer(layer_Characters_4);
 
-            function pop_Diplomacy_6(feature, layer) {
-                var popupContent = '<table>\
-                        <tr>\
-                            <th scope="row">Nation</th>\
-                            <td class="visible-with-data" id="Neighbor">' + (feature.properties['Neighbor'] !== null ? autolinker.link(feature.properties['Neighbor'].toLocaleString()) : '') + '</td>\
-                        </tr>\
-                        <tr>\
-                            <th scope="row">Relation Status</th>\
-                            <td class="visible-with-data" id="Relation">' + (feature.properties['Relation'] !== 'Self' ? autolinker.link(feature.properties['Relation'].toLocaleString()) : 'Our Country') + '</td>\
-                        </tr>\
-                    </table>';
-                layer.bindPopup(popupContent, {maxHeight: 400});
-                var popup = layer.getPopup();
-                var content = popup.getContent();
-                var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-                popup.setContent(updatedContent);
-            }
-
-            function style_Diplomacy_6_0(feature) {
-                switch(String(feature.properties['Relation'])) {
-                    case 'Self':
-                        return {
-                    pane: 'pane_Diplomacy_6',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(19,101,201,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Friendly':
-                        return {
-                    pane: 'pane_Diplomacy_6',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(51,160,44,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Amicable':
-                        return {
-                    pane: 'pane_Diplomacy_6',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(168,211,37,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Neutral':
-                        return {
-                    pane: 'pane_Diplomacy_6',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(157,157,157,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Reserved':
-                        return {
-                    pane: 'pane_Diplomacy_6',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(255,127,0,1.0)',
-                    interactive: true,
-                }
-                        break;
-                    case 'Hostile':
-                        return {
-                    pane: 'pane_Diplomacy_6',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 1.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'rgba(210,43,48,1.0)',
-                    interactive: true,
-                }
-                        break;
-                }
-            }
-            map.createPane('pane_Diplomacy_6');
-            map.getPane('pane_Diplomacy_6').style.zIndex = 430;
-            map.getPane('pane_Diplomacy_6').style['mix-blend-mode'] = 'normal';
-            var layer_Diplomacy_6 = new L.geoJson(json_Diplomacy_6, {
-                attribution: '',
-                interactive: true,
-                dataVar: 'json_Diplomacy_6',
-                layerName: 'layer_Diplomacy_6',
-                pane: 'pane_Diplomacy_6',
-                onEachFeature: pop_Diplomacy_6,
-                style: style_Diplomacy_6_0,
-            });
-            bounds_group.addLayer(layer_Diplomacy_6);
-
-            function pop_Routes_5(feature, layer) {
-                layer.on({
-                    mouseout: function(e) {
-                        if (typeof layer.closePopup == 'function') {
-                            layer.closePopup();
-                        } else {
-                            layer.eachLayer(function(feature){
-                                feature.closePopup()
-                            });
-                        }
-                    },
-                    mouseover: highlightFeature,
-                });
-            }
-
-            function style_Routes_5_0() {
-                return {
-                    pane: 'pane_Routes_5',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 8.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-            }
-            function style_Routes_5_1() {
-                return {
-                    pane: 'pane_Routes_5',
-                    opacity: 1,
-                    color: 'rgba(255,158,23,1.0)',
-                    dashArray: '',
-                    lineCap: 'square',
-                    lineJoin: 'bevel',
-                    weight: 4.0,
-                    fillOpacity: 0,
-                    interactive: true,
-                }
-            }
+            // Create trade routes layer
             map.createPane('pane_Routes_5');
-            map.getPane('pane_Routes_5').style.zIndex = 404;
+            map.getPane('pane_Routes_5').style.zIndex = order.routes;
             map.getPane('pane_Routes_5').style['mix-blend-mode'] = 'normal';
             var layer_Routes_5 = new L.geoJson.multiStyle(json_Routes_5, {
                 attribution: '',
@@ -1199,9 +235,24 @@
                 styles: [style_Routes_5_0,style_Routes_5_1,]
             });
             bounds_group.addLayer(layer_Routes_5);
+
+            // Create diplomacy layer
+            map.createPane('pane_Diplomacy_6');
+            map.getPane('pane_Diplomacy_6').style.zIndex = order.diplomacy;
+            map.getPane('pane_Diplomacy_6').style['mix-blend-mode'] = 'normal';
+            var layer_Diplomacy_6 = new L.geoJson(json_Diplomacy_6, {
+                attribution: '',
+                interactive: true,
+                dataVar: 'json_Diplomacy_6',
+                layerName: 'layer_Diplomacy_6',
+                pane: 'pane_Diplomacy_6',
+                onEachFeature: pop_Diplomacy_6,
+                style: style_Diplomacy_6_0,
+            });
+            bounds_group.addLayer(layer_Diplomacy_6);
             
+            // Create legend
             var baseMaps = {};
-            
             L.control.layers(baseMaps,{
                 '<span class="layer-name">Systems</span><br />\
                 <table>\
@@ -1354,6 +405,13 @@
                                 <td>Hostile</td>\
                             </tr>\
                         </table>': layer_Diplomacy_6,
+
+                        '<table>\
+                            <tr>\
+                                <td style="text-align: center;"><img src="legend/Routes_5.png" /></td>\
+                                <td>Trade Route</td>\
+                            </tr>\
+                        </table>': layer_Routes_5,
             },{collapsed:true}).addTo(map);
             
             map.on("zoomend", function(){
@@ -1383,14 +441,16 @@
                 }
             }
 
+            // Create system search tool
             map.addControl(new L.Control.Search({
-            layer: layer_Systems_2,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'System_Nam'}));
-        document.getElementsByClassName('search-button')[0].className +=
-         ' fa fa-binoculars';
+                layer: layer_Systems_2,
+                initial: false,
+                hideMarkerOnCollapse: true,
+                propertyName: 'System_Nam'
+            }));
+            document.getElementsByClassName('search-button')[0].className += ' fa fa-binoculars';
 
+            // Define website syructure
             var mapDiv = document.getElementById('map');
             mapDiv.style.height = "95%";
 
@@ -1423,6 +483,7 @@
             col1.appendChild(mapTitle)
             col1.appendChild(mapDiv)
             
+            // Define filter variables
             var Filters = {
                 "Orbtl_Clny": "int",
                 "Unexplored": "int",
@@ -1447,6 +508,7 @@
                 "Sector": "str"
             };
             
+            // Main filtering function
             function filterFunc() {
                 map.eachLayer(function(lyr){
                     if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -1527,7 +589,7 @@
                 })
             }
 
-                // Orbital/Colony Slider Filter
+                // Create Orbital/Colony Slider Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var menu_header = document.createElement('div');
@@ -1577,7 +639,7 @@
                     filterFunc()
                 });
                 
-                // Unexplored Lanes Slider Filter
+                // Create Unexplored Lanes Slider Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var lab_Unexplored = document.createElement('div');
@@ -1622,7 +684,7 @@
                     filterFunc()
                 });
 
-                // Minable/Rogue Slider Filter
+                // Create Minable/Rogue Slider Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var lab_Notbl_Minb = document.createElement('div');
@@ -1667,7 +729,7 @@
                     filterFunc()
                 });
 
-                // Inhabitable Planets Slider Filter
+                // Create Inhabitable Planets Slider Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var lab_Inhabitabl = document.createElement('div');
@@ -1712,7 +774,7 @@
                     filterFunc()
                 });
 
-                // Region Select Filter
+                // Create Region Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Nation = document.createElement('div');
@@ -1755,7 +817,7 @@
                 sel_Nation.innerHTML = Nation_options_str;
                 div_Nation.appendChild(sel_Nation);
 
-                // System Star Presence Select Filter
+                // Create System Star Presence Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
                 
                 var div_Star_Presc = document.createElement('div');
@@ -1791,7 +853,7 @@
                 sel_Star_Presc.innerHTML = Star_Presc_options_str;
                 div_Star_Presc.appendChild(sel_Star_Presc);
 
-                // Homeworld Select Filter
+                // Create Homeworld Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Homeworld = document.createElement('div');
@@ -1826,7 +888,7 @@
                 sel_Homeworld.innerHTML = Homeworld_options_str;
                 div_Homeworld.appendChild(sel_Homeworld);
 
-                // Capital System Select Filter
+                // Create Capital System Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Capital = document.createElement('div');
@@ -1861,7 +923,7 @@
                 sel_Capital.innerHTML = Capital_options_str;
                 div_Capital.appendChild(sel_Capital);
 
-                // Core System Select Filter
+                // Create Core System Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Core_Sys = document.createElement('div');
@@ -1895,7 +957,7 @@
                 sel_Core_Sys.innerHTML = Core_Sys_options_str;
                 div_Core_Sys.appendChild(sel_Core_Sys);
 
-                // Mining System Select Filter
+                // Create Mining System Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Mining_Sys = document.createElement('div');
@@ -1930,7 +992,7 @@
                 sel_Mining_Sys.innerHTML = Mining_Sys_options_str;
                 div_Mining_Sys.appendChild(sel_Mining_Sys);
 
-                // Mining System Select Filter
+                // Create Industrial System Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Idustr_Sys = document.createElement('div');
@@ -1965,7 +1027,7 @@
                 sel_Idustr_Sys.innerHTML = Idustr_Sys_options_str;
                 div_Idustr_Sys.appendChild(sel_Idustr_Sys);
 
-                // Fuel Depot in System Select Filter
+                // Create Fuel Depot in System Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Fuel_Depot = document.createElement('div');
@@ -2000,7 +1062,7 @@
                 sel_Fuel_Depot.innerHTML = Fuel_Depot_options_str;
                 div_Fuel_Depot.appendChild(sel_Fuel_Depot);
 
-                // Maintenence Base in System Select Filter
+                // Create Maintenence Base in System Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Mt_Base = document.createElement('div');
@@ -2035,7 +1097,7 @@
                 sel_Mt_Base.innerHTML = Mt_Base_options_str;
                 div_Mt_Base.appendChild(sel_Mt_Base);
                 
-                // Unsurveyed Bodies Select Filter
+                // Create Unsurveyed Bodies Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Unsurv_bod = document.createElement('div');
@@ -2070,7 +1132,7 @@
                 sel_Unsurv_bod.innerHTML = Unsurv_bod_options_str;
                 div_Unsurv_bod.appendChild(sel_Unsurv_bod);
 
-                // New Lane Select Filter
+                // Create New Lane Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_New_Lane = document.createElement('div');
@@ -2105,7 +1167,7 @@
                 sel_New_Lane.innerHTML = New_Lane_options_str;
                 div_New_Lane.appendChild(sel_New_Lane);                
 
-                // Systems Select Filter
+                // Create Systems Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_System_Nam = document.createElement('div');
@@ -2375,7 +1437,7 @@
                 sel_System_Nam.innerHTML = System_Nam_options_str;
                 div_System_Nam.appendChild(sel_System_Nam);
 
-                // Lane Type Select Filter
+                // Create Lane Type Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Type = document.createElement('div');
@@ -2411,7 +1473,7 @@
                 sel_Type.innerHTML = Type_options_str;
                 div_Type.appendChild(sel_Type);
 
-                // Lane Status Select Filter
+                // Create Lane Status Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
 
                 var div_Status = document.createElement('div');
@@ -2447,7 +1509,7 @@
                 sel_Status.innerHTML = Status_options_str;
                 div_Status.appendChild(sel_Status);
 
-            // Character Select Filter
+            // Create Character Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
 
             var div_Character = document.createElement('div');
@@ -2488,7 +1550,7 @@
             sel_Character.selectedIndex = 1;
             sel_Character.dispatchEvent(new Event('change'));
 
-            // Book Volume Select Filter
+            // Create Book Volume Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
 
             var div_Book = document.createElement('div');
@@ -2529,7 +1591,7 @@
             sel_Book.selectedIndex = 0;
             sel_Book.dispatchEvent(new Event('change'));
 
-            // Economic Sector Select Filter
+            // Create Economic Sector Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
 
             var div_Sector = document.createElement('div');
@@ -2571,6 +1633,7 @@
             sel_Sector.innerHTML = Sector_options_str;
             div_Sector.appendChild(sel_Sector);
 
+            // ?
             resetLabels([layer_Regions_0,layer_Systems_2]);
             map.on("zoomend", function(){
                 resetLabels([layer_Regions_0,layer_Systems_2]);
