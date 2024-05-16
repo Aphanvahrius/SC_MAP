@@ -461,7 +461,7 @@ function style_Characters_4_1(feature) {
             return {
         pane: 'pane_Characters_4',
         opacity: 1,
-        color: 'rgba(31,120,180,1.0)',
+        color: 'rgba(10,70,130,1.0)',
         dashArray: '',
         lineCap: 'square',
         lineJoin: 'bevel',

@@ -9,8 +9,8 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
 
         <link rel="stylesheet" href="css/specialElements.css">
-        <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/filter.css">
@@ -44,11 +44,6 @@
     <body style="background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e); color: #eeeefe; text-shadow: 0.2px 0.1px 1px rgba(80, 80, 80, 0.8); overflow: hidden;">
         <div id="map"></div>
 
-        <!--<script src="js/qgis2web_expressions.js"></script>
-            <script src="js/leaflet.rotatedMarker.js"></script>
-            <script src="js/leaflet.pattern.js"></script>
-            <script src="js/tailDT.js"></script>
-            -->
         <script src="js/leaflet.js"></script>
         <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -71,41 +66,30 @@
         <script src="js/gradient-definitions.js"></script>
         <script src="js/layer-styles.js"></script>
         <script src="js/general-functions.js"></script>
+        <script src="js/controls.js"></script>
 
         <svg width="0" height="0" style="position:absolute;"><defs></defs></svg>
 
         <script>
             // Create map
-            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10, zoom:11};
+            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:10.5};
             var map = L.map('map', zoomOptions);
 
             var hash = new L.Hash(map);
 
             // Coords popup
-            map.on('click', display_Coords);
+            // map.on('click', display_Coords);
 
             // Create attributions
             map.attributionControl.setPrefix('\
                 <a href="https://github.com/tomchadwin/qgis2web" target="_blank" rel="noopener noreferrer">qgis2web</a> &middot;\
                 <a href="https://leafletjs.com" title="A JS library for interactive maps" target="_blank" rel="noopener noreferrer">Leaflet</a> &middot;\
                 <a href="https://qgis.org" target="_blank" rel="noopener noreferrer">QGIS</a> &middot;\
-                <a href="https://www.royalroad.com/fiction/41463/shipcore" target="_blank" rel="noopener noreferrer">ShipCore</a>'
-            );
+                <a href="https://www.royalroad.com/fiction/41463/shipcore" target="_blank" rel="noopener noreferrer">ShipCore</a>',
+            {position: null});
 
             // Create autolinker
-            var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
-
-            // Add distance/area measuring tool
-            var measureControl = new L.Control.Measure({
-                position: 'topleft',
-                primaryLengthUnit: 'meters',
-                secondaryLengthUnit: 'kilometers',
-                primaryAreaUnit: 'sqmeters',
-                secondaryAreaUnit: 'hectares'
-            });
-            measureControl.addTo(map);
-            document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
-            document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
+            var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});       
 
             //Create bounds group
             var bounds_group = new L.featureGroup([]);
@@ -123,14 +107,14 @@
             gradientDefs.appendChild(gradientStyleGS());
 
             // Set layer order
-            var order = {
-                regions: 400,
-                sectors: 410,
-                lanes: 420,
-                routes: 430,
-                characters: 440,
-                systems: 450,
-                diplomacy: 460
+            const order = {
+                regions: 300,
+                sectors: 310,
+                lanes: 320,
+                routes: 330,
+                characters: 340,
+                systems: 350,
+                diplomacy: 315
             };
 
             //Create regions layer
@@ -194,6 +178,7 @@
             map.createPane('pane_Sectors_3');
             map.getPane('pane_Sectors_3').style.zIndex = order.sectors;
             map.getPane('pane_Sectors_3').style['mix-blend-mode'] = 'normal';
+
             var layer_Sectors_3 = new L.geoJson(json_Sectors_3, {
                 attribution: '',
                 interactive: true,
@@ -209,6 +194,7 @@
             map.createPane('pane_Characters_4');
             map.getPane('pane_Characters_4').style.zIndex = order.characters;
             map.getPane('pane_Characters_4').style['mix-blend-mode'] = 'normal';
+
             var layer_Characters_4 = new L.geoJson.multiStyle(json_Characters_4, {
                 attribution: '',
                 interactive: true,
@@ -225,6 +211,7 @@
             map.createPane('pane_Routes_5');
             map.getPane('pane_Routes_5').style.zIndex = order.routes;
             map.getPane('pane_Routes_5').style['mix-blend-mode'] = 'normal';
+
             var layer_Routes_5 = new L.geoJson.multiStyle(json_Routes_5, {
                 attribution: '',
                 interactive: true,
@@ -240,6 +227,7 @@
             map.createPane('pane_Diplomacy_6');
             map.getPane('pane_Diplomacy_6').style.zIndex = order.diplomacy;
             map.getPane('pane_Diplomacy_6').style['mix-blend-mode'] = 'normal';
+
             var layer_Diplomacy_6 = new L.geoJson(json_Diplomacy_6, {
                 attribution: '',
                 interactive: true,
@@ -250,10 +238,25 @@
                 style: style_Diplomacy_6_0,
             });
             bounds_group.addLayer(layer_Diplomacy_6);
+
+            // Create system search tool
+            map.addControl(new L.Control.Search({
+                layer: layer_Systems_2,
+                initial: false,
+                hideMarkerOnCollapse: true,
+                propertyName: 'System_Nam'
+            }));
+            document.getElementsByClassName('search-button')[0].className += ' fa fa-binoculars';
+            
+            // Create distance/area measuring tool
+            measureControl.addTo(map);
+            document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
+            document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';  
             
             // Create legend
             var baseMaps = {};
-            L.control.layers(baseMaps,{
+
+            var pointOverlays = {
                 '<span class="layer-name">Systems</span><br />\
                 <table>\
                     <tr>\
@@ -264,20 +267,16 @@
                         <td style="text-align: center;"><img src="legend/Systems_2_00.png" /></td>\
                         <td>System With No Star</td>\
                     </tr>\
-                </table>': layer_Systems_2,
+                </table>': layer_Systems_2
+            }
+            var pointControl = new L.control.layers(null, pointOverlays,{
+                position: 'bottomleft',
+                collapsed:false,
+            });
+            pointControl.addTo(map);
+            
 
-                '<span class="layer-name">Lanes</span><br />\
-                <table>\
-                    <tr>\
-                        <td style="text-align: center;"><img src="legend/Lanes_1_InDevelopement0.png" /></td>\
-                        <td>In Developement</td>\
-                    </tr>\
-                    <tr>\
-                        <td style="text-align: center;"><img src="legend/Lanes_1_Operational1.png" /></td>\
-                        <td>Operational</td>\
-                    </tr>\
-                </table>': layer_Lanes_1,
-
+            var polygonOverlays = {
                 '<span class="layer-name">Regions</span><br />\
                 <table>\
                     <tr>\
@@ -318,6 +317,89 @@
                     </tr>\
                 </table>': layer_Regions_0,
 
+                '<span class="layer-name">Diplomacy</span><br />\
+                <table>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Diplomacy_6_Self0.png" /></td>\
+                        <td>Self</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Diplomacy_6_Friendly1.png" /></td>\
+                        <td>Friendly</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Diplomacy_6_Amicable2.png" /></td>\
+                        <td>Amicable</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Diplomacy_6_Neutral3.png" /></td>\
+                        <td>Neutral</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Diplomacy_6_Reserved4.png" /></td>\
+                        <td>Reserved</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Diplomacy_6_Hostile5.png" /></td>\
+                        <td>Hostile</td>\
+                    </tr>\
+                </table>': layer_Diplomacy_6,                
+
+                '<span class="layer-name">Economic Sectors</span><br />\
+                <table>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Sectors_3_AgrarianSector0.png" /></td>\
+                        <td>Agrarian Sector</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Sectors_3_ConsumerSector1.png" /></td>\
+                        <td>Consumer Sector</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Sectors_3_AutarkicSector2.png" /></td>\
+                        <td>Autarkic Sector</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Sectors_3_FreePlanetsAlliance3.png" /></td>\
+                        <td>Free Planets Alliance</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Sectors_3_FrontierSector4.png" /></td>\
+                        <td>Frontier Sector</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Sectors_3_IndustrialSector5.png" /></td>\
+                        <td>Industrial Sector</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Sectors_3_ResearchSector6.png" /></td>\
+                        <td>Research Sector</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Sectors_3_TradeSector7.png" /></td>\
+                        <td>Trade Sector</td>\
+                    </tr>\
+                </table>': layer_Sectors_3,
+            }
+            var polygonControl = new L.control.layers(baseMaps,polygonOverlays,{
+                position: 'topright',
+                collapsed: false
+            });
+            polygonControl.addTo(map);
+
+            var lineOverlays = {
+                '<span class="layer-name">Lanes</span><br />\
+                <table>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Lanes_1_InDevelopement0.png" /></td>\
+                        <td>In Developement</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Lanes_1_Operational1.png" /></td>\
+                        <td>Operational</td>\
+                    </tr>\
+                </table>': layer_Lanes_1,
+
                 '<span class="layer-name">Character Journey</span><br />\
                 <table>\
                     <tr>\
@@ -341,78 +423,12 @@
                         <td>Tia</td>\
                     </tr>\
                 </table>': layer_Characters_4,
-
-                '<span class="layer-name">Economic Sectors</span><br />\
-                    <table>\
-                        <tr>\
-                            <td style="text-align: center;"><img src="legend/Sectors_3_AgrarianSector0.png" /></td>\
-                            <td>Agrarian Sector</td>\
-                        </tr>\
-                        <tr>\
-                            <td style="text-align: center;"><img src="legend/Sectors_3_ConsumerSector1.png" /></td>\
-                            <td>Consumer Sector</td>\
-                        </tr>\
-                        <tr>\
-                            <td style="text-align: center;"><img src="legend/Sectors_3_AutarkicSector2.png" /></td>\
-                            <td>Autarkic Sector</td>\
-                        </tr>\
-                        <tr>\
-                            <td style="text-align: center;"><img src="legend/Sectors_3_FreePlanetsAlliance3.png" /></td>\
-                            <td>Free Planets Alliance</td>\
-                        </tr>\
-                        <tr>\
-                            <td style="text-align: center;"><img src="legend/Sectors_3_FrontierSector4.png" /></td>\
-                            <td>Frontier Sector</td>\
-                        </tr>\
-                        <tr>\
-                            <td style="text-align: center;"><img src="legend/Sectors_3_IndustrialSector5.png" /></td>\
-                            <td>Industrial Sector</td>\
-                        </tr>\
-                        <tr>\
-                            <td style="text-align: center;"><img src="legend/Sectors_3_ResearchSector6.png" /></td>\
-                            <td>Research Sector</td>\
-                        </tr>\
-                        <tr>\
-                            <td style="text-align: center;"><img src="legend/Sectors_3_TradeSector7.png" /></td>\
-                            <td>Trade Sector</td>\
-                        </tr>\
-                    </table>': layer_Sectors_3,
-
-                    '<span class="layer-name">Diplomacy</span><br />\
-                        <table>\
-                            <tr>\
-                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Self0.png" /></td>\
-                                <td>Self</td>\
-                            </tr>\
-                            <tr>\
-                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Friendly1.png" /></td>\
-                                <td>Friendly</td>\
-                            </tr>\
-                            <tr>\
-                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Amicable2.png" /></td>\
-                                <td>Amicable</td>\
-                            </tr>\
-                            <tr>\
-                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Neutral3.png" /></td>\
-                                <td>Neutral</td>\
-                            </tr>\
-                            <tr>\
-                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Reserved4.png" /></td>\
-                                <td>Reserved</td>\
-                            </tr>\
-                            <tr>\
-                                <td style="text-align: center;"><img src="legend/Diplomacy_6_Hostile5.png" /></td>\
-                                <td>Hostile</td>\
-                            </tr>\
-                        </table>': layer_Diplomacy_6,
-
-                        '<table>\
-                            <tr>\
-                                <td style="text-align: center;"><img src="legend/Routes_5.png" /></td>\
-                                <td>Trade Route</td>\
-                            </tr>\
-                        </table>': layer_Routes_5,
-            },{collapsed:true}).addTo(map);
+            }
+            var lineControl = new L.control.layers(baseMaps,lineOverlays,{
+                position: 'topleft',
+                collapsed: true
+            });
+            lineControl.addTo(map);
             
             map.on("zoomend", function(){
                 if (map.hasLayer(layer_Systems_2)) {
@@ -441,19 +457,7 @@
                 }
             }
 
-            // Create system search tool
-            map.addControl(new L.Control.Search({
-                layer: layer_Systems_2,
-                initial: false,
-                hideMarkerOnCollapse: true,
-                propertyName: 'System_Nam'
-            }));
-            document.getElementsByClassName('search-button')[0].className += ' fa fa-binoculars';
-
             // Define website syructure
-            var mapDiv = document.getElementById('map');
-            mapDiv.style.height = "95%";
-
             var row = document.createElement('div');
             row.className="row";
             row.id="all";
@@ -471,6 +475,8 @@
             col2.id = "menu";
             col2.style.display = "inline-block";
 
+            var mapDiv = document.getElementById('map');
+            mapDiv.style.height = "95%";
             mapDiv.parentNode.insertBefore(row, mapDiv);
             document.getElementById("all").appendChild(col1);
             document.getElementById("all").appendChild(col2);
@@ -491,13 +497,6 @@
                 "Inhabitabl": "int",
                 "Nation": "str",
                 "Star_Presc": "str",
-                "Homeworld": "str",
-                "Capital": "str",
-                "Core_Sys": "str",
-                "Mining_Sys": "str",
-                "Idustr_Sys": "str",
-                "Fuel_Depot": "str",
-                "Mt_Base": "str",
                 "Unsurv_bod": "str",
                 "New_Lane": "str",
                 "System_Nam": "str",
@@ -787,7 +786,7 @@
                 sel_Nation.id = "sel_Nation";
 
                 var lab_Nation = document.createElement('div');
-                lab_Nation.innerHTML = 'REGIONS';
+                lab_Nation.innerHTML = 'REGIONS / DIPLOMACY';
                 lab_Nation.className = 'filterlabel';
                 div_Nation.appendChild(lab_Nation);
 
@@ -852,250 +851,6 @@
                 Star_Presc_options_str  += '<option value="0">NO</option>';
                 sel_Star_Presc.innerHTML = Star_Presc_options_str;
                 div_Star_Presc.appendChild(sel_Star_Presc);
-
-                // Create Homeworld Select Filter
-                document.getElementById("menu").appendChild(document.createElement("div"));
-
-                var div_Homeworld = document.createElement('div');
-                div_Homeworld.id = "div_Homeworld";
-                div_Homeworld.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Homeworld);
-                sel_Homeworld = document.createElement('select');
-                sel_Homeworld.multiple = true;
-                sel_Homeworld.size = 1;
-                sel_Homeworld.id = "sel_Homeworld";
-
-                var lab_Homeworld = document.createElement('div');
-                lab_Homeworld.innerHTML = 'HOMEWORLD OF HUMANITY';
-                lab_Homeworld.className = 'filterlabel';
-                div_Homeworld.appendChild(lab_Homeworld);
-
-                var reset_Homeworld = document.createElement('div');
-                reset_Homeworld.innerHTML = 'clear filter';
-                reset_Homeworld.className = 'filterlabel';
-                reset_Homeworld.onclick = function() {
-                    var options = document.getElementById("sel_Homeworld").options;
-                    for (var i=0; i < options.length; i++) {
-                        options[i].selected = false;
-                    }
-                    filterFunc();
-                };
-                div_Homeworld.appendChild(reset_Homeworld);
-
-                var Homeworld_options_str = "";
-                sel_Homeworld.onchange = function(){filterFunc()};
-                Homeworld_options_str  += '<option value="1">SHOW</option>';
-                sel_Homeworld.innerHTML = Homeworld_options_str;
-                div_Homeworld.appendChild(sel_Homeworld);
-
-                // Create Capital System Select Filter
-                document.getElementById("menu").appendChild(document.createElement("div"));
-
-                var div_Capital = document.createElement('div');
-                div_Capital.id = "div_Capital";
-                div_Capital.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Capital);
-                sel_Capital = document.createElement('select');
-                sel_Capital.multiple = true;
-                sel_Capital.size = 1;
-                sel_Capital.id = "sel_Capital";
-
-                var lab_Capital = document.createElement('div');
-                lab_Capital.innerHTML = 'CAPITAL SYSTEMS';
-                lab_Capital.className = 'filterlabel';
-                div_Capital.appendChild(lab_Capital);
-
-                var reset_Capital = document.createElement('div');
-                reset_Capital.innerHTML = 'clear filter';
-                reset_Capital.className = 'filterlabel';
-                reset_Capital.onclick = function() {
-                    var options = document.getElementById("sel_Capital").options;
-                    for (var i=0; i < options.length; i++) {
-                        options[i].selected = false;
-                    }
-                    filterFunc();
-                };
-                div_Capital.appendChild(reset_Capital);
-
-                var Capital_options_str = "";
-                sel_Capital.onchange = function(){filterFunc()};
-                Capital_options_str  += '<option value="1">SHOW</option>';
-                sel_Capital.innerHTML = Capital_options_str;
-                div_Capital.appendChild(sel_Capital);
-
-                // Create Core System Select Filter
-                document.getElementById("menu").appendChild(document.createElement("div"));
-
-                var div_Core_Sys = document.createElement('div');
-                div_Core_Sys.id = "div_Core_Sys";
-                div_Core_Sys.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Core_Sys);
-                sel_Core_Sys = document.createElement('select');
-                sel_Core_Sys.multiple = true;
-                sel_Core_Sys.size = 1;
-                sel_Core_Sys.id = "sel_Core_Sys";
-
-                var lab_Core_Sys = document.createElement('div');
-                lab_Core_Sys.innerHTML = 'CORE SYSTEMS';
-                lab_Core_Sys.className = 'filterlabel';
-                div_Core_Sys.appendChild(lab_Core_Sys);
-                var reset_Core_Sys = document.createElement('div');
-                reset_Core_Sys.innerHTML = 'clear filter';
-                reset_Core_Sys.className = 'filterlabel';
-                reset_Core_Sys.onclick = function() {
-                    var options = document.getElementById("sel_Core_Sys").options;
-                    for (var i=0; i < options.length; i++) {
-                        options[i].selected = false;
-                    }
-                    filterFunc();
-                };
-                div_Core_Sys.appendChild(reset_Core_Sys);
-
-                var Core_Sys_options_str = "";
-                sel_Core_Sys.onchange = function(){filterFunc()};
-                Core_Sys_options_str  += '<option value="1">SHOW</option>';
-                sel_Core_Sys.innerHTML = Core_Sys_options_str;
-                div_Core_Sys.appendChild(sel_Core_Sys);
-
-                // Create Mining System Select Filter
-                document.getElementById("menu").appendChild(document.createElement("div"));
-
-                var div_Mining_Sys = document.createElement('div');
-                div_Mining_Sys.id = "div_Mining_Sys";
-                div_Mining_Sys.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Mining_Sys);
-                sel_Mining_Sys = document.createElement('select');
-                sel_Mining_Sys.multiple = true;
-                sel_Mining_Sys.size = 1;
-                sel_Mining_Sys.id = "sel_Mining_Sys";
-
-                var lab_Mining_Sys = document.createElement('div');
-                lab_Mining_Sys.innerHTML = 'MINING SYSTEMS';
-                lab_Mining_Sys.className = 'filterlabel';
-                div_Mining_Sys.appendChild(lab_Mining_Sys);
-
-                var reset_Mining_Sys = document.createElement('div');
-                reset_Mining_Sys.innerHTML = 'clear filter';
-                reset_Mining_Sys.className = 'filterlabel';
-                reset_Mining_Sys.onclick = function() {
-                    var options = document.getElementById("sel_Mining_Sys").options;
-                    for (var i=0; i < options.length; i++) {
-                        options[i].selected = false;
-                    }
-                    filterFunc();
-                };
-                div_Mining_Sys.appendChild(reset_Mining_Sys);
-
-                var Mining_Sys_options_str = "";
-                sel_Mining_Sys.onchange = function(){filterFunc()};
-                Mining_Sys_options_str  += '<option value="1">SHOW</option>';
-                sel_Mining_Sys.innerHTML = Mining_Sys_options_str;
-                div_Mining_Sys.appendChild(sel_Mining_Sys);
-
-                // Create Industrial System Select Filter
-                document.getElementById("menu").appendChild(document.createElement("div"));
-
-                var div_Idustr_Sys = document.createElement('div');
-                div_Idustr_Sys.id = "div_Idustr_Sys";
-                div_Idustr_Sys.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Idustr_Sys);
-                sel_Idustr_Sys = document.createElement('select');
-                sel_Idustr_Sys.multiple = true;
-                sel_Idustr_Sys.size = 1;
-                sel_Idustr_Sys.id = "sel_Idustr_Sys";
-
-                var lab_Idustr_Sys = document.createElement('div');
-                lab_Idustr_Sys.innerHTML = 'INDUSTRIAL SYSTEMS';
-                lab_Idustr_Sys.className = 'filterlabel';
-                div_Idustr_Sys.appendChild(lab_Idustr_Sys);
-                
-                var reset_Idustr_Sys = document.createElement('div');
-                reset_Idustr_Sys.innerHTML = 'clear filter';
-                reset_Idustr_Sys.className = 'filterlabel';
-                reset_Idustr_Sys.onclick = function() {
-                    var options = document.getElementById("sel_Idustr_Sys").options;
-                    for (var i=0; i < options.length; i++) {
-                        options[i].selected = false;
-                    }
-                    filterFunc();
-                };
-                div_Idustr_Sys.appendChild(reset_Idustr_Sys);
-
-                var Idustr_Sys_options_str = "";
-                sel_Idustr_Sys.onchange = function(){filterFunc()};
-                Idustr_Sys_options_str  += '<option value="1">SHOW</option>';
-                sel_Idustr_Sys.innerHTML = Idustr_Sys_options_str;
-                div_Idustr_Sys.appendChild(sel_Idustr_Sys);
-
-                // Create Fuel Depot in System Select Filter
-                document.getElementById("menu").appendChild(document.createElement("div"));
-
-                var div_Fuel_Depot = document.createElement('div');
-                div_Fuel_Depot.id = "div_Fuel_Depot";
-                div_Fuel_Depot.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Fuel_Depot);
-                sel_Fuel_Depot = document.createElement('select');
-                sel_Fuel_Depot.multiple = true;
-                sel_Fuel_Depot.size = 1;
-                sel_Fuel_Depot.id = "sel_Fuel_Depot";
-
-                var lab_Fuel_Depot = document.createElement('div');
-                lab_Fuel_Depot.innerHTML = 'FUEL DEPOTS';
-                lab_Fuel_Depot.className = 'filterlabel';
-                div_Fuel_Depot.appendChild(lab_Fuel_Depot);
-
-                var reset_Fuel_Depot = document.createElement('div');
-                reset_Fuel_Depot.innerHTML = 'clear filter';
-                reset_Fuel_Depot.className = 'filterlabel';
-                reset_Fuel_Depot.onclick = function() {
-                    var options = document.getElementById("sel_Fuel_Depot").options;
-                    for (var i=0; i < options.length; i++) {
-                        options[i].selected = false;
-                    }
-                    filterFunc();
-                };
-                div_Fuel_Depot.appendChild(reset_Fuel_Depot);
-
-                var Fuel_Depot_options_str = "";
-                sel_Fuel_Depot.onchange = function(){filterFunc()};
-                Fuel_Depot_options_str  += '<option value="1">SHOW</option>';
-                sel_Fuel_Depot.innerHTML = Fuel_Depot_options_str;
-                div_Fuel_Depot.appendChild(sel_Fuel_Depot);
-
-                // Create Maintenence Base in System Select Filter
-                document.getElementById("menu").appendChild(document.createElement("div"));
-
-                var div_Mt_Base = document.createElement('div');
-                div_Mt_Base.id = "div_Mt_Base";
-                div_Mt_Base.className= "filterselect";
-                document.getElementById("menu").appendChild(div_Mt_Base);
-                sel_Mt_Base = document.createElement('select');
-                sel_Mt_Base.multiple = true;
-                sel_Mt_Base.size = 1;
-                sel_Mt_Base.id = "sel_Mt_Base";
-
-                var lab_Mt_Base = document.createElement('div');
-                lab_Mt_Base.innerHTML = 'MAINTENENCE BASES';
-                lab_Mt_Base.className = 'filterlabel';
-                div_Mt_Base.appendChild(lab_Mt_Base);
-
-                var reset_Mt_Base = document.createElement('div');
-                reset_Mt_Base.innerHTML = 'clear filter';
-                reset_Mt_Base.className = 'filterlabel';
-                reset_Mt_Base.onclick = function() {
-                    var options = document.getElementById("sel_Mt_Base").options;
-                    for (var i=0; i < options.length; i++) {
-                        options[i].selected = false;
-                    }
-                    filterFunc();
-                };
-                div_Mt_Base.appendChild(reset_Mt_Base);
-
-                var Mt_Base_options_str = "";
-                sel_Mt_Base.onchange = function(){filterFunc()};
-                Mt_Base_options_str  += '<option value="1">SHOW</option>';
-                sel_Mt_Base.innerHTML = Mt_Base_options_str;
-                div_Mt_Base.appendChild(sel_Mt_Base);
                 
                 // Create Unsurveyed Bodies Select Filter
                 document.getElementById("menu").appendChild(document.createElement("div"));
@@ -1547,8 +1302,8 @@
             Character_options_str  += '<option value="Tia">Tia</option>';
             sel_Character.innerHTML = Character_options_str;
             div_Character.appendChild(sel_Character);
-            sel_Character.selectedIndex = 1;
-            sel_Character.dispatchEvent(new Event('change'));
+            sel_Character.selectedIndex = 1; // Set default displayed character to MC
+            sel_Character.dispatchEvent(new Event('change')); 
 
             // Create Book Volume Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
@@ -1559,7 +1314,7 @@
             document.getElementById("menu").appendChild(div_Book);
             sel_Book = document.createElement('select');
             sel_Book.multiple = true;
-            sel_Book.size = 5;
+            sel_Book.size = 4;
             sel_Book.id = "sel_Book";
 
             var lab_Book = document.createElement('div');
@@ -1585,11 +1340,12 @@
             Book_options_str  += '<option value="A2">A2</option>';
             Book_options_str  += '<option value="A3">A3</option>';
             Book_options_str  += '<option value="A4">A4</option>';
-            Book_options_str  += '<option value="A5">A5</option>';
             sel_Book.innerHTML = Book_options_str;
             div_Book.appendChild(sel_Book);
-            sel_Book.selectedIndex = 0;
+            sel_Book.selectedIndex = 0; // Limit the default displayed scope to first book
             sel_Book.dispatchEvent(new Event('change'));
+            map.removeLayer(layer_Characters_4); // Hide the layer after setting default displays for character and book
+
 
             // Create Economic Sector Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
@@ -1644,6 +1400,9 @@
             map.on("layerremove", function(){
                 resetLabels([layer_Regions_0,layer_Systems_2]);
             });
+
+            // Center map
+            map.setView([0.3, 0.6], 10.5);
         </script>
     </body>
 </html>

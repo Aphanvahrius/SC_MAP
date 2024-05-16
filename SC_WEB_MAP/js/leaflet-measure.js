@@ -4003,7 +4003,7 @@ i18n.prototype = {
 				console.log('creating locales dir in: ' + this.directory);
 			}
 
-			fs.mkdirSync(this.directory, 0755);
+			fs.mkdirSync(this.directory, 0o755);
 		}
 
 		// Initialize the locale if didn't exist already
@@ -6357,6 +6357,7 @@ module.exports = {
   hide: hide,    // `hide(someElement)` - hide passed dom element
   show: show     // `show(someElement)` - show passed dom element
 };
+
 },{}],25:[function(require,module,exports){
 // ca.js
 // Catalan i18n translations
@@ -6556,15 +6557,16 @@ module.exports = {
   'delete': 'Delete',
   'acres': 'Acres',
   'feet': 'Feet',
-  'kilometers': 'Kilometers',
+  'kilometers': 'Light Years',
   'hectares': 'Hectares',
   'meters': 'Meters',
   'miles': 'Miles',
   'sqfeet': 'Sq Feet',
   'sqmeters': 'Sq Meters',
+  'sqkilometers': 'Square Light Years',
   'sqmiles': 'Sq Miles',
   'decPoint': '.',
-  'thousandsSep': ','
+  'thousandsSep': ' '
 };
 
 },{}],31:[function(require,module,exports){
@@ -7039,11 +7041,135 @@ var $ = dom.$;
 var Symbology = require('./mapsymbology');
 
 
-var controlTemplate = _.template("<a class=\"<%= model.className %>-toggle js-toggle\" href=\"#\" title=\"<%= i18n.__('measureDistancesAndAreas') %>\"><%= i18n.__('measure') %></a>\n<div class=\"<%= model.className %>-interaction js-interaction\">\n  <div class=\"js-startprompt startprompt\">\n    <h3><%= i18n.__('measureDistancesAndAreas') %></h3>\n    <ul class=\"tasks\">\n      <a href=\"#\" class=\"js-start start\"><%= i18n.__('createNewMeasurement') %></a>\n    </ul>\n  </div>\n  <div class=\"js-measuringprompt\">\n    <h3><%= i18n.__('measureDistancesAndAreas') %></h3>\n    <p class=\"js-starthelp\"><%= i18n.__('startCreating') %></p>\n    <div class=\"js-results results\"></div>\n    <ul class=\"js-measuretasks tasks\">\n      <li><a href=\"#\" class=\"js-cancel cancel\"><%= i18n.__('cancel') %></a></li>\n      <li><a href=\"#\" class=\"js-finish finish\"><%= i18n.__('finishMeasurement') %></a></li>\n    </ul>\n  </div>\n</div>");
-var resultsTemplate = _.template("<div class=\"group\">\n<p class=\"lastpoint heading\"><%= i18n.__('lastPoint') %></p>\n<p><%= model.lastCoord.dms.y %> <span class=\"coorddivider\">/</span> <%= model.lastCoord.dms.x %></p>\n<p><%= humanize.numberFormat(model.lastCoord.dd.y, 6) %> <span class=\"coorddivider\">/</span> <%= humanize.numberFormat(model.lastCoord.dd.x, 6) %></p>\n</div>\n<% if (model.pointCount > 1) { %>\n<div class=\"group\">\n<p><span class=\"heading\"><%= i18n.__('pathDistance') %></span> <%= model.lengthDisplay %></p>\n</div>\n<% } %>\n<% if (model.pointCount > 2) { %>\n<div class=\"group\">\n<p><span class=\"heading\"><%= i18n.__('area') %></span> <%= model.areaDisplay %></p>\n</div>\n<% } %>");
-var pointPopupTemplate = _.template("<h3><%= i18n.__('pointLocation') %></h3>\n<p><%= model.lastCoord.dms.y %> <span class=\"coorddivider\">/</span> <%= model.lastCoord.dms.x %></p>\n<p><%= humanize.numberFormat(model.lastCoord.dd.y, 6) %> <span class=\"coorddivider\">/</span> <%= humanize.numberFormat(model.lastCoord.dd.x, 6) %></p>\n<ul class=\"tasks\">\n  <li><a href=\"#\" class=\"js-zoomto zoomto\"><%= i18n.__('centerOnLocation') %></a></li>\n  <li><a href=\"#\" class=\"js-deletemarkup deletemarkup\"><%= i18n.__('delete') %></a></li>\n</ul>");
-var linePopupTemplate = _.template("<h3><%= i18n.__('linearMeasurement') %></h3>\n<p><%= model.lengthDisplay %></p>\n<ul class=\"tasks\">\n  <li><a href=\"#\" class=\"js-zoomto zoomto\"><%= i18n.__('centerOnLine') %></a></li>\n  <li><a href=\"#\" class=\"js-deletemarkup deletemarkup\"><%= i18n.__('delete') %></a></li>\n</ul>");
-var areaPopupTemplate = _.template("<h3><%= i18n.__('areaMeasurement') %></h3>\n<p><%= model.areaDisplay %></p>\n<p><%= model.lengthDisplay %> <%= i18n.__('perimeter') %></p>\n<ul class=\"tasks\">\n  <li><a href=\"#\" class=\"js-zoomto zoomto\"><%= i18n.__('centerOnArea') %></a></li>\n  <li><a href=\"#\" class=\"js-deletemarkup deletemarkup\"><%= i18n.__('delete') %></a></li>\n</ul>");
+var controlTemplate = _.template("\
+  <a\
+  class=\"<%= model.className %>-toggle js-toggle\"\
+  href=\"#\"\
+  title=\"<%= i18n.__('measureDistancesAndAreas') %>\">\
+    <%= i18n.__('measure') %>\
+  </a>\n\
+  <div class=\"<%= model.className %>-interaction js-interaction\">\n\
+    <div class=\"js-startprompt startprompt\">\n\
+      <h3>\
+        <%= i18n.__('measureDistancesAndAreas') %>\
+      </h3>\n\
+      <ul class=\"tasks\">\n\
+        <a href=\"#\" class=\"js-start start\">\
+          <%= i18n.__('createNewMeasurement') %>\
+        </a>\n\
+      </ul>\n\
+    </div>\n\
+    <div class=\"js-measuringprompt\">\n\
+      <h3>\
+        <%= i18n.__('measureDistancesAndAreas') %>\
+      </h3>\n\
+        <p class=\"js-starthelp\">\
+          <%= i18n.__('startCreating') %>\
+        </p>\n\
+      <div class=\"js-results results\">\
+      </div>\n\
+      <ul class=\"js-measuretasks tasks\">\n\
+        <li>\
+          <a href=\"#\" class=\"js-cancel cancel\">\
+            <%= i18n.__('cancel') %>\
+          </a>\
+        </li>\n\
+        <li>\
+          <a href=\"#\" class=\"js-finish finish\">\
+            <%= i18n.__('finishMeasurement') %>\
+          </a>\
+        </li>\n\
+      </ul>\n\
+    </div>\n\
+  </div>"
+);
+
+var resultsTemplate = _.template("\
+  <% if (model.pointCount > 1) { %>\n\
+    <div class=\"group\">\n\
+      <p>\
+        <span class=\"heading\">\
+          <%= i18n.__('pathDistance') %>\
+        </span>\
+        <%= model.lengthDisplay %>\
+      </p>\n\
+    </div>\n\
+  <% } %>\n\
+  <% if (model.pointCount > 2) { %>\n\
+    <div class=\"group\">\n\
+      <p>\
+        <span class=\"heading\">\
+          <%= i18n.__('area') %>\
+        </span>\
+        <%= model.areaDisplay %>\
+      </p>\n\
+    </div>\n\
+  <% } %>"
+);
+
+var pointPopupTemplate = _.template("\
+  <h3>\
+    <%= i18n.__('pointLocation') %>\
+  </h3>\n\
+  <ul class=\"tasks\">\n\
+    <li>\
+      <a href=\"#\" class=\"js-zoomto zoomto\">\
+        <%= i18n.__('centerOnLocation') %>\
+      </a>\
+    </li>\n\
+    <li>\
+      <a href=\"#\" class=\"js-deletemarkup deletemarkup\">\
+        <%= i18n.__('delete') %>\
+      </a>\
+    </li>\n\
+  </ul>"
+);
+
+var linePopupTemplate = _.template("\
+  <h3>\
+    <%= i18n.__('linearMeasurement') %>\
+  </h3>\n\
+  <p>\
+    <%= model.lengthDisplay %>\
+  </p>\n\
+  <ul class=\"tasks\">\n\
+    <li>\
+      <a href=\"#\" class=\"js-zoomto zoomto\">\
+        <%= i18n.__('centerOnLine') %>\
+      </a>\
+    </li>\n\
+    <li>\
+      <a href=\"#\" class=\"js-deletemarkup deletemarkup\">\
+        <%= i18n.__('delete') %>\
+      </a>\
+    </li>\n\
+  </ul>"
+);
+
+var areaPopupTemplate = _.template("\
+  <h3>\
+    <%= i18n.__('areaMeasurement') %>\
+  </h3>\n\
+  <p>\
+    <%= model.areaDisplay %>\
+  </p>\n\
+  <p>\
+    <%= model.lengthDisplay %>\
+    <%= i18n.__('perimeter') %>\
+  </p>\n\
+  <ul class=\"tasks\">\n\
+    <li>\
+      <a href=\"#\" class=\"js-zoomto zoomto\">\
+        <%= i18n.__('centerOnArea') %>\
+      </a>\
+    </li>\n\
+    <li>\
+      <a href=\"#\" class=\"js-deletemarkup deletemarkup\">\
+        <%= i18n.__('delete') %>\
+      </a>\
+    </li>\n\
+  </ul>"
+);
 
 var i18n = new (require('i18n-2'))({
   devMode: false,
@@ -7529,7 +7655,7 @@ _.extend(Symbology.prototype, {
         clickable: false,
         stroke: false,
         fillColor: this._options.activeColor,
-        fillOpacity: 0.2,
+        fillOpacity: 0.4,
         className: 'layer-measurearea'
       },
       measureBoundary: {
@@ -7566,7 +7692,7 @@ _.extend(Symbology.prototype, {
         weight: 2,
         opacity: 0.9,
         fillColor: this._options.completedColor,
-        fillOpacity: 0.2,
+        fillOpacity: 0.6,
         className: 'layer-measure-resultarea'
       },
       resultLine: {
@@ -7638,6 +7764,11 @@ module.exports = {
     factor: 1,
     display: 'sqmeters',
     decimals: 0
+  },
+  sqkilometers: {
+    factor: 0.000001,
+    display: 'sqkilometers',
+    decimals: 2
   },
   sqmiles: {
     factor: 0.000000386102,
