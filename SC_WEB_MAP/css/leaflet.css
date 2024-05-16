@@ -130,39 +130,49 @@
 	position: absolute;
 	z-index: 1000;
 	pointer-events: none;
-	}
+}
 .leaflet-top {
 	top: 0;
-	}
+}
 .leaflet-right {
 	right: 0;
-	}
+}
 .leaflet-bottom {
 	bottom: 0;
-	}
+	width: 100%;
+}
 .leaflet-left {
 	left: 0;
-	}
-.leaflet-control {
-	float: left;
-	clear: both;
-	}
+	width: 50%;
+}
 .leaflet-right .leaflet-control {
 	float: right;
-	}
+}
+.leaflet-left .leaflet-control {
+	float: left;
+	clear: both;
+}
 .leaflet-top .leaflet-control {
 	margin-top: 10px;
-	}
+}
 .leaflet-bottom .leaflet-control {
 	margin-bottom: 10px;
-	}
+}
 .leaflet-left .leaflet-control {
 	margin-left: 10px;
-	}
+}
 .leaflet-right .leaflet-control {
 	margin-right: 10px;
-	}
-
+}
+.leaflet-bottom .leaflet-control-attribution {
+	margin-bottom: 10px;
+	right: 45%;
+}
+.leaflet-top .leaflet-control-measure {
+	position: absolute;
+	margin-left: 67px;
+	margin-top: 56px;
+}
 
 /* zoom and fade animations */
 
