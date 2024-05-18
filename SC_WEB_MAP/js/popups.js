@@ -158,7 +158,13 @@ function pop_Diplomacy_6(feature, layer) {
             </tr>\
             <tr>\
                 <th scope="row">Relation Status</th>\
-                <td class="visible-with-data" id="Relation">' + (feature.properties['Relation'] !== 'Self' ? autolinker.link(feature.properties['Relation'].toLocaleString()) : 'Our Country') + '</td>\
+                <td class="visible-with-data" id="Relation">' + (
+                    feature.properties['Relation'] !== null ? ( // First condition, if not null then continue to second condition, otherwiste display nothing
+                        feature.properties['Relation'] !== 'Self' ? ( // Second condition, if not self then display relation, otherwiste label as 'Our Country'
+                            autolinker.link(feature.properties['Relation'].toLocaleString())
+                        ) : 'Our Country'
+                    ) : ''
+                ) + '</td>\
             </tr>\
         </table>';
     layer.bindPopup(popupContent, {maxHeight: 400});

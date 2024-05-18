@@ -143,6 +143,22 @@ function style_Regions_0_0(feature) {
                 interactive: true,
             }
             break;
+
+            case 'Starlight Revolution':
+                return {
+                    pane: 'pane_Regions_0',
+                    opacity: 1,
+                    color: 'rgba(35,35,35,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 2.0, 
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'url(#gradientSR)',
+                    interactive: true,
+                }
+            break;
     }
 }
 
@@ -604,6 +620,36 @@ function style_Diplomacy_6_0(feature) {
         interactive: true,
     }
             break;
+        case 'At War':
+            return {
+        pane: 'pane_Diplomacy_6',
+        opacity: 1,
+        color: 'rgba(35,35,35,1.0)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: 1.0, 
+        fill: true,
+        fillOpacity: 1,
+        fillColor: 'rgba(128,0,0,1.0)',
+        interactive: true,
+    }
+            break;
+        case 'Nonexistent':
+            return {
+        pane: 'pane_Diplomacy_6',
+        opacity: 1,
+        color: 'rgba(35,35,35,0)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: 1.0, 
+        fill: true,
+        fillOpacity: 1,
+        fillColor: 'rgba(0,0,0,0)',
+        interactive: true,
+    }
+            break;
     }
 }
 
@@ -631,5 +677,21 @@ function style_Routes_5_1() {
         weight: 4.0,
         fillOpacity: 0,
         interactive: true,
+    }
+}
+
+function style_subregions_7_0() {
+    return {
+        pane: 'pane_subregions_7',
+        opacity: 1,
+        color: 'rgba(50,50,50,0.6)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'bevel',
+        weight: 1, 
+        fill: false,
+        fillOpacity: 1,
+        fillColor: 'rgba(0,0,0,1.0)',
+        interactive: false,
     }
 }

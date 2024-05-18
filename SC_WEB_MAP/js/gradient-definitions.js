@@ -54,10 +54,10 @@
                 return radialGradient;
             }
 
-            // Duchy of Meltisar Fill
-            function gradientStyleDoM() {
+            // Starlight Revolution Fill
+            function gradientStyleSR() {
                 var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-                radialGradient.setAttribute("id", "gradientDoM");
+                radialGradient.setAttribute("id", "gradientSR");
                 radialGradient.setAttribute("cx", "50%");
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "60%");
@@ -68,6 +68,20 @@
                 return radialGradient;
             }
 
+            // Duchy of Meltisar Fill
+            function gradientStyleDoM() {
+                var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
+                radialGradient.setAttribute("id", "gradientDoM");
+                radialGradient.setAttribute("cx", "50%");
+                radialGradient.setAttribute("cy", "50%");
+                radialGradient.setAttribute("r", "60%");
+                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#00998a"/>' +
+                                            '<stop offset="40%" stop-color="#009485"/>' +
+                                            '<stop offset="70%" stop-color="#008f81"/>' +
+                                            '<stop offset="100%" stop-color="#008577"/>'
+                return radialGradient;
+            }
+
             // Duchy of Drakar Fill
             function gradientStyleDoD() {
                 var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
@@ -75,10 +89,10 @@
                 radialGradient.setAttribute("cx", "50%");
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#aa0000"/>' +
+                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#9a0202"/>' +
                                             '<stop offset="40%" stop-color="#910202"/>' +
-                                            '<stop offset="70%" stop-color="#730303"/>' +
-                                            '<stop offset="100%" stop-color="#540404"/>';
+                                            '<stop offset="70%" stop-color="#830303"/>' +
+                                            '<stop offset="100%" stop-color="#7f0303"/>';
                 return radialGradient;
             }
 
