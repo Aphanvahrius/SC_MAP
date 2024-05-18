@@ -62,6 +62,7 @@
         <script src="data/Characters_4.js"></script>
         <script src="data/Routes_5.js"></script>
         <script src="data/Diplomacy_6.js"></script>
+        <script src="data/Subregions_7.js"></script>
         <script src="js/popups.js"></script>
         <script src="js/gradient-definitions.js"></script>
         <script src="js/layer-styles.js"></script>
@@ -105,6 +106,7 @@
             gradientDefs.appendChild(gradientStyleFPA());
             gradientDefs.appendChild(gradientStyleWFS());
             gradientDefs.appendChild(gradientStyleGS());
+            gradientDefs.appendChild(gradientStyleSR());
 
             // Set layer order
             const order = {
@@ -238,6 +240,22 @@
                 style: style_Diplomacy_6_0,
             });
             bounds_group.addLayer(layer_Diplomacy_6);
+            map.addLayer(layer_Diplomacy_6);
+
+            // Create subregions layer
+            map.createPane('pane_subregions_7');
+            map.getPane('pane_subregions_7').style.zIndex = order.subregions;
+            map.getPane('pane_subregions_7').style['mix-blend-mode'] = 'normal';
+
+            var layer_Subregions_7 = new L.geoJson(json_subregions_7, {
+                attribution: '',
+                interactive: false,
+                dataVar: 'json_subregions_7',
+                layerName: 'layer_Subregions_7',
+                pane: 'pane_subregions_7',
+                style: style_subregions_7_0,
+            });
+            bounds_group.addLayer(layer_Subregions_7);
 
             // Create system search tool
             map.addControl(new L.Control.Search({
@@ -315,6 +333,10 @@
                         <td style="text-align: center;"><img src="legend/Regions_0_TheWesternFrontierSystems8.png" /></td>\
                         <td>The Western Frontier Systems</td>\
                     </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Regions_0_StarlightRevolution9.png" /></td>\
+                        <td>Starlight Revolution</td>\
+                    </tr>\
                 </table>': layer_Regions_0,
 
                 '<span class="layer-name">Diplomacy</span><br />\
@@ -342,6 +364,10 @@
                     <tr>\
                         <td style="text-align: center;"><img src="legend/Diplomacy_6_Hostile5.png" /></td>\
                         <td>Hostile</td>\
+                    </tr>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Diplomacy_6_AtWar6.png" /></td>\
+                        <td>At War</td>\
                     </tr>\
                 </table>': layer_Diplomacy_6,                
 
@@ -388,6 +414,8 @@
             polygonControl.addTo(map);
 
             var lineOverlays = {
+                '<span class="layer-name">Subregions</span><br />': layer_Subregions_7,
+                
                 '<span class="layer-name">Lanes</span><br />\
                 <table>\
                     <tr>\
@@ -816,6 +844,44 @@
             sel_Nation.innerHTML = Nation_options_str;
             div_Nation.appendChild(sel_Nation);
 
+            // Create Book Volume Select Filter
+            document.getElementById("menu").appendChild(document.createElement("div"));
+
+            var div_Book = document.createElement('div');
+            div_Book.id = "div_Book";
+            div_Book.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Book);
+            sel_Book = document.createElement('select');
+            sel_Book.multiple = true;
+            sel_Book.size = 4;
+            sel_Book.id = "sel_Book";
+
+            var lab_Book = document.createElement('div');
+            lab_Book.innerHTML = 'BOOK';
+            lab_Book.className = 'filterlabel';
+            div_Book.appendChild(lab_Book);
+
+            var reset_Book = document.createElement('div');
+            reset_Book.innerHTML = '<button>clear filter</button>';
+            reset_Book.className = 'filterlabel';
+            reset_Book.onclick = function() {
+                var options = document.getElementById("sel_Book").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Book.appendChild(reset_Book);
+
+            var Book_options_str = "";
+            sel_Book.onchange = function(){filterFunc()};
+            Book_options_str  += '<option value="A1">A1</option>';
+            Book_options_str  += '<option value="A2">A2</option>';
+            Book_options_str  += '<option value="A3">A3</option>';
+            Book_options_str  += '<option value="A4">A4</option>';
+            sel_Book.innerHTML = Book_options_str;
+            div_Book.appendChild(sel_Book);
+
             // Create Character Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
 
@@ -854,49 +920,6 @@
             Character_options_str  += '<option value="Tia">Tia</option>';
             sel_Character.innerHTML = Character_options_str;
             div_Character.appendChild(sel_Character);
-            sel_Character.selectedIndex = 1; // Set default displayed character to MC
-            sel_Character.dispatchEvent(new Event('change')); 
-
-            // Create Book Volume Select Filter
-            document.getElementById("menu").appendChild(document.createElement("div"));
-
-            var div_Book = document.createElement('div');
-            div_Book.id = "div_Book";
-            div_Book.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Book);
-            sel_Book = document.createElement('select');
-            sel_Book.multiple = true;
-            sel_Book.size = 4;
-            sel_Book.id = "sel_Book";
-
-            var lab_Book = document.createElement('div');
-            lab_Book.innerHTML = 'BOOK';
-            lab_Book.className = 'filterlabel';
-            div_Book.appendChild(lab_Book);
-
-            var reset_Book = document.createElement('div');
-            reset_Book.innerHTML = '<button>clear filter</button>';
-            reset_Book.className = 'filterlabel';
-            reset_Book.onclick = function() {
-                var options = document.getElementById("sel_Book").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Book.appendChild(reset_Book);
-
-            var Book_options_str = "";
-            sel_Book.onchange = function(){filterFunc()};
-            Book_options_str  += '<option value="A1">A1</option>';
-            Book_options_str  += '<option value="A2">A2</option>';
-            Book_options_str  += '<option value="A3">A3</option>';
-            Book_options_str  += '<option value="A4">A4</option>';
-            sel_Book.innerHTML = Book_options_str;
-            div_Book.appendChild(sel_Book);
-            sel_Book.selectedIndex = 0; // Limit the default displayed scope to first book
-            sel_Book.dispatchEvent(new Event('change'));
-            map.removeLayer(layer_Characters_4); // Hide the layer after setting default displays for character and book
 
             // Create System Star Presence Select Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
@@ -1402,6 +1425,17 @@
 
             // Center map
             map.setView([0.3, 0.6], 10.5);
+
+            sel_Character.selectedIndex = 1; // Set default character journey to MC
+            sel_Character.dispatchEvent(new Event('change')); 
+
+            sel_Book.selectedIndex = 0; // Limit the default character journey scope to first book
+            sel_Book.dispatchEvent(new Event('change'));
+
+            reset_Nation.onclick(); // Clear the filter for regions (makes diplomacy layer look better on load for some resson?)
+
+            map.removeLayer(layer_Characters_4); // Hide the character journey layer after setting default displays for character and book
+            map.removeLayer(layer_Diplomacy_6); // Hide the diplomacy layer
         </script>
     </body>
 </html>
