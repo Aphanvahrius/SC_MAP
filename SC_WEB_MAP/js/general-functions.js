@@ -2,7 +2,7 @@ function setBounds() {
     if (bounds_group.getLayers().length) {
         map.fitBounds(bounds_group.getBounds());
     }
-    map.setMaxBounds([[-0.6,-1],[1.4,2.1]]); // D L U R
+    map.setMaxBounds([[-0.974295, -0.890921], [1.58922, 1.76965]]); // D L U R
 }
 
 function revealSpoiler() {
@@ -31,5 +31,29 @@ var highlightLayer;
 function highlightFeature(e) {
     highlightLayer = e.target;
     highlightLayer.openPopup();
+}
+
+function loadGeoRaster(tifPath, options) {
+    return fetch(tifPath)
+        .then(response => response.arrayBuffer())
+        .then(arrayBuffer => {
+            return parseGeoraster(arrayBuffer).then(georaster => {
+                console.log("georaster:", georaster);
+                const layerOptions = {
+                    opacity: 1,
+                    resolution: 256,
+                    mask_srs: 'EPSG:3395',
+                    ...options
+                };
+                return new GeoRasterLayer({
+                    georaster: georaster,
+                    ...layerOptions
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error loading or parsing the GeoTIFF file:', error);
+            return null;
+        });
 }
 
