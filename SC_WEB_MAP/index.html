@@ -75,13 +75,13 @@
 
         <script>
             // Create map
-            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:10.5};
+            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:10.5, maxBoundsViscosity: 1.0};
             var map = L.map('map', zoomOptions);
 
             var hash = new L.Hash(map);
 
             // Coords popup
-            // map.on('click', display_Coords);
+            //map.on('click', display_Coords);
 
             // Create attributions
             map.attributionControl.setPrefix('\
@@ -279,18 +279,16 @@
             map.getPane('pane_basemap_1').style.zIndex = order.base;
             map.getPane('pane_basemap_1').style['mix-blend-mode'] = 'normal';
 
-            
+            /*
             var imageUrl = 'data/basemaps/basemap_1.jpg'
             var imageBounds = L.latLngBounds([[-0.974295, -0.890921], [1.58922, 1.46965]]);
-            var layer_basemap_1 = L.imageOverlay(imageUrl, imageBounds, {
+            var layer_basemap_1_1 = L.imageOverlay(imageUrl, imageBounds, {
                 attribution: '',
                 interactive: false,
                 pane: 'pane_basemap_1'
             });
-            map.addLayer(layer_basemap_1);
-            var baseMaps = {'Shipcore Basemap': layer_basemap_1};
 
-            /*
+            
             wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore.map';
             var layer_basemap_1 = L.tileLayer.wms(wmsServer, {
                 version: '1.1.1',
@@ -305,11 +303,11 @@
                 pane: 'pane_basemap_1',
                 transparent: true
             });
-            
-            /*
-            
+            */
+
             let baseMaps;
             let layer_basemap_1;
+            let layer_basemap_2;
             let basemap_control;
             async function loadBasemaps() {
                 layer_basemap_1 = await loadGeoRaster('data/basemaps/basemap_1.tif', {
@@ -322,16 +320,15 @@
                     interactive: false,
                     pane: 'pane_basemap_1'
                 });
-                map.addLayer(layer_basemap_2);
-                baseMaps = {'Shipcore Basemam': layer_basemap_1, 'Nice JWST Image': layer_basemap_2};
-                basemap_control = new L.control.layers(baseMaps, null,{
+                baseMaps = {'Shipcore Basemap alinged :) WARNING SLOW!': layer_basemap_1, 'Nice JWST Image WARNING SLOW!': layer_basemap_2};
+                basemap_control = new L.control.layers(null, baseMaps,{
                     position: 'bottomleft',
                     collapsed:false,
                 });
                 basemap_control.addTo(map);
             }
             loadBasemaps()
-*/
+
             // Create system search tool
             map.addControl(new L.Control.Search({
                 layer: layer_Systems_2,
@@ -481,7 +478,7 @@
                     </tr>\
                 </table>': layer_Sectors_3,
             }
-            var polygonControl = new L.control.layers(baseMaps,polygonOverlays,{
+            var polygonControl = new L.control.layers(null,polygonOverlays,{
                 position: 'topright',
                 collapsed: false
             });
