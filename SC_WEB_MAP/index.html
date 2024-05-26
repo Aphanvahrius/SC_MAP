@@ -45,6 +45,8 @@
         <div id="map"></div>
 
         <script src="js/leaflet.js"></script>
+        <script src="https://unpkg.com/georaster"></script>
+        <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
         <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet-hash.js"></script>
         <script src="js/Autolinker.min.js"></script>
@@ -110,6 +112,7 @@
 
             // Set layer order
             const order = {
+                base: 290,
                 regions: 300,
                 sectors: 310,
                 lanes: 320,
@@ -246,7 +249,22 @@
             map.createPane('pane_subregions_7');
             map.getPane('pane_subregions_7').style.zIndex = order.subregions;
             map.getPane('pane_subregions_7').style['mix-blend-mode'] = 'normal';
-
+            /*
+            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/mapserver/shipcore.map';
+            var layer_Subregions_7 = L.tileLayer.wms(wmsServer, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'subreg',
+                styles: '',
+                srs: 'EPSG:3395',
+                bbox: '800,500,80000,78000',
+                width: '2000',
+                height: '2000',
+                format: 'image/png',
+                pane: 'pane_subregions_7',
+                transparent: true
+            });
+            */
             var layer_Subregions_7 = new L.geoJson(json_subregions_7, {
                 attribution: '',
                 interactive: false,
@@ -255,8 +273,65 @@
                 pane: 'pane_subregions_7',
                 style: style_subregions_7_0,
             });
-            bounds_group.addLayer(layer_Subregions_7);
 
+            // Create basemap 1
+            map.createPane('pane_basemap_1');
+            map.getPane('pane_basemap_1').style.zIndex = order.base;
+            map.getPane('pane_basemap_1').style['mix-blend-mode'] = 'normal';
+
+            
+            var imageUrl = 'data/basemaps/basemap_1.jpg'
+            var imageBounds = L.latLngBounds([[-0.974295, -0.890921], [1.58922, 1.46965]]);
+            var layer_basemap_1 = L.imageOverlay(imageUrl, imageBounds, {
+                attribution: '',
+                interactive: false,
+                pane: 'pane_basemap_1'
+            });
+            map.addLayer(layer_basemap_1);
+            var baseMaps = {'Shipcore Basemap': layer_basemap_1};
+
+            /*
+            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore.map';
+            var layer_basemap_1 = L.tileLayer.wms(wmsServer, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'raster',
+                styles: '',
+                srs: 'EPSG:3395',
+                bbox: '-109000,-99000,177000,163000',
+                width: '4096',
+                height: '4096',
+                format: 'image/png',
+                pane: 'pane_basemap_1',
+                transparent: true
+            });
+            
+            /*
+            
+            let baseMaps;
+            let layer_basemap_1;
+            let basemap_control;
+            async function loadBasemaps() {
+                layer_basemap_1 = await loadGeoRaster('data/basemaps/basemap_1.tif', {
+                    attribution: '',
+                    interactive: false,
+                    pane: 'pane_basemap_1'
+                });
+                layer_basemap_2 = await loadGeoRaster('data/basemaps/basemap_2.tif', {
+                    attribution: '',
+                    interactive: false,
+                    pane: 'pane_basemap_1'
+                });
+                map.addLayer(layer_basemap_2);
+                baseMaps = {'Shipcore Basemam': layer_basemap_1, 'Nice JWST Image': layer_basemap_2};
+                basemap_control = new L.control.layers(baseMaps, null,{
+                    position: 'bottomleft',
+                    collapsed:false,
+                });
+                basemap_control.addTo(map);
+            }
+            loadBasemaps()
+*/
             // Create system search tool
             map.addControl(new L.Control.Search({
                 layer: layer_Systems_2,
@@ -272,7 +347,6 @@
             document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';  
             
             // Create legend
-            var baseMaps = {};
 
             var pointOverlays = {
                 '<span class="layer-name">Systems</span><br />\
@@ -452,7 +526,7 @@
                     </tr>\
                 </table>': layer_Characters_4,
             }
-            var lineControl = new L.control.layers(baseMaps,lineOverlays,{
+            var lineControl = new L.control.layers(null,lineOverlays,{
                 position: 'topleft',
                 collapsed: true
             });
