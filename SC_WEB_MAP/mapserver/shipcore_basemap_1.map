@@ -1,0 +1,56 @@
+MAP
+  NAME "Shipcore_Basemap_1"
+  PROJECTION
+    'init=epsg:3395'
+  END
+  WEB
+    METADATA
+      'wms_title'           'Shipcore_Basemap_1'
+      'wms_onlineresource'  'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_1.map'
+      'wms_srs'             'EPSG:3395'
+      'wms_enable_request'  '*'
+    END
+  END
+  SIZE 14016 12768
+  UNITS meters
+  EXTENT -153000 -100000 222000 163000 # L D R U
+  SHAPEPATH './data'
+
+  IMAGECOLOR '#FFFFFF00'
+  IMAGETYPE png
+
+  OUTPUTFORMAT
+    NAME png
+    DRIVER 'AGG/PNG'
+    MIMETYPE 'image/png'
+    IMAGEMODE RGBA
+    EXTENSION 'png'
+  END
+
+  LAYER
+    NAME 'sc_raster'
+    TYPE RASTER
+    EXTENT -108458.0237 -98516.9183 176911.4398 162523.7305
+    DATA 'basemap_1.jpg'
+    STATUS DEFAULT
+
+    METADATA
+      'wms_title' 'raster'
+      'wms_enable_request' '*'
+    END
+
+    PROJECTION
+      'init=epsg:3395'
+    END
+
+    CLASS
+      NAME 'raster' 
+    END
+  END
+END
+
+# Get Map
+#http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=subreg&STYLES=&SRS=EPSG:3395&BBOX=-0.974295,-0.890921,1.58922,1.46965&WIDTH=4096&HEIGHT=4096&FORMAT=image/png
+
+# Get Capabilities
+#http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetCapabilities&LAYERS=subreg

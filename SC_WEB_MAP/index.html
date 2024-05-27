@@ -75,7 +75,7 @@
 
         <script>
             // Create map
-            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:10.5, maxBoundsViscosity: 1.0};
+            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:10.5, maxBoundsViscosity: 0.85};
             var map = L.map('map', zoomOptions);
 
             var hash = new L.Hash(map);
@@ -249,22 +249,7 @@
             map.createPane('pane_subregions_7');
             map.getPane('pane_subregions_7').style.zIndex = order.subregions;
             map.getPane('pane_subregions_7').style['mix-blend-mode'] = 'normal';
-            /*
-            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/mapserver/shipcore.map';
-            var layer_Subregions_7 = L.tileLayer.wms(wmsServer, {
-                version: '1.1.1',
-                request: 'GetMap',
-                layers: 'subreg',
-                styles: '',
-                srs: 'EPSG:3395',
-                bbox: '800,500,80000,78000',
-                width: '2000',
-                height: '2000',
-                format: 'image/png',
-                pane: 'pane_subregions_7',
-                transparent: true
-            });
-            */
+
             var layer_Subregions_7 = new L.geoJson(json_subregions_7, {
                 attribution: '',
                 interactive: false,
@@ -275,36 +260,58 @@
             });
 
             // Create basemap 1
-            map.createPane('pane_basemap_1');
-            map.getPane('pane_basemap_1').style.zIndex = order.base;
-            map.getPane('pane_basemap_1').style['mix-blend-mode'] = 'normal';
+            map.createPane('pane_basemap');
+            map.getPane('pane_basemap').style.zIndex = order.base;
+            map.getPane('pane_basemap').style['mix-blend-mode'] = 'normal';
 
             /*
-            var imageUrl = 'data/basemaps/basemap_1.jpg'
+            var imageUrl = 'mapserver/Data/basemap_1.jpg'
             var imageBounds = L.latLngBounds([[-0.974295, -0.890921], [1.58922, 1.46965]]);
-            var layer_basemap_1_1 = L.imageOverlay(imageUrl, imageBounds, {
+            var layer_basemap_1 = L.imageOverlay(imageUrl, imageBounds, {
                 attribution: '',
                 interactive: false,
                 pane: 'pane_basemap_1'
             });
+            */
 
+            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_2.map';
+            var layer_basemap_2 = L.tileLayer.wms(wmsServer, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'jwst_raster',
+                styles: '',
+                srs: 'EPSG:3395',
+                bbox: '-153000,-100000,222000,163000',
+                width: '256',
+                height: '256',
+                format: 'image/png',
+                pane: 'pane_basemap',
+                transparent: true
+            });
             
-            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore.map';
+            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_1.map';
             var layer_basemap_1 = L.tileLayer.wms(wmsServer, {
                 version: '1.1.1',
                 request: 'GetMap',
-                layers: 'raster',
+                layers: 'sc_raster',
                 styles: '',
                 srs: 'EPSG:3395',
-                bbox: '-109000,-99000,177000,163000',
-                width: '4096',
-                height: '4096',
+                bbox: '-109000,-100000,177000,163000',
+                width: '256',
+                height: '256',
                 format: 'image/png',
-                pane: 'pane_basemap_1',
+                pane: 'pane_basemap',
                 transparent: true
             });
-            */
 
+            baseMaps = {'JWST': layer_basemap_2, 'Shipcore': layer_basemap_1};
+            basemap_control = new L.control.layers(null, baseMaps,{
+                position: 'bottomleft',
+                collapsed:false,
+            });
+            basemap_control.addTo(map);
+            
+            /*
             let baseMaps;
             let layer_basemap_1;
             let layer_basemap_2;
@@ -328,6 +335,7 @@
                 basemap_control.addTo(map);
             }
             loadBasemaps()
+            */
 
             // Create system search tool
             map.addControl(new L.Control.Search({
