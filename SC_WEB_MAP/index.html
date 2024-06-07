@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="css/filter.css">
         <link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
+        <link rel="stylesheet" href="css/leaflet.fullscreen.css">
 
         <style>
             html, body, #map {
@@ -47,6 +48,7 @@
         <script src="js/leaflet.js"></script>
         <script src="https://unpkg.com/georaster"></script>
         <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
+        <script src='js/Leaflet.fullscreen.js'></script>
         <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet-hash.js"></script>
         <script src="js/Autolinker.min.js"></script>
@@ -75,7 +77,7 @@
 
         <script>
             // Create map
-            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10.5, zoom:10.5, maxBoundsViscosity: 0.85};
+            var zoomOptions = {zoomControl:true, zoomSnap:0.5, zoomDelta:0.5, maxZoom:15, minZoom:10, zoom:10, maxBoundsViscosity: 0.85};
             var map = L.map('map', zoomOptions);
 
             var hash = new L.Hash(map);
@@ -273,43 +275,29 @@
                 pane: 'pane_basemap_1'
             });
             */
-
-            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_2.map';
+            
+            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/szkola/WebGIS/Projekt/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_2.map';
             var layer_basemap_2 = L.tileLayer.wms(wmsServer, {
                 version: '1.1.1',
                 request: 'GetMap',
                 layers: 'jwst_raster',
-                styles: '',
                 srs: 'EPSG:3395',
-                bbox: '-153000,-100000,222000,163000',
-                width: '256',
-                height: '256',
-                format: 'image/png',
                 pane: 'pane_basemap',
                 transparent: true
             });
-            
-            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_1.map';
+
+            //wmsServer = 'http://localhost:8081/geoserver/Shipcore/wms';
+            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/szkola/WebGIS/Projekt/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_1.map';
             var layer_basemap_1 = L.tileLayer.wms(wmsServer, {
                 version: '1.1.1',
                 request: 'GetMap',
                 layers: 'sc_raster',
-                styles: '',
                 srs: 'EPSG:3395',
-                bbox: '-109000,-100000,177000,163000',
-                width: '256',
-                height: '256',
-                format: 'image/png',
                 pane: 'pane_basemap',
                 transparent: true
             });
 
             baseMaps = {'JWST': layer_basemap_2, 'Shipcore': layer_basemap_1};
-            basemap_control = new L.control.layers(null, baseMaps,{
-                position: 'bottomleft',
-                collapsed:false,
-            });
-            basemap_control.addTo(map);
             
             /*
             let baseMaps;
@@ -350,7 +338,10 @@
             measureControl.addTo(map);
             document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
             document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';  
-            
+
+            // Create map fullscreen control
+            map.addControl(new L.Control.Fullscreen());
+
             // Create legend
 
             var pointOverlays = {
@@ -364,7 +355,10 @@
                         <td style="text-align: center;"><img src="legend/Systems_2_00.png" /></td>\
                         <td>System With No Star</td>\
                     </tr>\
-                </table>': layer_Systems_2
+                </table>\
+                <span class="layer-name">Basemaps</span><br />': layer_Systems_2,
+                '<span>James Webb Space Telescope</span><br />': baseMaps['JWST'],
+                '<span>Nanite Interstallar Imaging</span><br />': baseMaps['Shipcore']
             }
             var pointControl = new L.control.layers(null, pointOverlays,{
                 position: 'bottomleft',
@@ -583,7 +577,7 @@
             col2.style.display = "inline-block";
 
             var mapDiv = document.getElementById('map');
-            mapDiv.style.height = "95%";
+            mapDiv.style.height = "93%";
             mapDiv.parentNode.insertBefore(row, mapDiv);
             document.getElementById("all").appendChild(col1);
             document.getElementById("all").appendChild(col2);
@@ -591,7 +585,7 @@
             var mapTitle = document.createElement('div');
             mapTitle.innerHTML  = 'Shipcore Interactive Map';
             mapTitle.className = 'maptitle';
-            mapTitle.style.height = "5%";
+            mapTitle.style.height = "7%";
 
             col1.appendChild(mapTitle)
             col1.appendChild(mapDiv)
@@ -599,8 +593,8 @@
             // Define filter variables
             var Filters = {
                 "Orbtl_Clny": "int",
-                "Unexplored": "int",
-                "Notbl_Minb": "int",
+                //"Unexplored": "int",
+                //"Notbl_Minb": "int",
                 "Inhabitabl": "int",
                 "Nation": "str",
                 "Star_Presc": "str",
@@ -744,96 +738,6 @@
             val_Orbtl_Clny.innerHTML = values.join(' - ');
                 filterFunc()
             });
-                
-            // Create Unexplored Lanes Slider Filter
-            document.getElementById("menu").appendChild(document.createElement("div"));
-
-            var lab_Unexplored = document.createElement('div');
-            lab_Unexplored.innerHTML  = 'UNEXPLORED LANES: <span id="val_Unexplored"></span>';
-            lab_Unexplored.className = 'filterlabel';
-            document.getElementById("menu").appendChild(lab_Unexplored);
-
-            var reset_Unexplored = document.createElement('div');
-            reset_Unexplored.innerHTML = '<button>clear filter</button>';
-            reset_Unexplored.className = 'filterlabel';
-            lab_Unexplored.className = 'filterlabel';
-            reset_Unexplored.onclick = function() {
-                sel_Unexplored.noUiSlider.reset();
-            };
-            document.getElementById("menu").appendChild(reset_Unexplored);
-
-            var div_Unexplored = document.createElement("div");
-            div_Unexplored.id = "div_Unexplored";
-            div_Unexplored.className = "slider";
-            document.getElementById("menu").appendChild(div_Unexplored);
-
-            var sel_Unexplored = document.getElementById('div_Unexplored');
-            noUiSlider.create(sel_Unexplored, {
-                connect: true,
-                start: [0, 4],
-                step: 1,
-                format: wNumb({
-                    decimals: 0,
-                    }),
-                range: {
-                min: 0,
-                max: 4
-                }
-            });
-            sel_Unexplored.noUiSlider.on('update', function (values) {
-            filterVals =[];
-            for (value in values){
-                filterVals.push(parseInt(value))
-            }
-            val_Unexplored = document.getElementById('val_Unexplored');
-            val_Unexplored.innerHTML = values.join(' - ');
-                filterFunc()
-            });
-
-            // Create Minable/Rogue Slider Filter
-            document.getElementById("menu").appendChild(document.createElement("div"));
-
-            var lab_Notbl_Minb = document.createElement('div');
-            lab_Notbl_Minb.innerHTML  = 'MINABLE BODIES / ROGUE PLANETS: <span id="val_Notbl_Minb"></span>';
-            lab_Notbl_Minb.className = 'filterlabel';
-            document.getElementById("menu").appendChild(lab_Notbl_Minb);
-
-            var reset_Notbl_Minb = document.createElement('div');
-            reset_Notbl_Minb.innerHTML = '<button>clear filter</button>';
-            reset_Notbl_Minb.className = 'filterlabel';
-            lab_Notbl_Minb.className = 'filterlabel';
-            reset_Notbl_Minb.onclick = function() {
-                sel_Notbl_Minb.noUiSlider.reset();
-            };
-            document.getElementById("menu").appendChild(reset_Notbl_Minb);
-
-            var div_Notbl_Minb = document.createElement("div");
-            div_Notbl_Minb.id = "div_Notbl_Minb";
-            div_Notbl_Minb.className = "slider";
-            document.getElementById("menu").appendChild(div_Notbl_Minb);
-
-            var sel_Notbl_Minb = document.getElementById('div_Notbl_Minb');
-            noUiSlider.create(sel_Notbl_Minb, {
-                connect: true,
-                start: [0, 5],
-                step: 1,
-                format: wNumb({
-                    decimals: 0,
-                    }),
-                range: {
-                min: 0,
-                max: 5
-                }
-            });
-            sel_Notbl_Minb.noUiSlider.on('update', function (values) {
-            filterVals =[];
-            for (value in values){
-                filterVals.push(parseInt(value))
-            }
-            val_Notbl_Minb = document.getElementById('val_Notbl_Minb');
-            val_Notbl_Minb.innerHTML = values.join(' - ');
-                filterFunc()
-            });
 
             // Create Inhabitable Planets Slider Filter
             document.getElementById("menu").appendChild(document.createElement("div"));
@@ -889,7 +793,7 @@
             document.getElementById("menu").appendChild(div_Nation);
             sel_Nation = document.createElement('select');
             sel_Nation.multiple = true;
-            sel_Nation.size = 9;
+            sel_Nation.size = 6;
             sel_Nation.id = "sel_Nation";
 
             var lab_Nation = document.createElement('div');
@@ -919,6 +823,7 @@
             Nation_options_str  += '<option value="Holy Ertan Republic">Holy Ertan Republic</option>';
             Nation_options_str  += '<option value="Solar Imperium">Solar Imperium</option>';
             Nation_options_str  += '<option value="Solarian Federation">Solarian Federation</option>';
+            Nation_options_str  += '<option value="Starlight Revolution">Starlight Revolution</option>';
             Nation_options_str  += '<option value="The Western Frontier Systems">The Western Frontier Systems</option>';
             sel_Nation.innerHTML = Nation_options_str;
             div_Nation.appendChild(sel_Nation);

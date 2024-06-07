@@ -95,14 +95,6 @@ th {
     box-shadow: 0.2px 0.1px 1px !important;
 }
 
-.leaflet-control-search .search-button {
-    width: 45px !important;
-    height: 45px !important;
-    font-size: 20px !important;
-    text-align: center !important;
-    line-height: 40px !important;
-}
-
 .leaflet-control-measure .leaflet-control {
     width: 45px !important;
     height: 45px !important;
