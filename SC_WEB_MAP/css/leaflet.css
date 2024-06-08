@@ -435,6 +435,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-container .leaflet-control-attribution,
 .leaflet-container .leaflet-control-scale {
 	font-size: 11px;
+	position: absolute;
+	bottom: 0%;
+	left: 35%;
+	text-align: center;
 	}
 .leaflet-left .leaflet-control-scale {
 	margin-left: 5px;
