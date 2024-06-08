@@ -718,7 +718,7 @@ function style_industrial_systems() {
     return {
         pane: 'pane_industrial_systems',
         shape: 'triangle',
-        radius: 10,
+        radius: 8,
         opacity: 1,
         color: 'rgba(35,35,35,1.0)',
         dashArray: '',
