@@ -46,6 +46,7 @@
         <div id="map"></div>
 
         <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-svg-shape-markers.js"></script>
         <script src="https://unpkg.com/georaster"></script>
         <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
         <script src='js/Leaflet.fullscreen.js'></script>
@@ -67,6 +68,10 @@
         <script src="data/Routes_5.js"></script>
         <script src="data/Diplomacy_6.js"></script>
         <script src="data/Subregions_7.js"></script>
+        <script src="data/mining_systems.js"></script>
+        <script src="data/industrial_systems.js"></script>
+        <script src="data/core_systems.js"></script>
+        <script src="data/capital_systems.js"></script>
         <script src="js/popups.js"></script>
         <script src="js/gradient-definitions.js"></script>
         <script src="js/layer-styles.js"></script>
@@ -99,6 +104,9 @@
             //Create bounds group
             var bounds_group = new L.featureGroup([]);
 
+            // Create local Geoserver connection
+            //wmsGeoServer = 'http://localhost:8081/geoserver/Shipcore/wms'
+
             // Colect gradient fills for regions
             var gradientDefs = document.querySelector('svg defs');
             gradientDefs.appendChild(gradientStyleCS());
@@ -117,11 +125,16 @@
                 base: 290,
                 regions: 300,
                 sectors: 310,
+                diplomacy: 315,
+                subregions: 317,
                 lanes: 320,
                 routes: 330,
                 characters: 340,
                 systems: 350,
-                diplomacy: 315
+                mining_systems: 351,
+                industrial_systems: 352,
+                core_systems: 353,
+                capital_systems: 354
             };
 
             //Create regions layer
@@ -146,6 +159,7 @@
             map.getPane('pane_Lanes_1').style.zIndex = order.lanes;
             map.getPane('pane_Lanes_1').style['mix-blend-mode'] = 'normal';
 
+            // Starlanes Web
             var layer_Lanes_1 = new L.geoJson.multiStyle(json_Lanes_1, {
                 attribution: '',
                 interactive: true,
@@ -156,6 +170,18 @@
                 styles: [style_Lanes_1_0,style_Lanes_1_1,]
             });
             bounds_group.addLayer(layer_Lanes_1);
+            /*
+            //Starlanes Local
+            var layer_Lanes_1 = L.tileLayer.wms(wmsGeoServer, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'Shipcore:lanes',
+                srs: 'EPSG:3395',
+                format: 'image/png',
+                pane: 'pane_Lanes_1',
+                transparent: true
+            });
+            */
             map.addLayer(layer_Lanes_1);
 
             // Create star systems layer
@@ -252,6 +278,7 @@
             map.getPane('pane_subregions_7').style.zIndex = order.subregions;
             map.getPane('pane_subregions_7').style['mix-blend-mode'] = 'normal';
 
+            // Subregions Web
             var layer_Subregions_7 = new L.geoJson(json_subregions_7, {
                 attribution: '',
                 interactive: false,
@@ -260,46 +287,28 @@
                 pane: 'pane_subregions_7',
                 style: style_subregions_7_0,
             });
-
-            // Create basemap 1
+            bounds_group.addLayer(layer_Subregions_7);
+            
+            /*
+            // Subregions Local
+            wmsServerSB = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/subregions.map'
+            var layer_Subregions_7 = L.tileLayer.wms(wmsServerSB, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'subregions',
+                srs: 'EPSG:3395',
+                format: 'image/png',
+                pane: 'pane_subregions_7',
+                transparent: true
+            });
+            */
+            // Create basemaps
             map.createPane('pane_basemap');
             map.getPane('pane_basemap').style.zIndex = order.base;
             map.getPane('pane_basemap').style['mix-blend-mode'] = 'normal';
 
-            /*
-            var imageUrl = 'mapserver/Data/basemap_1.jpg'
-            var imageBounds = L.latLngBounds([[-0.974295, -0.890921], [1.58922, 1.46965]]);
-            var layer_basemap_1 = L.imageOverlay(imageUrl, imageBounds, {
-                attribution: '',
-                interactive: false,
-                pane: 'pane_basemap_1'
-            });
-            */
-            
-            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/szkola/WebGIS/Projekt/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_2.map';
-            var layer_basemap_2 = L.tileLayer.wms(wmsServer, {
-                version: '1.1.1',
-                request: 'GetMap',
-                layers: 'jwst_raster',
-                srs: 'EPSG:3395',
-                pane: 'pane_basemap',
-                transparent: true
-            });
+            // Basemaps Web
 
-            //wmsServer = 'http://localhost:8081/geoserver/Shipcore/wms';
-            wmsServer = 'http://localhost/cgi-bin/mapserv.exe?map=C:/szkola/WebGIS/Projekt/SC_MAP/SC_WEB_MAP/mapserver/shipcore_basemap_1.map';
-            var layer_basemap_1 = L.tileLayer.wms(wmsServer, {
-                version: '1.1.1',
-                request: 'GetMap',
-                layers: 'sc_raster',
-                srs: 'EPSG:3395',
-                pane: 'pane_basemap',
-                transparent: true
-            });
-
-            baseMaps = {'JWST': layer_basemap_2, 'Shipcore': layer_basemap_1};
-            
-            /*
             let baseMaps;
             let layer_basemap_1;
             let layer_basemap_2;
@@ -308,23 +317,180 @@
                 layer_basemap_1 = await loadGeoRaster('data/basemaps/basemap_1.tif', {
                     attribution: '',
                     interactive: false,
-                    pane: 'pane_basemap_1'
+                    pane: 'pane_basemap'
                 });
                 layer_basemap_2 = await loadGeoRaster('data/basemaps/basemap_2.tif', {
                     attribution: '',
                     interactive: false,
-                    pane: 'pane_basemap_1'
+                    pane: 'pane_basemap'
                 });
-                baseMaps = {'Shipcore Basemap alinged :) WARNING SLOW!': layer_basemap_1, 'Nice JWST Image WARNING SLOW!': layer_basemap_2};
+                baseMaps = {'James Webb Space Telescope': layer_basemap_2, 'Nanite Interstallar Imaging': layer_basemap_1};
                 basemap_control = new L.control.layers(null, baseMaps,{
-                    position: 'bottomleft',
+                    position: 'bottomright',
                     collapsed:false,
                 });
                 basemap_control.addTo(map);
             }
-            loadBasemaps()
+            
+            // Basemaps Local
+            /*
+            var layer_basemap_2 = L.tileLayer.wms(wmsGeoServer, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'Shipcore:basemap_2',
+                srs: 'EPSG:3395',
+                pane: 'pane_basemap',
+                transparent: true
+            });
+
+            var layer_basemap_1 = L.tileLayer.wms(wmsGeoServer, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'Shipcore:basemap_1',
+                srs: 'EPSG:3395',
+                pane: 'pane_basemap',
+                transparent: true
+            });
+            baseMaps = {'JWST': layer_basemap_2, 'Shipcore': layer_basemap_1};
             */
 
+            // Create Mining Systems Layer
+            map.createPane('pane_mining_systems');
+            map.getPane('pane_mining_systems').style.zIndex = order.mining_systems;
+            map.getPane('pane_mining_systems').style['mix-blend-mode'] = 'normal';
+
+            // Mining Systems Web
+            var layer_mining_systems = new L.geoJson(json_mining_systems, {
+                attribution: '',
+                interactive: false,
+                dataVar: 'json_mining_systems',
+                layerName: 'layer_mining_systems',
+                pane: 'pane_mining_systems',
+                pointToLayer: function (feature, latlng) {
+                    var context = {
+                        feature: feature,
+                        variables: {}
+                    };
+                    return L.shapeMarker(latlng, style_mining_systems(feature));
+                },
+            });
+            bounds_group.addLayer(layer_mining_systems);
+
+            // Mining Systems Local
+            /*
+            wmsServerMS = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/mining_systems.map';
+            var layer_mining_systems = L.tileLayer.wms(wmsServerMS, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'mining_sts',
+                srs: 'EPSG:3395',
+                format: 'image/png',
+                pane: 'pane_mining_systems',
+                transparent: true
+            });
+            */
+            // Create Industrial Systems layer
+            map.createPane('pane_industrial_systems');
+            map.getPane('pane_industrial_systems').style.zIndex = order.industrial_systems;
+            map.getPane('pane_industrial_systems').style['mix-blend-mode'] = 'normal';
+
+            // Industrial Systems Web
+            var layer_industrial_systems = new L.geoJson(json_industrial_systems, {
+                attribution: '',
+                interactive: false,
+                dataVar: 'json_industrial_systems',
+                layerName: 'layer_industrial_systems',
+                pane: 'pane_industrial_systems',
+                pointToLayer: function (feature, latlng) {
+                    var context = {
+                        feature: feature,
+                        variables: {}
+                    };
+                    return L.shapeMarker(latlng, style_industrial_systems(feature));
+                },
+            });
+
+            // Industrial Systems Local
+            /*
+            wmsServerIS = 'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/industrial_systems.map';
+            var layer_industrial_systems = L.tileLayer.wms(wmsServerIS, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'industrial_sts',
+                srs: 'EPSG:3395',
+                format: 'image/png',
+                pane: 'pane_Industrial_Systems',
+                transparent: true
+            });
+            */
+            // Create Core Systems layer
+            map.createPane('pane_core_systems');
+            map.getPane('pane_core_systems').style.zIndex = order.core_systems;
+            map.getPane('pane_core_systems').style['mix-blend-mode'] = 'normal';
+
+            // Core Systems Web
+            var layer_core_systems = new L.geoJson(json_core_systems, {
+                attribution: '',
+                interactive: false,
+                dataVar: 'json_core_systems',
+                layerName: 'layer_core_systems',
+                pane: 'pane_core_systems',
+                pointToLayer: function (feature, latlng) {
+                    var context = {
+                        feature: feature,
+                        variables: {}
+                    };
+                    return L.shapeMarker(latlng, style_core_systems(feature));
+                },
+            });
+            bounds_group.addLayer(layer_core_systems);
+
+            /*
+            // Core Systems Local
+            var layer_core_systems = L.tileLayer.wms(wmsGeoServer, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'Shipcore:core_systems',
+                srs: 'EPSG:3395',
+                format: 'image/png',
+                pane: 'pane_core_Systems',
+                transparent: true
+            });
+            */
+            // Create Capital Systems layer
+            map.createPane('pane_capital_systems');
+            map.getPane('pane_capital_systems').style.zIndex = order.capital_systems;
+            map.getPane('pane_capital_systems').style['mix-blend-mode'] = 'normal';
+
+            // Capital Systems Web
+            var layer_capital_systems = new L.geoJson(json_capital_systems, {
+                attribution: '',
+                interactive: false,
+                dataVar: 'json_capital_systems',
+                layerName: 'layer_capital_systems',
+                pane: 'pane_capital_systems',
+                pointToLayer: function (feature, latlng) {
+                    var context = {
+                        feature: feature,
+                        variables: {}
+                    };
+                    return L.shapeMarker(latlng, style_capital_systems(feature));
+                },
+            });
+            bounds_group.addLayer(layer_capital_systems);
+
+            // Capital Systems Local
+            /*
+            var layer_capital_systems = L.tileLayer.wms(wmsGeoServer, {
+                version: '1.1.1',
+                request: 'GetMap',
+                layers: 'Shipcore:capital_systems',
+                srs: 'EPSG:3395',
+                format: 'image/png',
+                pane: 'pane_Capital_Systems',
+                transparent: true
+            });
+            */
             // Create system search tool
             map.addControl(new L.Control.Search({
                 layer: layer_Systems_2,
@@ -343,7 +509,6 @@
             map.addControl(new L.Control.Fullscreen());
 
             // Create legend
-
             var pointOverlays = {
                 '<span class="layer-name">Systems</span><br />\
                 <table>\
@@ -355,17 +520,47 @@
                         <td style="text-align: center;"><img src="legend/Systems_2_00.png" /></td>\
                         <td>System With No Star</td>\
                     </tr>\
+                </table>': layer_Systems_2,
+                '<span>Mining Systems</span><br />\
+                <table>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Systems_Mng.png" /></td>\
+                        <td></td>\
+                    </tr>\
+                </table>': layer_mining_systems,
+                '<span>Industrial Systems</span><br />\
+                <table>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Systems_Idstr.png" /></td>\
+                        <td></td>\
+                    </tr>\
+                </table>': layer_industrial_systems,
+                '<span>Core Systems</span><br />\
+                <table>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Systems_Core.png" /></td>\
+                        <td></td>\
+                    </tr>\
+                </table>': layer_core_systems,
+                '<span>Capital Systems</span><br />\
+                <table>\
+                    <tr>\
+                        <td style="text-align: center;"><img src="legend/Systems_Cptl.png" /></td>\
+                        <td></td>\
+                    </tr>\
                 </table>\
-                <span class="layer-name">Basemaps</span><br />': layer_Systems_2,
-                '<span>James Webb Space Telescope</span><br />': baseMaps['JWST'],
-                '<span>Nanite Interstallar Imaging</span><br />': baseMaps['Shipcore']
+                <!--<span class="layer-name">Basemaps</span><br />-->': layer_capital_systems,
+                //'<span>James Webb Space Telescope</span><br />': baseMaps['JWST'],
+                //'<span>Nanite Interstallar Imaging</span><br />': baseMaps['Shipcore']
             }
+          
             var pointControl = new L.control.layers(null, pointOverlays,{
                 position: 'bottomleft',
-                collapsed:false,
+                collapsed:true,
             });
             pointControl.addTo(map);
-            
+
+            loadBasemaps()
 
             var polygonOverlays = {
                 '<span class="layer-name">Regions</span><br />\
@@ -443,7 +638,7 @@
                         <td>At War</td>\
                     </tr>\
                 </table>': layer_Diplomacy_6,                
-
+                /*
                 '<span class="layer-name">Economic Sectors</span><br />\
                 <table>\
                     <tr>\
@@ -479,6 +674,7 @@
                         <td>Trade Sector</td>\
                     </tr>\
                 </table>': layer_Sectors_3,
+                */
             }
             var polygonControl = new L.control.layers(null,polygonOverlays,{
                 position: 'topright',
@@ -605,7 +801,7 @@
                 "Status": "str",
                 "Character": "str",
                 "Book": "str",
-                "Sector": "str"
+                //"Sector": "str"
             };
             
             // Main filtering function
@@ -1354,6 +1550,7 @@
             div_System_Nam.appendChild(sel_System_Nam);
 
             // Create Economic Sector Select Filter
+            /*
             document.getElementById("menu").appendChild(document.createElement("div"));
 
             var div_Sector = document.createElement('div');
@@ -1394,6 +1591,7 @@
             Sector_options_str  += '<option value="Trade Sector">Trade Sector</option>';
             sel_Sector.innerHTML = Sector_options_str;
             div_Sector.appendChild(sel_Sector);
+            */
 
             // ?
             resetLabels([layer_Regions_0,layer_Systems_2]);
@@ -1416,7 +1614,7 @@
             sel_Book.selectedIndex = 0; // Limit the default character journey scope to first book
             sel_Book.dispatchEvent(new Event('change'));
 
-            reset_Nation.onclick(); // Clear the filter for regions (makes diplomacy layer look better on load for some resson?)
+            reset_Nation.onclick(); // Clear the filter for regions (makes diplomacy layer not messy on load for some resson?)
 
             map.removeLayer(layer_Characters_4); // Hide the character journey layer after setting default displays for character and book
             map.removeLayer(layer_Diplomacy_6); // Hide the diplomacy layer

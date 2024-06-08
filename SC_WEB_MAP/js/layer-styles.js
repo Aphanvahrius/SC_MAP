@@ -695,3 +695,75 @@ function style_subregions_7_0() {
         interactive: false,
     }
 }
+
+function style_mining_systems() {
+    return {
+        pane: 'pane_mining_systems',
+        shape: 'diamond',
+        radius: 8.0,
+        opacity: 1,
+        color: 'rgba(35,35,35,1.0)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: 2.0,
+        fill: true,
+        fillOpacity: 1,
+        fillColor: 'rgba(174,9,0,1.0)',
+        interactive: false,
+    }
+}
+
+function style_industrial_systems() {
+    return {
+        pane: 'pane_industrial_systems',
+        shape: 'triangle',
+        radius: 10,
+        opacity: 1,
+        color: 'rgba(35,35,35,1.0)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: 2.0,
+        fill: true,
+        fillOpacity: 1,
+        fillColor: 'rgba(174,9,0,1.0)',
+        interactive: false,
+    }
+}
+
+function style_core_systems() {
+    return {
+        pane: 'pane_core_systems',
+        shape: 'square',
+        radius: 8.0,
+        opacity: 1,
+        color: 'rgba(35,35,35,1.0)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: 2.0,
+        fill: true,
+        fillOpacity: 1,
+        fillColor: 'rgba(218,165,32,1.0)',
+        interactive: false,
+    }
+}
+
+function style_capital_systems() {
+    return {
+        pane: 'pane_capital_systems',
+        shape: 'star-5',
+        radius: 16,
+        opacity: 1,
+        color: 'rgba(35,35,35,1.0)',
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: 2.0,
+        fill: true,
+        fillOpacity: 1,
+        fillColor: 'rgba(218,165,32,1.0)',
+        interactive: false,
+    }
+}
