@@ -85,7 +85,10 @@
             var hash = new L.Hash(map);
 
             // Coords popup
-            //map.on('click', display_Coords);
+            map.on('click', display_Coords);
+
+            // Scalebar
+            L.control.scale({metric: true, imperial: false}).addTo(map);
 
             // Create attributions
             map.attributionControl.setPrefix('\
