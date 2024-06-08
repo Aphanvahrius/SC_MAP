@@ -6,7 +6,7 @@ MAP
     WEB
       METADATA
         'wms_title'           'Shipcore_Industrial_Systems'
-        'wms_onlineresource'  'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/industrial_systems.map'
+        'wms_onlineresource'  'http://localhost/cgi-bin/mapserv.exe?map=C:/szkola/WebGIS/Projekt/SC_MAP/SC_WEB_MAP/mapserver/industrial_systems.map'
         'wms_srs'             'EPSG:3395'
         'wms_enable_request'  '*'
       END
