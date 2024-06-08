@@ -28,15 +28,15 @@ MAP
     END
 
     SYMBOL
-      NAME 'square'
+      NAME 'diamond'
       TYPE vector
       FILLED true
       POINTS
-        0 1
-        0 0
-        1 0
-        1 1
-        0 1
+        0.5 1
+        1 0.5
+        0.5 0
+        0 0.5
+        0.5 1
       END
     END
   
@@ -60,7 +60,7 @@ MAP
         NAME 'Mining_Systems' 
 
         STYLE
-            SYMBOL 'square'
+            SYMBOL 'diamond'
             WIDTH 3
 		    COLOR 174 9 0
 		    OUTLINECOLOR 0 0 0

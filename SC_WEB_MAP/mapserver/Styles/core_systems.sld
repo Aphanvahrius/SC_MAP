@@ -10,13 +10,13 @@
           <se:PointSymbolizer>
             <se:Graphic>
               <se:Mark>
-                <se:WellKnownName>star</se:WellKnownName>
+                <se:WellKnownName>square</se:WellKnownName>
                 <se:Fill>
-                  <se:SvgParameter name="fill">#ff0105</se:SvgParameter>
+                  <se:SvgParameter name="fill">#daa520</se:SvgParameter>
                 </se:Fill>
                 <se:Stroke>
                   <se:SvgParameter name="stroke">#232323</se:SvgParameter>
-                  <se:SvgParameter name="stroke-width">1</se:SvgParameter>
+                  <se:SvgParameter name="stroke-width">2</se:SvgParameter>
                 </se:Stroke>
               </se:Mark>
               <se:Size>21</se:Size>

@@ -12,7 +12,7 @@
               <se:Mark>
                 <se:WellKnownName>star</se:WellKnownName>
                 <se:Fill>
-                  <se:SvgParameter name="fill">#0173ff</se:SvgParameter>
+                  <se:SvgParameter name="fill">#daa520</se:SvgParameter>
                 </se:Fill>
                 <se:Stroke>
                   <se:SvgParameter name="stroke">#232323</se:SvgParameter>
