@@ -352,7 +352,13 @@
                 pane: 'pane_basemap',
                 transparent: true
             });
-            baseMaps = {'JWST': layer_basemap_2, 'Shipcore': layer_basemap_1};
+
+            baseMaps = {'James Webb Space Telescope': layer_basemap_2, 'Nanite Interstellar Imaging': layer_basemap_1};
+            basemap_control = new L.control.layers(null, baseMaps,{
+                position: 'bottomright',
+                collapsed:false,
+            });
+            basemap_control.addTo(map);
 
             // Create Mining Systems Layer
             map.createPane('pane_mining_systems');
