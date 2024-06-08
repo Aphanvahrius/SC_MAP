@@ -1,0 +1,76 @@
+MAP
+    NAME "Industrial_Systems"
+    PROJECTION
+      'init=epsg:3395'
+    END
+    WEB
+      METADATA
+        'wms_title'           'Shipcore_Industrial_Systems'
+        'wms_onlineresource'  'http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/industrial_systems.map'
+        'wms_srs'             'EPSG:3395'
+        'wms_enable_request'  '*'
+      END
+    END
+    SIZE 256 256
+    UNITS meters
+    EXTENT 2800 12600 47600 61400 # L D R U
+    SHAPEPATH './data/shp'
+  
+    IMAGECOLOR '#FFFFFF00'
+    IMAGETYPE png
+  
+    OUTPUTFORMAT
+      NAME png
+      DRIVER 'AGG/PNG'
+      MIMETYPE 'image/png'
+      IMAGEMODE RGBA
+      EXTENSION 'png'
+    END
+
+    SYMBOL
+      NAME 'triangle'
+      TYPE vector
+      FILLED true
+      POINTS
+        0 1
+        .5 0
+        1 1
+        0 1
+      END
+    END
+  
+    LAYER
+      NAME 'industrial_sts'
+      TYPE POINT
+      EXTENT 2800 12600 47600 61400
+      DATA 'industrial_systems.shp'
+      STATUS DEFAULT
+  
+      METADATA
+        'wms_title' 'Shipcore_Industrial_Systems'
+        'wms_enable_request' '*'
+      END
+  
+      PROJECTION
+        'init=epsg:3395'
+      END
+  
+      CLASS
+        NAME 'Industrial_Systems' 
+
+        STYLE
+            SYMBOL 'triangle'
+            WIDTH 3
+		    COLOR 174 9 0
+		    OUTLINECOLOR 0 0 0
+		    SIZE 20
+        END
+      END
+    END
+  END
+  
+  # Get Map
+#http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/industrial_systems.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=industrial_sts&STYLES=&SRS=EPSG:3395&BBOX=2888.41,12509.1,47523.4,61341.1&WIDTH=1024&HEIGHT=1024&FORMAT=image/png
+
+# Get Capabilities
+#http://localhost/cgi-bin/mapserv.exe?map=C:/Users/mcier/Documents/ArcGIS/Projects/shipcore/QGIS/Git/SC_MAP/SC_WEB_MAP/mapserver/industrial_systems.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetCapabilities&LAYERS=industrial_sts

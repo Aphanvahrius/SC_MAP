@@ -88,10 +88,6 @@ function pop_Systems_2(feature, layer) {
                 <td class="visible-with-data" id="Star_Presc">' + (feature.properties['Star_Presc'] !== '0' ? 'Yes' : 'No') + '</td>\
             </tr>\
             <tr>\
-                <th scope="row">Region</th>\
-                <td class="visible-with-data" id="Nation">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
                 <th scope="row">Inhabitable Worlds: </th>\
                 <td class="visible-with-data" id="Inhabitabl">' + (feature.properties['Inhabitabl'] !== null ? autolinker.link(feature.properties['Inhabitabl'].toLocaleString()) : '') + '</td>\
             </tr>\

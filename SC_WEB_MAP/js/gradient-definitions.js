@@ -5,10 +5,10 @@
                 radialGradient.setAttribute("cx", "50%");
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#ffff00"/>' +
-                                            '<stop offset="40%" stop-color="#fff20e"/>' +
-                                            '<stop offset="70%" stop-color="#fee616"/>' +
-                                            '<stop offset="100%" stop-color="#f9ce1f"/>';
+                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#ffff0a"/>' +
+                                            '<stop offset="40%" stop-color="#fff200"/>' +
+                                            '<stop offset="70%" stop-color="#f4db01"/>' +
+                                            '<stop offset="100%" stop-color="#e0b406"/>';
                 return radialGradient;
             }
 
@@ -20,9 +20,9 @@
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "60%");
                 radialGradient.innerHTML =  '<stop offset="0%" stop-color="#00b339"/>' +
-                                            '<stop offset="40%" stop-color="#0ba740"/>' +
-                                            '<stop offset="70%" stop-color="#119b43"/>' +
-                                            '<stop offset="100%" stop-color="#168343"/>';
+                                            '<stop offset="40%" stop-color="#0aa33d"/>' +
+                                            '<stop offset="70%" stop-color="#0f8a3c"/>' +
+                                            '<stop offset="100%" stop-color="#126d38"/>';
                 return radialGradient;
             }
 
@@ -30,13 +30,13 @@
             function gradientStyleSF() {
                 var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
                 radialGradient.setAttribute("id", "gradientSF");
-                radialGradient.setAttribute("cx", "50%");
+                radialGradient.setAttribute("cx", "70%");
                 radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "40%");
+                radialGradient.setAttribute("r", "50%");
                 radialGradient.innerHTML =  '<stop offset="0%" stop-color="#a600ff"/>' +
-                                            '<stop offset="40%" stop-color="#a601ef"/>' +
-                                            '<stop offset="70%" stop-color="#a502e1"/>' +
-                                            '<stop offset="100%" stop-color="#a104c8"/>';
+                                            '<stop offset="40%" stop-color="#a001e4"/>' +
+                                            '<stop offset="70%" stop-color="#8902bb"/>' +
+                                            '<stop offset="100%" stop-color="#790396"/>';
                 return radialGradient;
             }
 
@@ -44,13 +44,13 @@
             function gradientStyleSI() {
                 var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
                 radialGradient.setAttribute("id", "gradientSI");
-                radialGradient.setAttribute("cx", "50%");
+                radialGradient.setAttribute("cx", "60%");
                 radialGradient.setAttribute("cy", "50%");
-                radialGradient.setAttribute("r", "60%");
+                radialGradient.setAttribute("r", "50%");
                 radialGradient.innerHTML =  '<stop offset="0%" stop-color="#ff0000"/>' +
-                                            '<stop offset="40%" stop-color="#f10202"/>' +
-                                            '<stop offset="70%" stop-color="#e30303"/>' +
-                                            '<stop offset="100%" stop-color="#c80404"/>';
+                                            '<stop offset="40%" stop-color="#e30202"/>' +
+                                            '<stop offset="70%" stop-color="#c90303"/>' +
+                                            '<stop offset="100%" stop-color="#910303"/>';
                 return radialGradient;
             }
 
@@ -75,10 +75,10 @@
                 radialGradient.setAttribute("cx", "50%");
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#00998a"/>' +
-                                            '<stop offset="40%" stop-color="#009485"/>' +
-                                            '<stop offset="70%" stop-color="#008f81"/>' +
-                                            '<stop offset="100%" stop-color="#008577"/>'
+                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#00b3a1"/>' +
+                                            '<stop offset="40%" stop-color="#00998a"/>' +
+                                            '<stop offset="70%" stop-color="#008073"/>' +
+                                            '<stop offset="100%" stop-color="#006b5e"/>';
                 return radialGradient;
             }
 
@@ -86,13 +86,13 @@
             function gradientStyleDoD() {
                 var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
                 radialGradient.setAttribute("id", "gradientDoD");
-                radialGradient.setAttribute("cx", "50%");
+                radialGradient.setAttribute("cx", "35%");
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "60%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#9a0202"/>' +
-                                            '<stop offset="40%" stop-color="#910202"/>' +
-                                            '<stop offset="70%" stop-color="#830303"/>' +
-                                            '<stop offset="100%" stop-color="#7f0303"/>';
+                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#7e0202"/>' +
+                                            '<stop offset="40%" stop-color="#640202"/>' +
+                                            '<stop offset="70%" stop-color="#4a0303"/>' +
+                                            '<stop offset="100%" stop-color="#300303"/>';
                 return radialGradient;
             }
 
@@ -104,9 +104,9 @@
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "60%");
                 radialGradient.innerHTML =  '<stop offset="0%" stop-color="#7bf906"/>' +
-                                            '<stop offset="40%" stop-color="#81ec06"/>' +
-                                            '<stop offset="70%" stop-color="#85df06"/>' +
-                                            '<stop offset="100%" stop-color="#86c705"/>';
+                                            '<stop offset="40%" stop-color="#6cc705"/>' +
+                                            '<stop offset="70%" stop-color="#68b003"/>' +
+                                            '<stop offset="100%" stop-color="#547c03"/>';
                 return radialGradient;
             }
 
@@ -118,9 +118,9 @@
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "60%");
                 radialGradient.innerHTML =  '<stop offset="0%" stop-color="#737d8c"/>' +
-                                            '<stop offset="40%" stop-color="#6c7485"/>' +
-                                            '<stop offset="70%" stop-color="#666c7e"/>' +
-                                            '<stop offset="100%" stop-color="#5a5a72"/>';
+                                            '<stop offset="40%" stop-color="#676e7e"/>' +
+                                            '<stop offset="70%" stop-color="#5b6071"/>' +
+                                            '<stop offset="100%" stop-color="#4f4f64"/>';
                 return radialGradient;
             }
 
@@ -128,12 +128,12 @@
             function gradientStyleGS() {
                 var radialGradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
                 radialGradient.setAttribute("id", "gradientGS");
-                radialGradient.setAttribute("cx", "50%");
+                radialGradient.setAttribute("cx", "60%");
                 radialGradient.setAttribute("cy", "50%");
                 radialGradient.setAttribute("r", "40%");
-                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#A0A0A0"/>' +
-                                            '<stop offset="40%" stop-color="#9B9B9B"/>' +
-                                            '<stop offset="70%" stop-color="#959595"/>' +
-                                            '<stop offset="100%" stop-color="#888888"/>';
+                radialGradient.innerHTML =  '<stop offset="0%" stop-color="#999999"/>' +
+                                            '<stop offset="40%" stop-color="#8c8c8c"/>' +
+                                            '<stop offset="70%" stop-color="#808080"/>' +
+                                            '<stop offset="100%" stop-color="#737373"/>';
                 return radialGradient;
             }
