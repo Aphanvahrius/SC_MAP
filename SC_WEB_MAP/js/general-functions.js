@@ -26,34 +26,3 @@ function removeEmptyRowsFromPopupContent(content, feature) {
     }
     return tempDiv.innerHTML;
 }
-
-var highlightLayer;
-function highlightFeature(e) {
-    highlightLayer = e.target;
-    highlightLayer.openPopup();
-}
-
-function loadGeoRaster(tifPath, options) {
-    return fetch(tifPath)
-        .then(response => response.arrayBuffer())
-        .then(arrayBuffer => {
-            return parseGeoraster(arrayBuffer).then(georaster => {
-                console.log("georaster:", georaster);
-                const layerOptions = {
-                    opacity: 1,
-                    resolution: 256,
-                    mask_srs: 'EPSG:3395',
-                    ...options
-                };
-                return new GeoRasterLayer({
-                    georaster: georaster,
-                    ...layerOptions
-                });
-            });
-        })
-        .catch(error => {
-            console.error('Error loading or parsing the GeoTIFF file:', error);
-            return null;
-        });
-}
-

@@ -111,19 +111,6 @@ function pop_Systems_2(feature, layer) {
     popup.setContent(updatedContent);
 }
 
-function pop_Sectors_3(feature, layer) {
-    var popupContent = '<table>\
-            <tr>\
-                <td class="visible-with-data" id="Sector" colspan="2">' + (feature.properties['Sector'] !== null ? autolinker.link(feature.properties['Sector'].toLocaleString()) : '') + '</td>\
-            </tr>\
-        </table>';
-    layer.bindPopup(popupContent, {maxHeight: 400});
-    var popup = layer.getPopup();
-    var content = popup.getContent();
-    var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-    popup.setContent(updatedContent);
-}
-
 function pop_Characters_4(feature, layer) {
     var popupContent = '<table>\
             <tr>\
@@ -161,20 +148,6 @@ function pop_Diplomacy_6(feature, layer) {
                         ) : 'Our Country'
                     ) : ''
                 ) + '</td>\
-            </tr>\
-        </table>';
-    layer.bindPopup(popupContent, {maxHeight: 400});
-    var popup = layer.getPopup();
-    var content = popup.getContent();
-    var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-    popup.setContent(updatedContent);
-}
-
-function pop_Routes_5(feature, layer) {
-    var popupContent = '<table>\
-            <tr>\
-                <th scope="row">Main products</th>\
-                <td class="visible-with-data" id="Products">' + (feature.properties['Products'] !== null ? autolinker.link(feature.properties['Products'].toLocaleString()) : '') + '</td>\
             </tr>\
         </table>';
     layer.bindPopup(popupContent, {maxHeight: 400});
