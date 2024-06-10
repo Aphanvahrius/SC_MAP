@@ -16,7 +16,8 @@
         <link rel="stylesheet" href="css/filter.css">
         <link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
-        <link rel="stylesheet" href="css/leaflet.fullscreen.css">
+        <link rel="stylesheet" href="css/leaflet-fullscreen.css">
+        <link rel="stylesheet" href="css/leaflet-mouse-position.css">
 
         <style>
             html, body, #map {
@@ -46,7 +47,8 @@
         <div id="map"></div>
 
         <script src="js/leaflet.js"></script>
-        <script src='js/Leaflet.fullscreen.js'></script>
+        <script src='js/leaflet-fullscreen.js'></script>
+        <script src="js/leaflet-mouse-position.js"></script>
         <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet-hash.js"></script>
         <script src="js/Autolinker.min.js"></script>
@@ -82,8 +84,8 @@
 
             var hash = new L.Hash(map);
 
-            // Coords popup
-            map.on('click', display_Coords);
+            // Add Mouse Position Control
+            L.control.mousePosition().addTo(map);
 
             // Scalebar
             L.control.scale({metric: true, imperial: false}).addTo(map);
