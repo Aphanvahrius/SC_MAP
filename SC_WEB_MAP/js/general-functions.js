@@ -2,7 +2,7 @@ function setBounds() {
     if (bounds_group.getLayers().length) {
         map.fitBounds(bounds_group.getBounds());
     }
-    map.setMaxBounds([[-0.4, -0.7], [0.9, 1.5]]); // D L U R
+    map.setMaxBounds([[-0.4, -0.7], [0.9, 2]]); // D L U R
 }
 
 function revealSpoiler() {
