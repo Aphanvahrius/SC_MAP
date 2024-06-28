@@ -740,7 +740,7 @@
                 });
             }
 
-            // Function to handle system selection
+            // Function to handle system selection with debouncing
             function handleSystemSelection() {
                 clearSystemLabels();
                 const select = document.getElementById('sel_System_Nam');
@@ -752,7 +752,7 @@
                     const systemValues = json_Systems_2.features.map(f => {
                         return {
                             name: f.properties.System_Nam,
-                            value: selectedID + parseInt(f.properties.Star_Presc, 10) // Ensure imputs are numbers
+                            value: selectedID + parseInt(f.properties.Star_Presc, 10) // Ensure inputs are numbers
                         };
                     });
 
@@ -777,17 +777,22 @@
                 clearSystemLabels();
             });
 
+            // Debounce function to limit the rate of function execution
+            function debounce(func, wait) {
+                let timeout;
+                return function() {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(func, wait);
+                };
+            }
+
             // Optimize performance by reducing the number of tooltip updates
-            let tooltipTimeout;
-            map.on('zoomend', function() {
-                if (tooltipTimeout) clearTimeout(tooltipTimeout);
-                tooltipTimeout = setTimeout(function() {
-                    const select = document.getElementById('sel_System_Nam');
-                    if (select.value) {
-                        handleSystemSelection();
-                    }
-                }, 500);
-            });
+            map.on('zoomend', debounce(function() {
+                const select = document.getElementById('sel_System_Nam');
+                if (select.value) {
+                    handleSystemSelection();
+                }
+            }, 300));
 
             // Ensure the "clear filter" button clears the labels
             document.querySelector('.filterlabel button').addEventListener('click', clearSystemLabels);
