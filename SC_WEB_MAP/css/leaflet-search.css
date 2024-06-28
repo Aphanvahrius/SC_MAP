@@ -28,7 +28,10 @@
     z-index:1000;
     box-shadow:0 1px 7px rgba(0,0,0,.65);
     margin-left:67px;
-    margin-top:10px
+    margin-top:10px;
+    border-bottom-style: none!important;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .leaflet-control-search.search-exp {
@@ -46,11 +49,7 @@
     padding:0 18px 0 2px;
     margin:3px 0 3px 3px
 }
-/*
-.leaflet-control-search.search-load .search-input {
-    background:url(../images/loader.gif) no-repeat center right #fff
-}
-*/
+
 .leaflet-control-search.search-load .search-cancel {
     visibility:hidden
 }
@@ -62,7 +61,6 @@
     position:absolute;
     right:22px;
     margin:3px 0;
-    /*background:url(../images/search-icon.png) no-repeat 0 -46px;*/
     text-decoration:none;
     filter:alpha(opacity=80);
     opacity:.8
@@ -92,11 +90,7 @@
     text-align: center !important;
     line-height: 40px !important;
 }
-/*
-.leaflet-control-search .search-button:hover {
-    background:url(../images/search-icon.png) no-repeat 2px -22px #fafafa
-}
-*/
+
 .leaflet-control-search .search-tooltip {
     position:absolute;
     top:100%;

@@ -1,769 +1,141 @@
+function commonStyle(pane, color, weight, fillColor, fillOpacity = 1.0, interactive = true) {
+    return {
+        pane: pane,
+        opacity: 1,
+        color: color,
+        dashArray: '',
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        weight: weight,
+        fill: true,
+        fillOpacity: fillOpacity,
+        fillColor: fillColor,
+        interactive: interactive
+    };
+}
+
 function style_Regions_0_0(feature) {
-    switch(String(feature.properties['Nation'])) {
-        case 'Corporate Systems':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientCS)',
-                interactive: true,
-            }
-            break;
-        
-        case 'Holy Ertan Republic':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientHER)',
-                interactive: true,
-            }
-            break;
-
-        case 'Solarian Federation':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientSF)',
-                interactive: true,
-            }
-            break;
-        
-        case 'Solar Imperium':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientSI)',
-                interactive: true,
-            }
-            break;
-
-        case 'Duchy of Meltisar':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientDoM)',
-                interactive: true,
-            }
-            break;
-
-        case 'Duchy of Drakar':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientDoD)',
-                interactive: true,
-            }
-            break;
-
-        case 'Free Planets Alliance':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientFPA)',
-                interactive: true,
-            }
-            break;
-
-        case 'Ghost Sector':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientGS)',
-                interactive: true,
-            }
-            break;
-
-        case 'The Western Frontier Systems':
-            return {
-                pane: 'pane_Regions_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'url(#gradientWFS)',
-                interactive: true,
-            }
-            break;
-
-            case 'Starlight Revolution':
-                return {
-                    pane: 'pane_Regions_0',
-                    opacity: 1,
-                    color: 'rgba(35,35,35,1.0)',
-                    dashArray: '',
-                    lineCap: 'butt',
-                    lineJoin: 'miter',
-                    weight: 2.0, 
-                    fill: true,
-                    fillOpacity: 1,
-                    fillColor: 'url(#gradientSR)',
-                    interactive: true,
-                }
-            break;
-    }
+    const nationStyles = {
+        'Corporate Systems': 'url(#gradientCS)',
+        'Holy Ertan Republic': 'url(#gradientHER)',
+        'Solarian Federation': 'url(#gradientSF)',
+        'Solar Imperium': 'url(#gradientSI)',
+        'Duchy of Meltisar': 'url(#gradientDoM)',
+        'Duchy of Drakar': 'url(#gradientDoD)',
+        'Free Planets Alliance': 'url(#gradientFPA)',
+        'Ghost Sector': 'url(#gradientGS)',
+        'The Western Frontier Systems': 'url(#gradientWFS)',
+        'Starlight Revolution': 'url(#gradientSR)'
+    };
+    
+    return commonStyle('pane_Regions_0', 'rgba(35,35,35,1.0)', 2.0, nationStyles[feature.properties['Nation']]);
 }
 
 function style_Lanes_1_0(feature) {
-    switch(String(feature.properties['Status'])) {
-        case 'In Developement':
-            return {
-                pane: 'pane_Lanes_1',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'square',
-                lineJoin: 'bevel',
-                weight: 3.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-            break;
-
-        case 'Operational':
-            return {
-                pane: 'pane_Lanes_1',
-                opacity: 1,
-                color: 'rgba(229,229,229,1.0)',
-                dashArray: '',
-                lineCap: 'square',
-                lineJoin: 'bevel',
-                weight: 3.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-            break;
-    }
+    const statusStyles = {
+        'In Developement': 'rgba(35,35,35,1.0)',
+        'Operational': 'rgba(229,229,229,1.0)'
+    };
+    
+    return commonStyle('pane_Lanes_1', statusStyles[feature.properties['Status']], 3.0, null, 0, true);
 }
 
 function style_Lanes_1_1(feature) {
-    switch(String(feature.properties['Status'])) {
-        case 'In Developement':
-            return {
-                pane: 'pane_Lanes_1',
-                opacity: 1,
-                color: 'rgba(238,238,238,1.0)',
-                dashArray: '',
-                lineCap: 'square',
-                lineJoin: 'bevel',
-                weight: 2.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-            break;
-
-        case 'Operational':
-            return {
-                pane: 'pane_Lanes_1',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'square',
-                lineJoin: 'bevel',
-                weight: 2.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-            break;
-    }
+    const statusStyles = {
+        'In Developement': 'rgba(238,238,238,1.0)',
+        'Operational': 'rgba(35,35,35,1.0)'
+    };
+    
+    return commonStyle('pane_Lanes_1', statusStyles[feature.properties['Status']], 2.0, null, 0, true);
 }
 
 function style_Systems_2_0(feature) {
-    switch(String(feature.properties['Star_Presc'])) {
-        case '0':
-            return {
-                pane: 'pane_Systems_2',
-                radius: 8.0,
-                opacity: 1,
-                color: 'rgba(231,200,47,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(0,0,0,1.0)',
-                interactive: true,
-            }
-            break;
-
-        case '1':
-            return {
-                pane: 'pane_Systems_2',
-                radius: 8.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(255,251,1,1.0)',
-                interactive: true,
-            }
-            break;
-    }
-}
-
-function style_Sectors_3_0(feature) {
-    switch(String(feature.properties['Sector'])) {
-        case 'Agrarian Sector':
-            return {
-        pane: 'pane_Sectors_3',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(51,160,44,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Consumer Sector':
-            return {
-        pane: 'pane_Sectors_3',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(226,110,133,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Autarkic Sector':
-            return {
-        pane: 'pane_Sectors_3',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(194,79,30,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Free Planets Alliance':
-            return {
-        pane: 'pane_Sectors_3',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(133,158,95,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Frontier Sector':
-            return {
-        pane: 'pane_Sectors_3',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(168,211,37,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Industrial Sector':
-            return {
-        pane: 'pane_Sectors_3',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(210,43,48,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Research Sector':
-            return {
-        pane: 'pane_Sectors_3',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(1,175,255,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Trade Sector':
-            return {
-        pane: 'pane_Sectors_3',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(225,190,3,1.0)',
-        interactive: true,
-    }
-            break;
-    }
-}
-
-function style_Characters_4_0(feature) {
-    switch(String(feature.properties['Character'])) {
-        case 'Abbey':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(0,0,0,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 8.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-        case 'Alex':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(0,0,0,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 8.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-        case 'Elis':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(0,0,0,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 8.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-        case 'Thea':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(0,0,0,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 8.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-        case 'Tia':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(0,0,0,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 8.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-    }
-}
-function style_Characters_4_1(feature) {
-    switch(String(feature.properties['Character'])) {
-        case 'Abbey':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(1,175,255,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 6.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-        case 'Alex':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(10,70,130,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 6.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-        case 'Elis':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(210,43,48,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 6.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-        case 'Thea':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(251,255,0,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 6.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-        case 'Tia':
-            return {
-        pane: 'pane_Characters_4',
-        opacity: 1,
-        color: 'rgba(238,238,238,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 6.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-            break;
-    }
-}
-
-function style_Diplomacy_6_0(feature) {
-    switch(String(feature.properties['Relation'])) {
-        case 'Self':
-            return {
-        pane: 'pane_Diplomacy_6',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(19,101,201,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Friendly':
-            return {
-        pane: 'pane_Diplomacy_6',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(51,160,44,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Amicable':
-            return {
-        pane: 'pane_Diplomacy_6',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(168,211,37,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Neutral':
-            return {
-        pane: 'pane_Diplomacy_6',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(157,157,157,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Reserved':
-            return {
-        pane: 'pane_Diplomacy_6',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(255,127,0,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Hostile':
-            return {
-        pane: 'pane_Diplomacy_6',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(210,43,48,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'At War':
-            return {
-        pane: 'pane_Diplomacy_6',
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(128,0,0,1.0)',
-        interactive: true,
-    }
-            break;
-        case 'Nonexistent':
-            return {
-        pane: 'pane_Diplomacy_6',
-        opacity: 1,
-        color: 'rgba(35,35,35,0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 1.0, 
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(0,0,0,0)',
-        interactive: true,
-    }
-            break;
-    }
-}
-
-function style_Routes_5_0() {
+    const starStyles = {
+        '0': {color: 'rgba(231,200,47,1.0)', fillColor: 'rgba(0,0,0,1.0)'},
+        '1': {color: 'rgba(35,35,35,1.0)', fillColor: 'rgba(255,251,1,1.0)'}
+    };
+    
+    const style = starStyles[feature.properties['Star_Presc']];
     return {
-        pane: 'pane_Routes_5',
+        pane: 'pane_Systems_2',
+        radius: 8.0,
         opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 8.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-}
-function style_Routes_5_1() {
-    return {
-        pane: 'pane_Routes_5',
-        opacity: 1,
-        color: 'rgba(255,158,23,1.0)',
-        dashArray: '',
-        lineCap: 'square',
-        lineJoin: 'bevel',
-        weight: 4.0,
-        fillOpacity: 0,
-        interactive: true,
-    }
-}
-
-function style_subregions_7_0() {
-    return {
-        pane: 'pane_subregions_7',
-        opacity: 1,
-        color: 'rgba(50,50,50,0.6)',
+        color: style.color,
         dashArray: '',
         lineCap: 'butt',
-        lineJoin: 'bevel',
-        weight: 1, 
-        fill: false,
+        lineJoin: 'miter',
+        weight: 2.0,
+        fill: true,
         fillOpacity: 1,
-        fillColor: 'rgba(0,0,0,1.0)',
-        interactive: false,
-    }
+        fillColor: style.fillColor,
+        interactive: true
+    };
 }
 
-function style_mining_systems() {
+function style_Characters_3_0(feature) {
+    const color = 'rgba(0,0,0,1.0)';
+    return commonStyle('pane_Characters_3', color, 8.0, null, 0, true);
+}
+
+function style_Characters_3_1(feature) {
+    const characterStyles = {
+        'Abbey': 'rgba(1,175,255,1.0)',
+        'Alex': 'rgba(10,70,130,1.0)',
+        'Elis': 'rgba(210,43,48,1.0)',
+        'Thea': 'rgba(251,255,0,1.0)',
+        'Tia': 'rgba(238,238,238,1.0)'
+    };
+    
+    return commonStyle('pane_Characters_3', characterStyles[feature.properties['Character']], 6.0, null, 0, true);
+}
+
+function style_Diplomacy_4_0(feature) {
+    const relationStyles = {
+        'Self': 'rgba(19,101,201,1.0)',
+        'Friendly': 'rgba(51,160,44,1.0)',
+        'Amicable': 'rgba(168,211,37,1.0)',
+        'Neutral': 'rgba(157,157,157,1.0)',
+        'Reserved': 'rgba(255,127,0,1.0)',
+        'Hostile': 'rgba(210,43,48,1.0)',
+        'At War': 'rgba(128,0,0,1.0)',
+        'Nonexistent': 'rgba(0,0,0,0)'
+    };
+    
+    return commonStyle('pane_Diplomacy_4', 'rgba(35,35,35,1.0)', 1.0, relationStyles[feature.properties['Relation']]);
+}
+
+function style_Subregions_5_0() {
+    return commonStyle('pane_Subregions_5', 'rgba(20,20,20,0.6)', 1.0, 'rgba(0,0,0,0)', 1.0, false);
+}
+
+function style_Mining_6() {
     return {
-        pane: 'pane_mining_systems',
+        ...commonStyle('pane_Mining_6', 'rgba(35,35,35,1.0)', 2.0, 'rgba(174,9,0,1.0)', 1.0, false),
         shape: 'diamond',
         radius: 8.0,
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 2.0,
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(174,9,0,1.0)',
-        interactive: false,
-    }
+    };
 }
 
-function style_industrial_systems() {
+function style_Industrial_7() {
     return {
-        pane: 'pane_industrial_systems',
+        ...commonStyle('pane_Industrial_7', 'rgba(35,35,35,1.0)', 2.0, 'rgba(174,9,0,1.0)', 1.0, false),
         shape: 'triangle',
         radius: 8,
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 2.0,
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(174,9,0,1.0)',
-        interactive: false,
-    }
+    };
 }
 
-function style_core_systems() {
+function style_Core_8() {
     return {
-        pane: 'pane_core_systems',
+        ...commonStyle('pane_Core_8', 'rgba(35,35,35,1.0)', 2.0, 'rgba(218,165,32,1.0)', 1.0, false),
         shape: 'square',
         radius: 8.0,
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 2.0,
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(218,165,32,1.0)',
-        interactive: false,
-    }
+    };
 }
 
-function style_capital_systems() {
+function style_Capital_9() {
     return {
-        pane: 'pane_capital_systems',
+        ...commonStyle('pane_Capital_9', 'rgba(35,35,35,1.0)', 2.0, 'rgba(218,165,32,1.0)', 1.0, false),
         shape: 'star-5',
         radius: 16,
-        opacity: 1,
-        color: 'rgba(35,35,35,1.0)',
-        dashArray: '',
-        lineCap: 'butt',
-        lineJoin: 'miter',
-        weight: 2.0,
-        fill: true,
-        fillOpacity: 1,
-        fillColor: 'rgba(218,165,32,1.0)',
-        interactive: false,
-    }
+    };
 }
