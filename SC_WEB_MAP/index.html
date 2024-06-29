@@ -1,5 +1,4 @@
 <!doctype html>
-<!--MAIN -->
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -124,10 +123,10 @@
                 Lanes: 320,
                 Characters: 340,
                 Systems: 350,
-                mining: 351,
-                industrial: 352,
-                core: 353,
-                capital: 354
+                Mining: 351,
+                Industrial: 352,
+                Core: 353,
+                Capital: 354
             };
 
             // Function to create a layer with its pane
@@ -694,7 +693,7 @@
             createSliderFilter('Inhabitabl', 'INHABITABLE WORLDS', 0, 4, 1, [0, 4], wNumb({ decimals: 0 }));
 
             // Function to create a select filter
-            function createSelectFilter(id, label, options, size) {
+            function createSelectFilter(id, label, options, size, multiple = true, isSystemFilter = false) {
                 const menu = document.getElementById("menu");
 
                 const container = document.createElement('div');
@@ -715,14 +714,27 @@
                     for (let i = 0; i < select.options.length; i++) {
                         select.options[i].selected = false;
                     }
-                    clearSystemLabels();
+                    if (isSystemFilter) {
+                        clearSystemLabels();
+                    } else {
+                        filterFunc();
+                    }
                 };
                 container.appendChild(resetDiv);
 
                 const select = document.createElement('select');
                 select.id = `sel_${id}`;
+                if (multiple) {
+                    select.multiple = true;
+                }
                 select.size = size;
-                select.onchange = function() { handleSystemSelection(); };
+                select.onchange = function() {
+                    if (isSystemFilter) {
+                        handleSystemSelection();
+                    } else {
+                        filterFunc();
+                    }
+                };
 
                 let optionsStr = "";
                 for (const option of options) {
@@ -732,7 +744,7 @@
                 select.innerHTML = optionsStr;
                 container.appendChild(select);
             }
-
+            
             // Function to clear system labels
             function clearSystemLabels() {
                 layer_Systems_2.eachLayer(function (layer) {
@@ -740,19 +752,20 @@
                 });
             }
 
-            // Function to handle system selection with debouncing
+            // Function to handle system selection
             function handleSystemSelection() {
-                clearSystemLabels();
+                clearSystemLabels(); // Clear any existing labels
+
                 const select = document.getElementById('sel_System_Nam');
-                const selectedSystemName = select.value;
-                const selectedFeature = json_Systems_2.features.find(f => f.properties.System_Nam === selectedSystemName);
+                const selectedSystem = select.value;
+                const selectedFeature = json_Systems_2.features.find(f => f.properties.System_Nam === selectedSystem);
                 
                 if (selectedFeature) {
-                    const selectedID = parseInt(selectedFeature.properties.Star_Presc, 10); // Parse the input to an integer
+                    const selected = Number(selectedFeature.properties.Star_Presc);
                     const systemValues = json_Systems_2.features.map(f => {
                         return {
                             name: f.properties.System_Nam,
-                            value: selectedID + parseInt(f.properties.Star_Presc, 10) // Ensure inputs are numbers
+                            value: selected + Number(f.properties.Star_Presc)
                         };
                     });
 
@@ -768,16 +781,13 @@
 
                     if (systemValue !== undefined) {
                         layer.bindTooltip(systemValue.toString(), { permanent: true, direction: 'right', className: 'distance-tooltip' }).openTooltip();
+                    } else {
+                        layer.unbindTooltip();
                     }
                 });
             }
-
-            // Add a listener to clear tooltips on zoom
-            map.on('zoomstart', function() {
-                clearSystemLabels();
-            });
-
-            // Debounce function to limit the rate of function execution
+            
+            // Debounce function to limit the rate of execution
             function debounce(func, wait) {
                 let timeout;
                 return function() {
@@ -786,17 +796,13 @@
                 };
             }
 
-            // Optimize performance by reducing the number of tooltip updates
+            // Event listener to handle zoom end for performance optimization
             map.on('zoomend', debounce(function() {
                 const select = document.getElementById('sel_System_Nam');
                 if (select.value) {
-                    handleSystemSelection();
+                    handleSystemSelection(); // Recalculate and display labels on zoom
                 }
-            }, 300));
-
-            // Ensure the "clear filter" button clears the labels
-            document.querySelector('.filterlabel button').addEventListener('click', clearSystemLabels);
-
+            }, 300)); // Adjust debounce delay as necessary
 
             // Create Region Select Filter
             createSelectFilter('Nation', 'REGION / DIPLOMACY', [
@@ -810,7 +816,7 @@
                 { value: "Solarian Federation"},
                 { value: "Starlight Revolution"},
                 { value: "The Western Frontier Systems"}
-            ], 6);
+            ], 6, false);
 
             // Create Book Volume Select Filter
             createSelectFilter('Book', 'BOOK', [
@@ -833,7 +839,7 @@
             createSelectFilter('Star_Presc', 'STAR PRESENCE IN SYSTEM', [
                 { value: "1", label: "Yes" },
                 { value: "0", label: "No" }
-            ], 2);
+            ], 2, false);
 
             // Create Unsurveyed Bodies Select Filter
             createSelectFilter('Unsurv_bod', 'SYSTEMS WITH UNSURVEYED BODIES', [
@@ -849,13 +855,13 @@
             createSelectFilter('Type', 'STARLANE TYPE', [
                 { value: "International"},
                 { value: "National"}
-            ], 2);
+            ], 2, false);
 
             // Create Lane Status Select Filter
             createSelectFilter('Status', 'STARLANE STATUS', [
                 { value: "In Developement"},
                 { value: "Operational"}
-            ], 2);
+            ], 2, false);
 
             // Create Systems Select Filter
             createSelectFilter('System_Nam', 'SYSTEM NAME', [
@@ -1095,7 +1101,7 @@
                 { value: "Zeta Sextantis" },
                 { value: "Zeta-1 Reticuli" },
                 { value: "kappa Ursae Minoris" }
-            ], 5);
+            ], 5, false, true);
 
             // ?
             resetLabels([layer_Regions_0,layer_Systems_2]);
