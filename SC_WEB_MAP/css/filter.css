@@ -19,8 +19,6 @@
   overflow-y: auto;
 }
 .filterselect{
-  
-  font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
   margin-top: 10px;
   margin-left: 10px;
   margin-right: 0px;
@@ -28,10 +26,11 @@
 }
 .filterselect input, .filterselect select {
     display: block;
+    color: #551A8B;
+    text-shadow: rgba(80, 80, 80, 0.8) 0.2px 0.1px 1px;
     width: 100%;
 }
 .filterselect p{
-  
   font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
   margin-top: 0px !important;
   margin-left: 10px;
@@ -40,6 +39,7 @@
 }
 .filterlabel {
     font: 16px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+    color: #eeeefe;
     text-shadow: 2px 2px 4px rgb(24, 24, 24);
     margin-top: 3vh;
     margin-right: 10px;

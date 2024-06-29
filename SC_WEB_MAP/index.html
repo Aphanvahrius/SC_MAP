@@ -44,8 +44,6 @@
 
         <script src="js/leaflet.min.js"></script>
         <script src="js/leaflet-svg-shape-markers.min.js"></script>
-        <script src="https://unpkg.com/georaster"></script>
-        <script src="https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js"></script>
         <script src='js/Leaflet.fullscreen.js'></script>
         <script src="js/multi-style-layer.js"></script>
         <script src="js/leaflet-hash.min.js"></script>
@@ -264,39 +262,6 @@
                 }
             }, false);
 
-            // Create basemaps
-            map.createPane('pane_basemap');
-            map.getPane('pane_basemap').style.zIndex = order.base;
-            map.getPane('pane_basemap').style['mix-blend-mode'] = 'normal';
-
-            let baseMaps;
-            let layer_basemap_1;
-            let layer_basemap_2;
-            let basemap_control;
-            async function loadBasemaps() {
-                layer_basemap_1 = await loadGeoRaster('data/basemaps/basemap_1.tif', {
-                    attribution: '',
-                    interactive: false,
-                    pane: 'pane_basemap'
-                });
-                layer_basemap_2 = await loadGeoRaster('data/basemaps/basemap_2.tif', {
-                    attribution: '',
-                    interactive: false,
-                    pane: 'pane_basemap'
-                });
-                baseMaps = {
-                    'James Webb Space Telescope': layer_basemap_2,
-                    'Nanite Interstallar Imaging': layer_basemap_1
-                };
-                basemap_control = new L.control.layers(null, baseMaps, {
-                    position: 'bottomright',
-                    collapsed: false,
-                });
-                basemap_control.addTo(map);
-            }
-            loadBasemaps();
-
-
             // Create system search tool
             map.addControl(new L.Control.Search({
                 layer: layer_Systems_2,
@@ -349,10 +314,7 @@
                         <td style="text-align: center;"><img src="legend/Capital_9.png" /></td>\
                         <td></td>\
                     </tr>\
-                </table>\
-                <!--<span class="layer-name">Basemaps</span><br />-->': layer_Capital_9,
-                //'<span>James Webb Space Telescope</span><br />': baseMaps['JWST'],
-                //'<span>Nanite Interstallar Imaging</span><br />': baseMaps['Shipcore']
+                </table>': layer_Capital_9,
             }
           
             var pointControl = new L.control.layers(null, pointOverlays,{
@@ -518,19 +480,19 @@
 
             // Define website structure
             var row = document.createElement('div');
-            row.className="row";
-            row.id="all";
+            row.className = "row";
+            row.id = "all";
             row.style.height = "100%";
 
             var col1 = document.createElement('div');
-            col1.className="col9";
+            col1.className = "col9";
             col1.id = "mapWindow";
             col1.style.height = "100%";
             col1.style.width = "80%";
             col1.style.display = "inline-block";
 
             var col2 = document.createElement('div');
-            col2.className="col3";
+            col2.className = "col3";
             col2.id = "menu";
             col2.style.display = "inline-block";
 
@@ -541,12 +503,82 @@
             document.getElementById("all").appendChild(col2);
 
             var mapTitle = document.createElement('div');
-            mapTitle.innerHTML  = 'Shipcore Interactive Map';
+            mapTitle.innerHTML = 'Shipcore Interactive Map';
             mapTitle.className = 'maptitle';
             mapTitle.style.height = "7%";
 
-            col1.appendChild(mapTitle)
-            col1.appendChild(mapDiv)
+            var menuTitle = document.createElement('div');
+            menuTitle.innerHTML = 'Filters';
+            menuTitle.className = 'maptitle';
+            menuTitle.style.height = "7%";
+
+            col1.appendChild(mapTitle);
+            col1.appendChild(mapDiv);
+            col2.appendChild(menuTitle);
+
+            // Create tab structure
+            const tabContainer = document.createElement('div');
+            tabContainer.className = 'tab';
+
+            const tabButton1 = document.createElement('button');
+            tabButton1.className = 'tablinks';
+            tabButton1.innerHTML = 'Main';
+            tabButton1.onclick = function () {
+                openTab(event, 'mainTab');
+            };
+            tabContainer.appendChild(tabButton1);
+
+            const tabButton2 = document.createElement('button');
+            tabButton2.className = 'tablinks';
+            tabButton2.innerHTML = 'Other';
+            tabButton2.onclick = function () {
+                openTab(event, 'otherTab');
+            };
+            tabContainer.appendChild(tabButton2);
+
+            const tabButton3 = document.createElement('button');
+            tabButton3.className = 'tablinks';
+            tabButton3.innerHTML = 'Real Distances';
+            tabButton3.onclick = function () {
+                openTab(event, 'distancesTab');
+            };
+            tabContainer.appendChild(tabButton3);
+
+            col2.appendChild(tabContainer);
+
+            const mainTab = document.createElement('div');
+            mainTab.id = 'mainTab';
+            mainTab.className = 'tabcontent';
+            col2.appendChild(mainTab);
+
+            const otherTab = document.createElement('div');
+            otherTab.id = 'otherTab';
+            otherTab.className = 'tabcontent';
+            col2.appendChild(otherTab);
+
+            const distancesTab = document.createElement('div');
+            distancesTab.id = 'distancesTab';
+            distancesTab.className = 'tabcontent';
+            col2.appendChild(distancesTab);
+
+            // Set the first tab as active by default
+            tabButton1.classList.add('active');
+            mainTab.classList.add('active');
+
+            // Function to open tabs
+            function openTab(evt, tabName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName('tabcontent');
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].classList.remove('active');
+                }
+                tablinks = document.getElementsByClassName('tablinks');
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].classList.remove('active');
+                }
+                document.getElementById(tabName).classList.add('active');
+                evt.currentTarget.classList.add('active');
+            }
             
             // Define filter variables
             var Filters = {
@@ -646,16 +678,10 @@
 
             // Function to create a slider filter
             function createSliderFilter(id, label, min, max, step, start, format) {
-                const menu = document.getElementById("menu");
-
-                const header = document.createElement('div');
-                header.className = 'menuheader';
-                menu.appendChild(header);
-
                 const labelDiv = document.createElement('div');
                 labelDiv.innerHTML = `${label}: <span id="val_${id}"></span>`;
                 labelDiv.className = 'filterlabel';
-                menu.appendChild(labelDiv);
+                document.getElementById('otherTab').appendChild(labelDiv);
 
                 const resetDiv = document.createElement('div');
                 resetDiv.innerHTML = '<button>clear filter</button>';
@@ -663,19 +689,19 @@
                 resetDiv.onclick = function() {
                     slider.noUiSlider.reset();
                 };
-                menu.appendChild(resetDiv);
+                document.getElementById('otherTab').appendChild(resetDiv);
 
                 const sliderDiv = document.createElement("div");
                 sliderDiv.id = `div_${id}`;
                 sliderDiv.className = "slider";
-                menu.appendChild(sliderDiv);
+                document.getElementById('otherTab').appendChild(sliderDiv);
 
                 const slider = document.getElementById(`div_${id}`);
                 noUiSlider.create(slider, {
                     connect: true,
                     start: start,
                     step: step,
-                    format: wNumb({ decimals: 0 }),
+                    format: format,
                     range: { min: min, max: max }
                 });
 
@@ -694,12 +720,9 @@
 
             // Function to create a select filter
             function createSelectFilter(id, label, options, size, multiple = true, isSystemFilter = false) {
-                const menu = document.getElementById("menu");
-
                 const container = document.createElement('div');
                 container.id = `div_${id}`;
                 container.className = "filterselect";
-                menu.appendChild(container);
 
                 const labelDiv = document.createElement('div');
                 labelDiv.innerHTML = label;
@@ -743,6 +766,8 @@
                 }
                 select.innerHTML = optionsStr;
                 container.appendChild(select);
+
+                return container;
             }
             
             // Function to clear system labels
@@ -769,22 +794,39 @@
                         };
                     });
 
-                    displaySystemValues(systemValues);
+                    displaySystemValues(systemValues, selectedSystem);
                 }
             }
 
             // Function to display system values
-            function displaySystemValues(systemValues) {
+            function displaySystemValues(systemValues, selectedSystem) {
                 layer_Systems_2.eachLayer(function (layer) {
                     const systemName = layer.feature.properties.System_Nam;
-                    const systemValue = systemValues.find(sv => sv.name === systemName)?.value;
-
-                    if (systemValue !== undefined) {
-                        layer.bindTooltip(systemValue.toString(), { permanent: true, direction: 'right', className: 'distance-tooltip' }).openTooltip();
+                    if (systemName === selectedSystem) {
+                        // Display special label for the selected system
+                        layer.bindTooltip("You", { permanent: true, direction: 'right', className: 'distance-tooltip' }).openTooltip();
                     } else {
-                        layer.unbindTooltip();
+                        const systemValue = systemValues.find(sv => sv.name === systemName)?.value;
+
+                        if (systemValue !== undefined) {
+                            layer.bindTooltip(systemValue.toString(), { permanent: true, direction: 'right', className: 'distance-tooltip' }).openTooltip();
+                        } else {
+                            layer.unbindTooltip();
+                        }
                     }
                 });
+                updateTooltipFontSize();
+            }
+
+            // Function to update tooltip font size based on zoom level
+            function updateTooltipFontSize() {
+                const zoomLevel = map.getZoom();
+                const fontSize = Math.pow(zoomLevel - 6, 1.8) + 'px'; // Adjust the calculation as needed
+
+                const tooltips = document.getElementsByClassName('distance-tooltip');
+                for (let i = 0; i < tooltips.length; i++) {
+                    tooltips[i].style.fontSize = fontSize;
+                }
             }
             
             // Debounce function to limit the rate of execution
@@ -802,10 +844,14 @@
                 if (select.value) {
                     handleSystemSelection(); // Recalculate and display labels on zoom
                 }
+                updateTooltipFontSize(); // Update font size on zoom
             }, 300)); // Adjust debounce delay as necessary
 
+            // Initial font size adjustment
+            updateTooltipFontSize();
+
             // Create Region Select Filter
-            createSelectFilter('Nation', 'REGION / DIPLOMACY', [
+            const regionFilter = createSelectFilter('Nation', 'REGION / DIPLOMACY', [
                 { value: "Corporate Systems"},
                 { value: "Duchy of Drakar"},
                 { value: "Duchy of Meltisar"},
@@ -817,54 +863,62 @@
                 { value: "Starlight Revolution"},
                 { value: "The Western Frontier Systems"}
             ], 6, false);
+            document.getElementById('mainTab').appendChild(regionFilter);
 
             // Create Book Volume Select Filter
-            createSelectFilter('Book', 'BOOK', [
+            const bookFilter = createSelectFilter('Book', 'BOOK', [
                 { value: "A1"},
                 { value: "A2"},
                 { value: "A3"},
                 { value: "A4"}
             ], 4);
+            document.getElementById('mainTab').appendChild(bookFilter);
 
             // Create Character Select Filter
-            createSelectFilter('Character', 'CHARACTER', [
+            const characterFilter = createSelectFilter('Character', 'CHARACTER', [
                 { value: "Abbey"},
                 { value: "Alex"},
                 { value: "Elis"},
                 { value: "Thea"},
                 { value: "Tia"}
             ], 5);
+            document.getElementById('mainTab').appendChild(characterFilter);
 
             // Create System Star Presence Select Filter
-            createSelectFilter('Star_Presc', 'STAR PRESENCE IN SYSTEM', [
+            const starFilter = createSelectFilter('Star_Presc', 'STAR PRESENCE IN SYSTEM', [
                 { value: "1", label: "Yes" },
                 { value: "0", label: "No" }
             ], 2, false);
+            document.getElementById('mainTab').appendChild(starFilter);
 
             // Create Unsurveyed Bodies Select Filter
-            createSelectFilter('Unsurv_bod', 'SYSTEMS WITH UNSURVEYED BODIES', [
+            const UnsurvBodsFilter = createSelectFilter('Unsurv_bod', 'SYSTEMS WITH UNSURVEYED BODIES', [
                 { value: "1", label: "Show" }
             ], 1);
+            document.getElementById('otherTab').appendChild(UnsurvBodsFilter);
 
             // Create New Lane Select Filter
-            createSelectFilter('New_Lane', 'SYSTEMS WHERE A NEW STARLINE IS BEING RESEARCHED', [
+            const newLaneFilter = createSelectFilter('New_Lane', 'SYSTEMS WHERE A NEW STARLINE IS BEING RESEARCHED', [
                 { value: "1", label: "Show" }
             ], 1);
+            document.getElementById('otherTab').appendChild(newLaneFilter);
 
             // Create Lane Type Select Filter
-            createSelectFilter('Type', 'STARLANE TYPE', [
+            const laneTypeFilter = createSelectFilter('Type', 'STARLANE TYPE', [
                 { value: "International"},
                 { value: "National"}
             ], 2, false);
+            document.getElementById('otherTab').appendChild(laneTypeFilter);
 
             // Create Lane Status Select Filter
-            createSelectFilter('Status', 'STARLANE STATUS', [
+            const laneStatusFilter = createSelectFilter('Status', 'STARLANE STATUS', [
                 { value: "In Developement"},
                 { value: "Operational"}
             ], 2, false);
+            document.getElementById('otherTab').appendChild(laneStatusFilter);
 
             // Create Systems Select Filter
-            createSelectFilter('System_Nam', 'SYSTEM NAME', [
+            systemFilter = createSelectFilter('System_Nam', 'FROM', [
                 { value: "1 Octantis" },
                 { value: "1 Pavonis" },
                 { value: "10 Cassiopeiae" },
@@ -1101,7 +1155,8 @@
                 { value: "Zeta Sextantis" },
                 { value: "Zeta-1 Reticuli" },
                 { value: "kappa Ursae Minoris" }
-            ], 5, false, true);
+            ], 30, false, true);
+            document.getElementById('distancesTab').appendChild(systemFilter);
 
             // ?
             resetLabels([layer_Regions_0,layer_Systems_2]);
