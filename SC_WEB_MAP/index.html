@@ -713,7 +713,7 @@
             }
 
             // Create Orbital/Colony Slider Filter
-            createSliderFilter('Orbtl_Clny', 'ORBITALS / COLONIES', 0, 258, 1, [0, 258], wNumb({ decimals: 0 }));
+            createSliderFilter('Orbtl_Clny', 'Turning off lanes recommended<br/>ORBITALS / COLONIES', 0, 258, 1, [0, 258], wNumb({ decimals: 0 }));
 
             // Create Inhabitable Planets Slider Filter
             createSliderFilter('Inhabitabl', 'INHABITABLE WORLDS', 0, 4, 1, [0, 4], wNumb({ decimals: 0 }));
@@ -786,11 +786,17 @@
                 const selectedFeature = json_Systems_2.features.find(f => f.properties.System_Nam === selectedSystem);
                 
                 if (selectedFeature) {
-                    const selected = Number(selectedFeature.properties.Star_Presc);
+                    const selected_X = Number(selectedFeature.properties.X);
+                    const selected_Y = Number(selectedFeature.properties.Y);
+                    const selected_Z = Number(selectedFeature.properties.Z);
                     const systemValues = json_Systems_2.features.map(f => {
                         return {
                             name: f.properties.System_Nam,
-                            value: selected + Number(f.properties.Star_Presc)
+                            value: Math.sqrt(
+                                Math.pow(selected_X - Number(f.properties.X), 2) +
+                                Math.pow(selected_Y - Number(f.properties.Y), 2) +
+                                Math.pow(selected_Z - Number(f.properties.Z), 2)
+                            ).toFixed(2)
                         };
                     });
 
@@ -804,7 +810,7 @@
                     const systemName = layer.feature.properties.System_Nam;
                     if (systemName === selectedSystem) {
                         // Display special label for the selected system
-                        layer.bindTooltip("You", { permanent: true, direction: 'right', className: 'distance-tooltip' }).openTooltip();
+                        layer.bindTooltip("You", { permanent: true, direction: 'right', className: 'distance-tooltip-selected' }).openTooltip();
                     } else {
                         const systemValue = systemValues.find(sv => sv.name === systemName)?.value;
 
@@ -821,7 +827,7 @@
             // Function to update tooltip font size based on zoom level
             function updateTooltipFontSize() {
                 const zoomLevel = map.getZoom();
-                const fontSize = Math.pow(zoomLevel - 6, 1.8) + 'px'; // Adjust the calculation as needed
+                const fontSize = Math.pow(zoomLevel - 6.5, 1.6) + 'px'; // Adjust the calculation as needed
 
                 const tooltips = document.getElementsByClassName('distance-tooltip');
                 for (let i = 0; i < tooltips.length; i++) {
@@ -918,7 +924,7 @@
             document.getElementById('otherTab').appendChild(laneStatusFilter);
 
             // Create Systems Select Filter
-            systemFilter = createSelectFilter('System_Nam', 'FROM', [
+            systemFilter = createSelectFilter('System_Nam', 'FROM<br/>Recommended zoom 12+', [
                 { value: "1 Octantis" },
                 { value: "1 Pavonis" },
                 { value: "10 Cassiopeiae" },
