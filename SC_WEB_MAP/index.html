@@ -262,6 +262,11 @@
                 }
             }, false);
 
+            var labelLayer_Systems_2 = L.layerGroup();
+
+            // Call the function to add labels
+            addLabelsToLayer(layer_Systems_2, labelLayer_Systems_2, "System_Nam", 11.5, 15);
+
             // Create system search tool
             map.addControl(new L.Control.Search({
                 layer: layer_Systems_2,
@@ -287,6 +292,7 @@
                         <td>System With No Star</td>\
                     </tr>\
                 </table>': layer_Systems_2,
+                "System Names": labelLayer_Systems_2,
                 '<span>Mining Systems</span><br />\
                 <table>\
                     <tr>\

@@ -56,6 +56,24 @@
         0.5px 0.5px 2px rgba(80, 80, 80, 0.8); /* Adjust as needed for outline thickness */
 }
 
+.custom-label {
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 10px;
+    color: black;
+    text-shadow: 
+        -0px -1px 0 white,  
+        1px -1px 0 white,
+        -1px 1px 0 white,
+        1px 1px 0 white,
+        0.4px 0.4px 1.6px rgba(80, 80, 80, 0.8); /* Adjust as needed for outline thickness */
+}
+
+/* Remove the white triangle (tooltip arrow) */
+.custom-label.no-arrow::before {
+    display: none !important;
+}
+
 .tab {
     overflow: hidden;
     border: 2.5px solid rgba(218, 218, 255, .5);
