@@ -50,4 +50,52 @@ function loadGeoRaster(tifPath, options) {
             return null;
         });
 }
+// Function to create labels
+function addLabelsToLayer(layer, labelLayer, attributeName, minZoom, maxZoom) {
+    layer.eachLayer(function (marker) {
+        var label = L.tooltip({
+            permanent: true,
+            direction: "bottom",
+            offset: L.point(0, 0),
+            className: "custom-label no-arrow",
+        }).setContent(marker.feature.properties[attributeName]);
+
+        marker.bindTooltip(label);
+        labelLayer.addLayer(marker.getTooltip());
+    });
+
+    // Track if user manually enabled/disabled labels
+    let userEnabled = map.hasLayer(labelLayer);
+
+    // Function to toggle labels based on zoom level
+    function toggleLabels() {
+        if (map.getZoom() >= minZoom && map.getZoom() <= maxZoom) {
+            if (userEnabled && !map.hasLayer(labelLayer)) {
+                map.addLayer(labelLayer);
+            }
+        } else {
+            if (map.hasLayer(labelLayer)) {
+                map.removeLayer(labelLayer);
+            }
+        }
+    }
+
+    // Detect manual toggle
+    map.on("overlayadd", function (eventLayer) {
+        if (eventLayer.layer === labelLayer) {
+            userEnabled = true;
+            toggleLabels();
+        }
+    });
+
+    map.on("overlayremove", function (eventLayer) {
+        if (eventLayer.layer === labelLayer) {
+            userEnabled = false;
+        }
+    });
+
+    // Listen for zoom changes
+    map.on("zoomend", toggleLabels);
+    toggleLabels(); // Run initially to set correct visibility
+}
 
