@@ -262,11 +262,6 @@
                 }
             }, false);
 
-            var labelLayer_Systems_2 = L.layerGroup();
-
-            // Call the function to add labels
-            addLabelsToLayer(layer_Systems_2, labelLayer_Systems_2, "System_Nam", 11.5, 15);
-
             // Create system search tool
             map.addControl(new L.Control.Search({
                 layer: layer_Systems_2,
@@ -292,7 +287,6 @@
                         <td>System With No Star</td>\
                     </tr>\
                 </table>': layer_Systems_2,
-                "System Names": labelLayer_Systems_2,
                 '<span>Mining Systems</span><br />\
                 <table>\
                     <tr>\
@@ -528,48 +522,35 @@
 
             const tabButton1 = document.createElement('button');
             tabButton1.className = 'tablinks';
-            tabButton1.innerHTML = 'Main';
+            tabButton1.innerHTML = 'Region / Diplomacy';
             tabButton1.onclick = function () {
-                openTab(event, 'mainTab');
+                openTab(event, 'generalTab');
             };
             tabContainer.appendChild(tabButton1);
 
             const tabButton2 = document.createElement('button');
             tabButton2.className = 'tablinks';
-            tabButton2.innerHTML = 'Other';
+            tabButton2.innerHTML = 'Book';
             tabButton2.onclick = function () {
-                openTab(event, 'otherTab');
+                openTab(event, 'systemTab');
             };
             tabContainer.appendChild(tabButton2);
 
-            const tabButton3 = document.createElement('button');
-            tabButton3.className = 'tablinks';
-            tabButton3.innerHTML = 'Real Distances';
-            tabButton3.onclick = function () {
-                openTab(event, 'distancesTab');
-            };
-            tabContainer.appendChild(tabButton3);
-
             col2.appendChild(tabContainer);
 
-            const mainTab = document.createElement('div');
-            mainTab.id = 'mainTab';
-            mainTab.className = 'tabcontent';
-            col2.appendChild(mainTab);
+            const generalTab = document.createElement('div');
+            generalTab.id = 'generalTab';
+            generalTab.className = 'tabcontent';
+            col2.appendChild(generalTab);
 
-            const otherTab = document.createElement('div');
-            otherTab.id = 'otherTab';
-            otherTab.className = 'tabcontent';
-            col2.appendChild(otherTab);
-
-            const distancesTab = document.createElement('div');
-            distancesTab.id = 'distancesTab';
-            distancesTab.className = 'tabcontent';
-            col2.appendChild(distancesTab);
+            const systemTab = document.createElement('div');
+            systemTab.id = 'systemTab';
+            systemTab.className = 'tabcontent';
+            col2.appendChild(systemTab);
 
             // Set the first tab as active by default
             tabButton1.classList.add('active');
-            mainTab.classList.add('active');
+            generalTab.classList.add('active');
 
             // Function to open tabs
             function openTab(evt, tabName) {
@@ -684,10 +665,18 @@
 
             // Function to create a slider filter
             function createSliderFilter(id, label, min, max, step, start, format) {
+                const container = document.createElement('div');
+                container.id = `div_${id}`;
+                container.className = "slidercontainer";
+
+                const header = document.createElement('div');
+                header.className = 'menuheader';
+                container.appendChild(header);
+
                 const labelDiv = document.createElement('div');
                 labelDiv.innerHTML = `${label}: <span id="val_${id}"></span>`;
                 labelDiv.className = 'filterlabel';
-                document.getElementById('otherTab').appendChild(labelDiv);
+                container.appendChild(labelDiv);
 
                 const resetDiv = document.createElement('div');
                 resetDiv.innerHTML = '<button>clear filter</button>';
@@ -695,14 +684,18 @@
                 resetDiv.onclick = function() {
                     slider.noUiSlider.reset();
                 };
-                document.getElementById('otherTab').appendChild(resetDiv);
+                container.appendChild(resetDiv);
 
                 const sliderDiv = document.createElement("div");
-                sliderDiv.id = `div_${id}`;
+                sliderDiv.id = `slider_${id}`;
                 sliderDiv.className = "slider";
-                document.getElementById('otherTab').appendChild(sliderDiv);
+                container.appendChild(sliderDiv);
 
-                const slider = document.getElementById(`div_${id}`);
+                // Append the container to the DOM before initializing the slider
+                document.body.appendChild(container); // Adjust as needed to append to the correct parent element
+
+                const slider = document.getElementById(`slider_${id}`);
+                
                 noUiSlider.create(slider, {
                     connect: true,
                     start: start,
@@ -716,13 +709,17 @@
                     valDiv.innerHTML = values.join(' - ');
                     filterFunc();
                 });
+
+                return container;
             }
 
             // Create Orbital/Colony Slider Filter
-            createSliderFilter('Orbtl_Clny', 'Turning off lanes recommended<br/>ORBITALS / COLONIES', 0, 258, 1, [0, 258], wNumb({ decimals: 0 }));
+            const orbitalColonySlider = createSliderFilter('Orbtl_Clny', 'ORBITALS / COLONIES', 0, 258, 1, [0, 258], wNumb({ decimals: 0 }));
+            document.getElementById('generalTab').appendChild(orbitalColonySlider);
 
             // Create Inhabitable Planets Slider Filter
-            createSliderFilter('Inhabitabl', 'INHABITABLE WORLDS', 0, 4, 1, [0, 4], wNumb({ decimals: 0 }));
+            const inhabitablePlanetsSlider = createSliderFilter('Inhabitabl', 'INHABITABLE WORLDS', 0, 4, 1, [0, 4], wNumb({ decimals: 0 }));
+            document.getElementById('generalTab').appendChild(inhabitablePlanetsSlider);
 
             // Function to create a select filter
             function createSelectFilter(id, label, options, size, multiple = true, isSystemFilter = false) {
@@ -775,7 +772,7 @@
 
                 return container;
             }
-            
+
             // Function to clear system labels
             function clearSystemLabels() {
                 layer_Systems_2.eachLayer(function (layer) {
@@ -790,19 +787,13 @@
                 const select = document.getElementById('sel_System_Nam');
                 const selectedSystem = select.value;
                 const selectedFeature = json_Systems_2.features.find(f => f.properties.System_Nam === selectedSystem);
-                
+
                 if (selectedFeature) {
-                    const selected_X = Number(selectedFeature.properties.X);
-                    const selected_Y = Number(selectedFeature.properties.Y);
-                    const selected_Z = Number(selectedFeature.properties.Z);
+                    const selected = Number(selectedFeature.properties.Star_Presc);
                     const systemValues = json_Systems_2.features.map(f => {
                         return {
                             name: f.properties.System_Nam,
-                            value: Math.sqrt(
-                                Math.pow(selected_X - Number(f.properties.X), 2) +
-                                Math.pow(selected_Y - Number(f.properties.Y), 2) +
-                                Math.pow(selected_Z - Number(f.properties.Z), 2)
-                            ).toFixed(1)
+                            value: selected + Number(f.properties.Star_Presc)
                         };
                     });
 
@@ -816,7 +807,7 @@
                     const systemName = layer.feature.properties.System_Nam;
                     if (systemName === selectedSystem) {
                         // Display special label for the selected system
-                        layer.bindTooltip("You", { permanent: true, direction: 'right', className: 'distance-tooltip-selected' }).openTooltip();
+                        layer.bindTooltip("You", { permanent: true, direction: 'right', className: 'distance-tooltip' }).openTooltip();
                     } else {
                         const systemValue = systemValues.find(sv => sv.name === systemName)?.value;
 
@@ -833,14 +824,14 @@
             // Function to update tooltip font size based on zoom level
             function updateTooltipFontSize() {
                 const zoomLevel = map.getZoom();
-                const fontSize = Math.pow(zoomLevel - 6.7, 1.6) + 'px'; // Adjust the calculation as needed
+                const fontSize = Math.max(10, zoomLevel * 2) + 'px'; // Adjust the calculation as needed
 
                 const tooltips = document.getElementsByClassName('distance-tooltip');
                 for (let i = 0; i < tooltips.length; i++) {
                     tooltips[i].style.fontSize = fontSize;
                 }
             }
-            
+
             // Debounce function to limit the rate of execution
             function debounce(func, wait) {
                 let timeout;
@@ -875,7 +866,7 @@
                 { value: "Starlight Revolution"},
                 { value: "The Western Frontier Systems"}
             ], 6, false);
-            document.getElementById('mainTab').appendChild(regionFilter);
+            document.getElementById('generalTab').appendChild(regionFilter);
 
             // Create Book Volume Select Filter
             const bookFilter = createSelectFilter('Book', 'BOOK', [
@@ -884,7 +875,7 @@
                 { value: "A3"},
                 { value: "A4"}
             ], 4);
-            document.getElementById('mainTab').appendChild(bookFilter);
+            document.getElementById('generalTab').appendChild(bookFilter);
 
             // Create Character Select Filter
             const characterFilter = createSelectFilter('Character', 'CHARACTER', [
@@ -894,43 +885,43 @@
                 { value: "Thea"},
                 { value: "Tia"}
             ], 5);
-            document.getElementById('mainTab').appendChild(characterFilter);
+            document.getElementById('generalTab').appendChild(characterFilter);
 
             // Create System Star Presence Select Filter
             const starFilter = createSelectFilter('Star_Presc', 'STAR PRESENCE IN SYSTEM', [
                 { value: "1", label: "Yes" },
                 { value: "0", label: "No" }
             ], 2, false);
-            document.getElementById('mainTab').appendChild(starFilter);
+            document.getElementById('generalTab').appendChild(starFilter);
 
             // Create Unsurveyed Bodies Select Filter
             const UnsurvBodsFilter = createSelectFilter('Unsurv_bod', 'SYSTEMS WITH UNSURVEYED BODIES', [
                 { value: "1", label: "Show" }
             ], 1);
-            document.getElementById('otherTab').appendChild(UnsurvBodsFilter);
+            document.getElementById('generalTab').appendChild(UnsurvBodsFilter);
 
             // Create New Lane Select Filter
             const newLaneFilter = createSelectFilter('New_Lane', 'SYSTEMS WHERE A NEW STARLINE IS BEING RESEARCHED', [
                 { value: "1", label: "Show" }
             ], 1);
-            document.getElementById('otherTab').appendChild(newLaneFilter);
+            document.getElementById('generalTab').appendChild(newLaneFilter);
 
             // Create Lane Type Select Filter
             const laneTypeFilter = createSelectFilter('Type', 'STARLANE TYPE', [
                 { value: "International"},
                 { value: "National"}
             ], 2, false);
-            document.getElementById('otherTab').appendChild(laneTypeFilter);
+            document.getElementById('generalTab').appendChild(laneTypeFilter);
 
             // Create Lane Status Select Filter
             const laneStatusFilter = createSelectFilter('Status', 'STARLANE STATUS', [
                 { value: "In Developement"},
                 { value: "Operational"}
             ], 2, false);
-            document.getElementById('otherTab').appendChild(laneStatusFilter);
+            document.getElementById('generalTab').appendChild(laneStatusFilter);
 
             // Create Systems Select Filter
-            systemFilter = createSelectFilter('System_Nam', 'FROM<br/>Recommended zoom 12+', [
+            systemFilter = createSelectFilter('System_Nam', 'SYSTEM NAME', [
                 { value: "1 Octantis" },
                 { value: "1 Pavonis" },
                 { value: "10 Cassiopeiae" },
@@ -1167,8 +1158,8 @@
                 { value: "Zeta Sextantis" },
                 { value: "Zeta-1 Reticuli" },
                 { value: "kappa Ursae Minoris" }
-            ], 30, false, true);
-            document.getElementById('distancesTab').appendChild(systemFilter);
+            ], 40, false, true);
+            document.getElementById('systemTab').appendChild(systemFilter);
 
             // ?
             resetLabels([layer_Regions_0,layer_Systems_2]);
@@ -1195,4 +1186,5 @@
             map.removeLayer(layer_Diplomacy_4); // Hide the diplomacy layer
         </script>
     </body>
+    
 </html>
