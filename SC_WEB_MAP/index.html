@@ -56,11 +56,9 @@
         <script src="js/wNumb.js"></script>
 
         <script src="data/Regions_0.js"></script>
-        <script src="data/Lanes_1.js"></script>
+        <script src="data/Lanes_1_simplified.js"></script>
         <script src="data/Systems_2.js"></script>
-        <script src="data/Sectors_3.js"></script>
         <script src="data/Characters_3.js"></script>
-        <script src="data/Routes_5.js"></script>
         <script src="data/Diplomacy_4.js"></script>
         <script src="data/Subregions_5.js"></script>
         <script src="data/Mining_6.js"></script>
@@ -81,9 +79,6 @@
             var map = L.map('map', zoomOptions);
 
             var hash = new L.Hash(map);
-
-            // Coords popup
-            //map.on('click', display_Coords);
 
             // Create attributions
             map.attributionControl.setPrefix('\
@@ -323,11 +318,7 @@
                 </table>': layer_Capital_9,
             }
           
-            var pointControl = new L.control.layers(null, pointOverlays,{
-                position: 'bottomleft',
-                collapsed:true,
-            });
-            pointControl.addTo(map);
+            // (point-layer toggles moved to the "Layers" sidebar tab — see buildLayerToggles)
 
             var polygonOverlays = {
                 '<span class="layer-name">Regions</span><br />\
@@ -406,11 +397,7 @@
                     </tr>\
                 </table>': layer_Diplomacy_4,                
             }
-            var polygonControl = new L.control.layers(null,polygonOverlays,{
-                position: 'topright',
-                collapsed: true
-            });
-            polygonControl.addTo(map);
+            // (polygon-layer toggles moved to the "Layers" sidebar tab)
 
             var lineOverlays = {
                 '<span class="layer-name">Subregions</span><br />': layer_Subregions_5,
@@ -451,38 +438,9 @@
                     </tr>\
                 </table>': layer_Characters_3,
             }
-            var lineControl = new L.control.layers(null,lineOverlays,{
-                position: 'topleft',
-                collapsed: true
-            });
-            lineControl.addTo(map);
+            // (line-layer toggles moved to the "Layers" sidebar tab)
             
-            map.on("zoomend", function(){
-                if (map.hasLayer(layer_Systems_2)) {
-                    if (map.getZoom() <= 10 && map.getZoom() >= 15) {
-                            layer_Systems_2.eachLayer(function (layer) {
-                                layer.openTooltip();
-                            });
-                        } else {
-                            layer_Systems_2.eachLayer(function (layer) {
-                                layer.closeTooltip();
-                            });
-                        }
-                    }
-            });
-
             setBounds();
-            if (map.hasLayer(layer_Systems_2)) {
-                if (map.getZoom() <= 10 && map.getZoom() >= 15) {
-                    layer_Systems_2.eachLayer(function (layer) {
-                        layer.openTooltip();
-                    });
-                } else {
-                    layer_Systems_2.eachLayer(function (layer) {
-                        layer.closeTooltip();
-                    });
-                }
-            }
 
             // Define website structure
             var row = document.createElement('div');
@@ -550,6 +508,14 @@
             };
             tabContainer.appendChild(tabButton3);
 
+            const tabButton4 = document.createElement('button');
+            tabButton4.className = 'tablinks';
+            tabButton4.innerHTML = 'Layers';
+            tabButton4.onclick = function () {
+                openTab(event, 'layersTab');
+            };
+            tabContainer.appendChild(tabButton4);
+
             col2.appendChild(tabContainer);
 
             const mainTab = document.createElement('div');
@@ -566,6 +532,11 @@
             distancesTab.id = 'distancesTab';
             distancesTab.className = 'tabcontent';
             col2.appendChild(distancesTab);
+
+            const layersTab = document.createElement('div');
+            layersTab.id = 'layersTab';
+            layersTab.className = 'tabcontent';
+            col2.appendChild(layersTab);
 
             // Set the first tab as active by default
             tabButton1.classList.add('active');
@@ -605,7 +576,8 @@
             function filterFunc() {
                 map.eachLayer(function(lyr){
                     if ("options" in lyr && "dataVar" in lyr["options"]){
-                        features = this[lyr["options"]["dataVar"]].features.slice(0);
+                        var features = this[lyr["options"]["dataVar"]].features.slice(0);
+                        var key, keyS, sliderVals;
                         try{
                             for (key in Filters){
                                 keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
@@ -659,21 +631,6 @@
                                         }
                                     } catch(err){}
                                 }
-
-                                if (Filters[key] == "date" || Filters[key] == "datetime" || Filters[key] == "time"){
-                                    try{
-                                        if (key in features[0].properties){
-                                            HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
-                                            startdate = document.getElementById("dat_" + HTMLkey + "_date1").value.replace(" ", "T");
-                                            enddate = document.getElementById("dat_" + HTMLkey + "_date2").value.replace(" ", "T");
-                                            for (i = features.length - 1; i >= 0; --i){
-                                                if (features[i].properties[key] < startdate || features[i].properties[key] > enddate){
-                                                    features.splice(i,1);
-                                                }
-                                            }
-                                        }
-                                    } catch(err){}
-                                }
                             }
                         } catch(err){}
                         this[lyr["options"]["layerName"]].clearLayers();
@@ -681,6 +638,9 @@
                     }
                 })
             }
+
+            // Debounced filter for rapid inputs (e.g. slider drags)
+            var debouncedFilter = debounce(filterFunc, 120);
 
             // Function to create a slider filter
             function createSliderFilter(id, label, min, max, step, start, format) {
@@ -714,12 +674,12 @@
                 slider.noUiSlider.on('update', function (values) {
                     const valDiv = document.getElementById(`val_${id}`);
                     valDiv.innerHTML = values.join(' - ');
-                    filterFunc();
+                    debouncedFilter();
                 });
             }
 
             // Create Orbital/Colony Slider Filter
-            createSliderFilter('Orbtl_Clny', 'Turning off lanes recommended<br/>ORBITALS / COLONIES', 0, 258, 1, [0, 258], wNumb({ decimals: 0 }));
+            createSliderFilter('Orbtl_Clny', 'ORBITALS / COLONIES', 0, 258, 1, [0, 258], wNumb({ decimals: 0 }));
 
             // Create Inhabitable Planets Slider Filter
             createSliderFilter('Inhabitabl', 'INHABITABLE WORLDS', 0, 4, 1, [0, 4], wNumb({ decimals: 0 }));
@@ -1193,6 +1153,36 @@
 
             map.removeLayer(layer_Characters_3); // Hide the character journey layer after setting default displays for character and book
             map.removeLayer(layer_Diplomacy_4); // Hide the diplomacy layer
+
+            // Build the "Layers" tab: one checkbox per overlay, with its legend shown inline.
+            // Fires overlay events so the System-Names label toggle keeps working.
+            function buildLayerToggles(overlays, container, groupTitle) {
+                var title = document.createElement('div');
+                title.className = 'layerGroupTitle';
+                title.innerHTML = groupTitle;
+                container.appendChild(title);
+                Object.keys(overlays).forEach(function (labelHTML) {
+                    var layer = overlays[labelHTML];
+                    var row = document.createElement('label');
+                    row.className = 'layerToggle';
+                    var cb = document.createElement('input');
+                    cb.type = 'checkbox';
+                    cb.checked = map.hasLayer(layer);
+                    cb.onchange = function () {
+                        if (cb.checked) { map.addLayer(layer); map.fire('overlayadd', { layer: layer }); }
+                        else { map.removeLayer(layer); map.fire('overlayremove', { layer: layer }); }
+                    };
+                    var content = document.createElement('span');
+                    content.className = 'layerToggleContent';
+                    content.innerHTML = labelHTML;
+                    row.appendChild(cb);
+                    row.appendChild(content);
+                    container.appendChild(row);
+                });
+            }
+            buildLayerToggles(pointOverlays, layersTab, 'Systems &amp; markers');
+            buildLayerToggles(polygonOverlays, layersTab, 'Regions');
+            buildLayerToggles(lineOverlays, layersTab, 'Lines &amp; borders');
         </script>
     </body>
 </html>

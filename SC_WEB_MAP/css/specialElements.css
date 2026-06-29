@@ -75,7 +75,8 @@
 }
 
 .tab {
-    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
     border: 2.5px solid rgba(218, 218, 255, .5);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -87,7 +88,8 @@
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
+    padding: 11px 10px;
+    font-size: 14px;
     transition: 0.3s;
 }
 
@@ -109,4 +111,39 @@
 .tabcontent.active {
     display: block;
 }
+
+/* Layers tab — visibility toggles with inline legends */
+#layersTab { padding: 6px 8px; }
+.layerGroupTitle {
+    font: 13px/1.4 "Helvetica Neue", Arial, sans-serif;
+    color: #8888ee;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    text-align: center;
+    margin: 12px 0 4px;
+}
+.layerToggle {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 6px;
+    margin: 2px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #eeeefe;
+}
+.layerToggle:hover { background: rgba(255, 255, 255, .07); }
+.layerToggle > input[type="checkbox"] {
+    margin-top: 2px;
+    width: 16px; height: 16px;
+    flex: 0 0 auto;
+    cursor: pointer;
+}
+.layerToggleContent { font: 13px/1.4 "Helvetica Neue", Arial, sans-serif; }
+.layerToggleContent .layer-name { font-weight: bold; color: #fff; font-size: 14px; }
+.layerToggleContent table { border-collapse: collapse; margin: 3px 0 2px; }
+.layerToggleContent td { padding: 1px 6px 1px 0; font-size: 12px; vertical-align: middle; }
+.layerToggleContent img { vertical-align: middle; max-height: 18px; max-width: 28px; }
+/* Force all legend text white for contrast on the dark sidebar */
+#layersTab .layerToggleContent, #layersTab .layerToggleContent * { color: #fff !important; }
 
