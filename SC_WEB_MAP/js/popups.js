@@ -1,11 +1,3 @@
-var popup = L.popup();
-function display_Coords(e) {
-    popup
-    .setLatLng(e.latlng)
-    .setContent("Coordinates: " + e.latlng.toString())
-    .openOn(map);
-}
-
 function pop_Regions_0(feature, layer) {
     var rulerText = feature.properties['Ruler'] !== null ? autolinker.link(feature.properties['Ruler'].toLocaleString()) : '';
     var spoilerTextList = ["Celestia Astraea Psi", "The Pirate King", "The Council", "God of the Drakar"]; // List of spoilered info
