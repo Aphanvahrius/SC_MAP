@@ -1,0 +1,381 @@
+/* ShipCore Interactive Map — OpenLayers rebuild */
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+/* Same dark-purple space backdrop as the Leaflet version (no raster basemap yet) */
+body {
+    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    color: #eeeefe;
+}
+
+/* Two-column layout: map (left) + filter sidebar (right) */
+/* Gradient lives on #app so it also shows in fullscreen (which fullscreens #app) */
+#app { display: flex; width: 100%; height: 100%; position: relative; background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e); }
+#map-col { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; position: relative; }
+#map { flex: 1 1 auto; min-height: 0; background: transparent; position: relative; }
+#sidebar {
+    flex: 0 0 22%;
+    min-width: 250px;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.18);
+    border-left: 1px solid rgba(218, 218, 255, 0.2);
+}
+.maptitle {
+    flex: 0 0 auto;
+    padding: 10px 6px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgb(24, 24, 24);
+}
+.sidebar-title { font-size: 20px; }
+
+/* Tabs */
+.tab { flex: 0 0 auto; display: flex; flex-wrap: wrap; background: #eeeefe; border-radius: 5px 5px 0 0; margin: 0 4px; }
+.tab .tablinks { flex: 1 1 auto; background: inherit; border: none; outline: none; cursor: pointer; padding: 10px 6px; font-size: 13px; color: #1a1a2a; transition: 0.3s; }
+.tab .tablinks:hover { background: #dddded; }
+.tab .tablinks.active { background: #ccccdc; font-weight: bold; }
+.tabcontent { flex: 1 1 auto; overflow-y: auto; display: none; padding: 8px 10px; }
+.tabcontent.active { display: block; }
+.wip { color: #9a9ac0; font-style: italic; text-align: center; margin-top: 24px; }
+
+/* Layers tab — toggles + inline legends */
+.layerGroupTitle { color: #8888ee; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; font-size: 12px; margin: 14px 0 4px; }
+.layerToggle { display: flex; align-items: center; gap: 8px; padding: 4px; cursor: pointer; }
+.layerToggle:hover { background: rgba(255, 255, 255, 0.06); border-radius: 4px; }
+.layerToggle input { width: 15px; height: 15px; flex: 0 0 auto; }
+.layerToggle .lt-name { font-size: 14px; font-weight: bold; color: #fff; }
+.lt-legend { margin: 0 0 6px 26px; }
+.lt-legend div { display: flex; align-items: center; font-size: 12px; color: #fff; padding: 1px 0; }
+.lg-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid; margin-right: 7px; flex: 0 0 auto; }
+.lg-box { width: 12px; height: 12px; border: 1px solid rgba(255, 255, 255, 0.4); margin-right: 7px; flex: 0 0 auto; }
+.lg-line { width: 16px; height: 4px; margin-right: 7px; flex: 0 0 auto; }
+.lg-glyph { width: 14px; text-align: center; margin-right: 5px; font-size: 14px; line-height: 1; flex: 0 0 auto; }
+
+/* Keep OpenLayers' default controls tucked in the top-left like Leaflet's */
+.ol-zoom {
+    top: 0.5em;
+    left: 0.5em;
+}
+
+/* --- System search (magnifying-glass control, just right of the zoom buttons) --- */
+.sc-search {
+    position: absolute;
+    top: 58px;           /* fallback; sized & aligned to the zoom control at runtime (search.js) */
+    left: 9px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+}
+.sc-search-btn {
+    width: 22px;          /* matches the OpenLayers zoom buttons above it */
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: #fff;
+    color: #2a2a4a;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.sc-search-btn:hover { background: #e8e8f0; }
+.sc-search-input {
+    width: 0;
+    opacity: 0;
+    padding: 0;
+    margin-left: 0;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #1a1a2a;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+    pointer-events: none;
+    transition: width 0.18s ease, opacity 0.18s ease, padding 0.18s ease, margin-left 0.18s ease;
+}
+.sc-search.open .sc-search-input {
+    width: 190px;
+    opacity: 1;
+    padding: 4px 8px;
+    margin-left: 6px;
+    pointer-events: auto;
+}
+.sc-search-input:focus { outline: 2px solid #5a5acb; }
+.sc-search-input.sc-search-miss { outline: 2px solid #d22b30; }
+
+/* --- Info ("i") button (top-right, under the fullscreen control) --- */
+.sc-info-btn {
+    position: absolute;
+    top: 35px;           /* fallback; sized & aligned to the fullscreen control at runtime (info.js) */
+    right: 9px;
+    z-index: 10;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: #fff;
+    color: #2a2a4a;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.sc-info-btn:hover { background: #e8e8f0; }
+
+/* --- Info overlay + panel --- */
+#sc-info-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(8, 6, 25, 0.55);
+}
+#sc-info-overlay.open { display: flex; }
+#sc-info-panel {
+    position: relative;
+    max-width: 600px;
+    max-height: 86%;
+    overflow-y: auto;
+    padding: 22px 26px 24px;
+    background: rgba(22, 20, 48, 0.95);
+    color: #e9e9fb;
+    border: 1px solid rgba(150, 150, 220, 0.35);
+    border-radius: 10px;
+    box-shadow: 0 10px 44px rgba(0, 0, 0, 0.55);
+    line-height: 1.5;
+    font-size: 14px;
+}
+#sc-info-panel h2 { margin: 0 0 10px; font-size: 20px; color: #fff; text-align: center; }
+#sc-info-panel h3 { margin: 18px 0 6px; font-size: 13px; color: #9a9aee; text-transform: uppercase; letter-spacing: 0.5px; }
+#sc-info-panel .sc-info-lead { margin: 0; color: #cfcff0; }
+#sc-info-panel ul { margin: 0; padding-left: 18px; }
+#sc-info-panel li { margin: 5px 0; }
+#sc-info-panel a { color: #8fb8ff; }
+#sc-info-panel b { color: #fff; }
+.sc-info-close {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #b9b9d8;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+.sc-info-close:hover { color: #fff; }
+
+/* ============================ Responsive / mobile ============================ */
+/* Drawer affordances — hidden on desktop, revealed by the @media block below. */
+#sc-filters-toggle {
+    display: none;
+    position: absolute;
+    right: 12px;
+    bottom: 14px;
+    z-index: 450;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 15px;
+    background: #2f2f74;
+    color: #fff;
+    border: none;
+    border-radius: 22px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    font: bold 14px "Helvetica Neue", Arial, sans-serif;
+    cursor: pointer;
+}
+#sc-filters-toggle:hover { background: #3a3a8c; }
+#sc-mobile-backdrop {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 400;
+    background: rgba(0, 0, 0, 0.4);
+}
+#sc-sidebar-close {
+    display: none;
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    z-index: 3;
+    background: none;
+    border: none;
+    color: #cfcff0;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .maptitle { font-size: 16px; padding: 7px 6px; }
+
+    /* Map fills the width; the sidebar becomes an off-canvas drawer over it */
+    #map-col { flex-basis: 100%; }
+    #sidebar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 84%;
+        max-width: 340px;
+        min-width: 0;
+        flex: none;
+        background: #191636;
+        transform: translateX(100%);
+        transition: transform 0.25s ease;
+        z-index: 500;
+        box-shadow: -4px 0 18px rgba(0, 0, 0, 0.45);
+    }
+    #app.sidebar-open #sidebar { transform: translateX(0); }
+    #app.sidebar-open #sc-mobile-backdrop { display: block; }
+
+    #sc-filters-toggle { display: flex; }
+    #sc-sidebar-close { display: block; }
+
+    /* Bigger touch targets */
+    .ol-control button { width: 30px; height: 30px; font-size: 1.3em; }
+    .tab .tablinks { padding: 12px 6px; font-size: 14px; }
+    .filter-check { padding: 7px 8px; }
+    .filter-check input, .layerToggle input { width: 18px; height: 18px; }
+    .layerToggle { padding: 7px 4px; }
+
+    /* Keep overlays inside a narrow screen */
+    .ol-popup { max-width: 78vw; }
+    #sc-info-panel { max-width: 92vw; }
+}
+
+/* --- Feature popup --- */
+.ol-popup {
+    position: absolute;
+    bottom: 12px;
+    left: -50px;
+    min-width: 170px;
+    max-width: 320px;
+    padding: 10px 28px 10px 14px;
+    background: #ffffff;
+    color: #1a1a2a;
+    border-radius: 8px;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.5);
+    font: 13px/1.45 "Helvetica Neue", Arial, sans-serif;
+}
+.ol-popup::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 48px;
+    margin-left: -10px;
+    border: 10px solid transparent;
+    border-top-color: #ffffff;
+}
+.ol-popup-closer {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    text-decoration: none;
+    color: #999;
+    font-size: 12px;
+}
+.ol-popup-closer::after { content: '✖'; }
+.sc-popup-table { border-collapse: collapse; }
+.sc-popup-table th {
+    text-align: right;
+    padding: 2px 8px 2px 0;
+    color: #555;
+    font-weight: 600;
+    vertical-align: top;
+    white-space: nowrap;
+}
+.sc-popup-table td { padding: 2px 0; vertical-align: top; }
+.sc-popup-table .sys-tag { text-align: center; font-weight: 700; color: #2a2a5a; }
+
+/* Ruler spoiler chip (ported from the Leaflet inline styles) */
+.spoiler {
+    color: #800000;
+    background-color: #aaaaba;
+    padding: 2px 5px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: 900;
+}
+.spoiler:hover { text-decoration: underline; }
+
+/* --- Filters (Main / Other tabs) --- */
+.filter-block { margin: 4px 0 16px; }
+.filter-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 6px;
+    text-shadow: 1px 1px 2px #000;
+}
+.filter-label-text { flex: 1 1 auto; min-width: 0; text-align: center; }
+.filter-check { display: flex; align-items: center; gap: 7px; padding: 2px 8px; font-size: 13px; color: #fff; cursor: pointer; }
+.filter-check:hover { background: rgba(255, 255, 255, 0.06); border-radius: 3px; }
+.filter-check input { width: 14px; height: 14px; flex: 0 0 auto; }
+.filter-slider { margin: 14px 16px 6px; }
+.filter-val { color: #8888ee; font-weight: normal; font-size: 12px; }
+.filter-clear {
+    flex: 0 0 auto;
+    background: #0a0a23;
+    color: #cfcfff;
+    border: none;
+    border-radius: 3px;
+    font-size: 10px;
+    padding: 1px 6px;
+    cursor: pointer;
+}
+.filter-clear:hover { background: #25257a; }
+/* noUiSlider — dark-theme tweaks */
+.noUi-target { background: #2a2a44; border: 1px solid #4a4a66; box-shadow: none; }
+.noUi-connect { background: #5a5acb; }
+.noUi-handle { box-shadow: none; }
+
+/* Diplomacy perspective indicator (shown only when the Diplomacy layer is on) */
+#diplomacy-indicator {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    display: none;
+    z-index: 5;
+    pointer-events: none;
+    padding: 6px 11px;
+    background: rgba(15, 12, 41, 0.85);
+    color: #fff;
+    border: 1px solid rgba(120, 120, 200, 0.45);
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.45;
+}
+#diplomacy-indicator span { color: #b9b9d8; font-size: 11px; }
+
+/* Real Distances tab */
+.dist-hint { color: #9a9ac0; font-size: 11px; text-align: center; margin: 2px 0 10px; }
+.dist-select {
+    width: 100%;
+    padding: 6px;
+    font-size: 13px;
+    color: #fff;
+    background: #1a1a2e;
+    border: 1px solid #4a4a66;
+    border-radius: 4px;
+}

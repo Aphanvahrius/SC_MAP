@@ -1,150 +1,112 @@
-function pop_Regions_0(feature, layer) {
-    var rulerText = feature.properties['Ruler'] !== null ? autolinker.link(feature.properties['Ruler'].toLocaleString()) : '';
-    var spoilerTextList = ["Celestia Astraea Psi", "The Pirate King", "The Council", "God of the Drakar"]; // List of spoilered info
-    
-    var popupContent = '<table>\
-        <tr>\
-            <th scope="row">Region</th>\
-            <td class="visible-with-data" id="Region">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
-        </tr>\
-        <tr>\
-            <th scope="row">Ruler</th>\
-            <td class="visible-with-data" id="Ruler" data-original-content="' + rulerText + '">' +
-                (rulerText === spoilerTextList[0] ? 
-                    'Fleet Admiral Wilkes <span id="spoiler" class="spoiler" onclick="revealSpoiler()">SPOILER</span>' :
-                    (spoilerTextList.includes(rulerText) ? '<span id="spoiler" class="spoiler" onclick="revealSpoiler()">SPOILER</span>' : rulerText))
-            + '</td>\
-        </tr>\
-    </table>';
-    
-    layer.bindPopup(popupContent, {maxHeight: 400});
-}
+'use strict';
+/*
+ * Click-to-open popups, ported from the Leaflet popups.js.
+ * Interactive layers: regions, lanes, systems, characters, diplomacy.
+ * (Subregions and the special-system overlays are non-interactive, as in the original.)
+ */
+(function () {
+    const map = window.SC.map;
 
-function pop_Lanes_1(feature, layer) {
-    var popupContent = '<table>\
-            <tr>\
-                <th scope="row">Region</th>\
-                <td class="visible-with-data" id="Nation">' + (feature.properties['Nation'] !== null ? autolinker.link(feature.properties['Nation'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Lane Status</th>\
-                <td class="visible-with-data" id="Status">' + (feature.properties['Status'] !== null ? autolinker.link(feature.properties['Status'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Lane Type</th>\
-                <td class="visible-with-data" id="Type">' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
-            </tr>\
-        </table>';
-    layer.bindPopup(popupContent, {maxHeight: 400});
-    var popup = layer.getPopup();
-    var content = popup.getContent();
-    var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-    popup.setContent(updatedContent);
-}
+    // --- popup overlay ---
+    const container = document.getElementById('popup');
+    const content = document.getElementById('popup-content');
+    const closer = document.getElementById('popup-closer');
+    const overlay = new ol.Overlay({
+        element: container,
+        stopEvent: true,
+        autoPan: { animation: { duration: 200 } }
+    });
+    map.addOverlay(overlay);
+    closer.onclick = function () { overlay.setPosition(undefined); closer.blur(); return false; };
 
-function pop_Systems_2(feature, layer) {
-    var popupContent = '<table>\
-            <tr>\
-                <td id="Regular_Sys" colspan="2">' + ((feature.properties['Capital'] !== null || feature.properties['Core_Sys'] !== null || feature.properties['Idustr_Sys'] !== null || feature.properties['Mining_Sys'] !== null || feature.properties['Fuel_Depot'] !== null || feature.properties['Mt_Base'] !== null) ? '' : 'Regular System') + '</td>\
-            </tr>\
-            <tr>\
-                <td class="visible-with-data" id="Capital" colspan="2">' + (feature.properties['Capital'] !== null ? 'Capital System' : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td class="visible-with-data" id="Core_Sys" colspan="2">' + (feature.properties['Core_Sys'] !== null ? 'Core System' : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td class="visible-with-data" id="Idustr_Sys" colspan="2">' + (feature.properties['Idustr_Sys'] !== null ? 'Industrial System' : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td class="visible-with-data" id="Mining_Sys" colspan="2">' + (feature.properties['Mining_Sys'] !== null ? 'Mining System' : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td class="visible-with-data" id="Fuel_Depot" colspan="2">' + (feature.properties['Fuel_Depot'] !== null ? 'Fuel Depot' : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td class="visible-with-data" id="Mt_Base" colspan="2">' + (feature.properties['Mt_Base'] !== null ? 'Maintenance Base' : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td class="visible-with-data" id="Homeworld" colspan="2">' + (feature.properties['Homeworld'] !== null ? 'Homeworld of Humanity' : '') + '</td>\
-            </tr>\
-            <tr>\
-                <td class="visible-with-data" id="Unsurv_bod" colspan="2">' + (feature.properties['Unsurv_bod'] !== null ? 'Unsurveyed Bodies' : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">System Name</th>\
-                <td class="visible-with-data" id="System_Nam">' + (feature.properties['System_Nam'] !== null ? autolinker.link(feature.properties['System_Nam'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Star Presence</th>\
-                <td class="visible-with-data" id="Star_Presc">' + (feature.properties['Star_Presc'] !== '0' ? 'Yes' : 'No') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Inhabitable Worlds: </th>\
-                <td class="visible-with-data" id="Inhabitabl">' + (feature.properties['Inhabitabl'] !== null ? autolinker.link(feature.properties['Inhabitabl'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Orbital/Colony on</br>Unhabitable Bodies: </th>\
-                <td class="visible-with-data" id="Orbtl_Clny">' + (feature.properties['Orbtl_Clny'] !== null ? autolinker.link(feature.properties['Orbtl_Clny'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Minable Bodies/</br>Rogue Planets: </th>\
-                <td class="visible-with-data" id="Notbl_Minb">' + (feature.properties['Notbl_Minb'] !== null ? autolinker.link(feature.properties['Notbl_Minb'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Unexplored Jump</br>Lanes: </th>\
-                <td class="visible-with-data" id="Unexplored">' + (feature.properties['Unexplored'] !== null ? autolinker.link(feature.properties['Unexplored'].toLocaleString()) : '') + '</td>\
-            </tr>\
-        </table>';
-    layer.bindPopup(popupContent, {maxHeight: 600});
-    var popup = layer.getPopup();
-    var content = popup.getContent();
-    var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-    popup.setContent(updatedContent);
-}
+    // --- helpers ---
+    function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+        });
+    }
+    // labeled row (skipped when the value is empty/null)
+    function row(label, value) {
+        if (value == null || value === '') return '';
+        return '<tr><th scope="row">' + esc(label) + '</th><td>' + esc(value) + '</td></tr>';
+    }
+    // full-width tag row (for system-type flags)
+    function tag(id, text) { return '<tr><td class="sys-tag" id="' + id + '" colspan="2">' + esc(text) + '</td></tr>'; }
 
-function pop_Characters_3(feature, layer) {
-    var popupContent = '<table>\
-            <tr>\
-                <th scope="row">Character</th>\
-                <td class="visible-with-data" id="Character">' + (feature.properties['Character'] !== null ? autolinker.link(feature.properties['Character'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Book</th>\
-                <td class="visible-with-data" id="Book">' + (feature.properties['Book'] !== null ? autolinker.link(feature.properties['Book'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Travel Date</th>\
-                <td class="visible-with-data" id="Date">' + (feature.properties['Date'] !== null ? autolinker.link(feature.properties['Date'].toLocaleString()) : '') + '</td>\
-            </tr>\
-        </table>';
-    layer.bindPopup(popupContent, {maxHeight: 400});
-    var popup = layer.getPopup();
-    var content = popup.getContent();
-    var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-    popup.setContent(updatedContent);
-}
+    // --- ruler spoiler mechanism (ported) ---
+    const SPOILER_RULERS = ['Celestia Astraea Psi', 'The Pirate King', 'The Council', 'God of the Drakar'];
+    function rulerRow(ruler) {
+        ruler = ruler || '';
+        if (SPOILER_RULERS.indexOf(ruler) !== -1) {
+            // Celestia shows a decoy name first; others just show the chip. Reveal swaps in the real ruler.
+            const decoy = ruler === 'Celestia Astraea Psi' ? 'Fleet Admiral Wilkes ' : '';
+            return '<tr><th scope="row">Ruler</th><td class="ruler-cell" data-real="' + esc(ruler) + '">' +
+                decoy + '<span class="spoiler" onclick="scRevealSpoiler(this)">SPOILER</span></td></tr>';
+        }
+        return row('Ruler', ruler);
+    }
+    window.scRevealSpoiler = function (span) {
+        const td = span.closest('.ruler-cell');
+        if (td) td.innerHTML = td.getAttribute('data-real');
+    };
 
-function pop_Diplomacy_4(feature, layer) {
-    var popupContent = '<table>\
-            <tr>\
-                <th scope="row">Nation</th>\
-                <td class="visible-with-data" id="Neighbor">' + (feature.properties['Neighbor'] !== null ? autolinker.link(feature.properties['Neighbor'].toLocaleString()) : '') + '</td>\
-            </tr>\
-            <tr>\
-                <th scope="row">Relation Status</th>\
-                <td class="visible-with-data" id="Relation">' + (
-                    feature.properties['Relation'] !== null ? ( // First condition, if not null then continue to second condition, otherwiste display nothing
-                        feature.properties['Relation'] !== 'Self' ? ( // Second condition, if not self then display relation, otherwiste label as 'Our Country'
-                            autolinker.link(feature.properties['Relation'].toLocaleString())
-                        ) : 'Our Country'
-                    ) : ''
-                ) + '</td>\
-            </tr>\
-        </table>';
-    layer.bindPopup(popupContent, {maxHeight: 400});
-    var popup = layer.getPopup();
-    var content = popup.getContent();
-    var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
-    popup.setContent(updatedContent);
-}
+    // --- per-layer content builders (keyed by layer id) ---
+    const builders = {
+        regions: function (f) {
+            return row('Region', f.get('Nation')) + rulerRow(f.get('Ruler'));
+        },
+        lanes: function (f) {
+            return row('Region', f.get('Nation')) + row('Lane Status', f.get('Status')) + row('Lane Type', f.get('Type'));
+        },
+        characters: function (f) {
+            return row('Character', f.get('Character')) + row('Book', f.get('Book')) + row('Travel Date', f.get('Date'));
+        },
+        diplomacy: function (f) {
+            const rel = f.get('Relation');
+            return row('Nation', f.get('Neighbor')) + row('Relation Status', rel === 'Self' ? 'Our Country' : rel);
+        },
+        systems: function (f) {
+            const special = f.get('Capital') || f.get('Core_Sys') || f.get('Idustr_Sys') ||
+                f.get('Mining_Sys') || f.get('Fuel_Depot') || f.get('Mt_Base');
+            let h = '';
+            if (!special) h += tag('Regular_Sys', 'Regular System');
+            if (f.get('Capital'))    h += tag('Capital', 'Capital System');
+            if (f.get('Core_Sys'))   h += tag('Core_Sys', 'Core System');
+            if (f.get('Idustr_Sys')) h += tag('Idustr_Sys', 'Industrial System');
+            if (f.get('Mining_Sys')) h += tag('Mining_Sys', 'Mining System');
+            if (f.get('Fuel_Depot')) h += tag('Fuel_Depot', 'Fuel Depot');
+            if (f.get('Mt_Base'))    h += tag('Mt_Base', 'Maintenance Base');
+            if (f.get('Homeworld'))  h += tag('Homeworld', 'Homeworld of Humanity');
+            if (f.get('Unsurv_bod')) h += tag('Unsurv_bod', 'Unsurveyed Bodies');
+            h += row('System Name', f.get('System_Nam'));
+            h += row('Star Presence', f.get('Star_Presc') !== '0' ? 'Yes' : 'No');
+            h += row('Inhabitable Worlds', f.get('Inhabitabl'));
+            h += row('Orbital / Colony on Uninhabitable Bodies', f.get('Orbtl_Clny'));
+            h += row('Minable Bodies / Rogue Planets', f.get('Notbl_Minb'));
+            h += row('Unexplored Jump Lanes', f.get('Unexplored'));
+            return h;
+        }
+    };
+
+    // --- single-click handler: 'singleclick' (not 'click') so it does NOT fire during a
+    //     double-click — that keeps double-click free for the diplomacy perspective switch ---
+    map.on('singleclick', function (evt) {
+        let html = null;
+        map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+            const id = layer && layer.get('id');
+            if (builders[id]) {
+                const inner = builders[id](feature);
+                if (inner) { html = '<table class="sc-popup-table">' + inner + '</table>'; return true; }
+            }
+            return false;
+        }, { hitTolerance: 5 });
+
+        if (html) {
+            content.innerHTML = html;
+            overlay.setPosition(evt.coordinate);
+        } else {
+            overlay.setPosition(undefined);
+        }
+    });
+
+})();
