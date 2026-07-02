@@ -7,11 +7,27 @@
  * Leaflet arrangement exactly. The systems' real 3-D X/Y/Z stay in the data.
  */
 
+// Soft pan limit (EPSG:3857). The view is kept inside PAN_EXTENT so the empty area beyond
+// the map — and the edge of the raster backdrop — never comes into view. With
+// `smoothExtentConstraint` the boundary is elastic (increasing resistance + ease-back)
+// rather than a hard wall.
+//   ── Tuning ───────────────────────────────────────────────────────────────────────
+//   Reference extents in the same 3857 metres:
+//     data footprint  ≈ [ -22189,    593,  80530,  77954]   (systems + regions + lanes)
+//     raster backdrop ≈ [-108458, -99181, 176911, 163619]
+//   Widen toward the raster for more roaming freedom; tighten toward the data for a firmer
+//   limit. Keep it at least as large as the min-zoom viewport (≈191k × 95k) or panning
+//   locks up at zoom 10.
+const PAN_EXTENT = [-82000, -55000, 148000, 126000];
+
 const view = new ol.View({
     center: ol.proj.fromLonLat([0.36, 0.35]),   // Leaflet setView([lat 0.3, lng 0.6])
     zoom: 10.5,
     minZoom: 10,
-    maxZoom: 15
+    maxZoom: 13,
+    extent: PAN_EXTENT,
+    constrainOnlyCenter: false,     // keep the whole viewport inside PAN_EXTENT
+    smoothExtentConstraint: true    // soft / elastic edge, not a hard stop
 });
 
 const map = new ol.Map({ target: 'map', view: view });
@@ -28,7 +44,11 @@ function makeLayer(id, file, styleFn, zIndex, visible) {
             return styleFn(feature, resolution);
         },
         zIndex: zIndex,
-        visible: visible === true
+        visible: visible === true,
+        // Render live while panning/zooming so newly-revealed areas fill in immediately
+        // instead of staying blank until the gesture ends (the data is light enough).
+        updateWhileAnimating: true,
+        updateWhileInteracting: true
     });
     layer.set('id', id);
     return layer;
@@ -62,7 +82,9 @@ const systemNamesLayer = new ol.layer.Vector({
     style: styleSystemName,
     declutter: true,
     zIndex: 355,
-    visible: false
+    visible: false,
+    updateWhileAnimating: true,
+    updateWhileInteracting: true
 });
 systemNamesLayer.set('id', 'systemNames');
 map.addLayer(systemNamesLayer);

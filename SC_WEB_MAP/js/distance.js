@@ -44,7 +44,9 @@
         source: layers.systems.getSource(),
         style: labelStyle,
         declutter: true,
-        zIndex: 360
+        zIndex: 360,
+        updateWhileAnimating: true,
+        updateWhileInteracting: true
     });
     labelLayer.set('id', 'distance-labels');
     map.addLayer(labelLayer);
