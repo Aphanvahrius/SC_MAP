@@ -288,7 +288,7 @@ body {
     position: absolute;
     bottom: 12px;
     left: -50px;
-    min-width: 170px;
+    min-width: 150px;
     max-width: 320px;
     padding: 10px 28px 10px 14px;
     background: #ffffff;
@@ -329,10 +329,15 @@ body {
 /* value vertically centred against a two-line label (e.g. Minable Bodies / Rogue Planets) */
 .sc-popup-table tr.row-center th,
 .sc-popup-table tr.row-center td { vertical-align: middle; }
-/* System-name wrap threshold: the name column is this wide, so names wider than it wrap to a
-   new line while shorter ones stay on one line. Raise the width to keep longer names on one
-   line, lower it to wrap sooner. */
-.sys-name-val { display: inline-block; width: 118px; }
+/* System-name wrap threshold: cap long names without reserving that width for short names. */
+.sys-name-val {
+    display: inline-block;
+    width: max-content;
+    max-width: 118px;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+}
 
 /* Ruler spoiler chip (ported from the Leaflet inline styles) */
 .spoiler {
