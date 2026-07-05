@@ -25,10 +25,18 @@
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
         });
     }
-    // labeled row (skipped when the value is empty/null)
-    function row(label, value) {
+    // labeled row (skipped when the value is empty/null). `label` is a trusted hardcoded
+    // string and may contain markup (e.g. <br>); only the data `value` is escaped.
+    // Optional `cls` adds a class to the <tr>.
+    function row(label, value, cls) {
         if (value == null || value === '') return '';
-        return '<tr><th scope="row">' + esc(label) + '</th><td>' + esc(value) + '</td></tr>';
+        return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><th scope="row">' + label +
+            '</th><td>' + esc(value) + '</td></tr>';
+    }
+    // like row(), but `html` is trusted markup the caller has already escaped as needed.
+    function rowHtml(label, html) {
+        if (!html) return '';
+        return '<tr><th scope="row">' + label + '</th><td>' + html + '</td></tr>';
     }
     // full-width tag row (for system-type flags)
     function tag(id, text) { return '<tr><td class="sys-tag" id="' + id + '" colspan="2">' + esc(text) + '</td></tr>'; }
@@ -78,12 +86,13 @@
             if (f.get('Mt_Base'))    h += tag('Mt_Base', 'Maintenance Base');
             if (f.get('Homeworld'))  h += tag('Homeworld', 'Homeworld of Humanity');
             if (f.get('Unsurv_bod')) h += tag('Unsurv_bod', 'Unsurveyed Bodies');
-            h += row('System Name', f.get('System_Nam'));
+            const nm = f.get('System_Nam');
+            if (nm) h += rowHtml('System Name', '<span class="sys-name-val">' + esc(nm) + '</span>');
             h += row('Star Presence', f.get('Star_Presc') !== '0' ? 'Yes' : 'No');
             h += row('Inhabitable Worlds', f.get('Inhabitabl'));
-            h += row('Orbital / Colony on Uninhabitable Bodies', f.get('Orbtl_Clny'));
-            h += row('Minable Bodies / Rogue Planets', f.get('Notbl_Minb'));
-            h += row('Unexplored Jump Lanes', f.get('Unexplored'));
+            h += row('Orbitals / Colonies', f.get('Orbtl_Clny'));
+            h += row('Minable Bodies /<br>Rogue Planets', f.get('Notbl_Minb'), 'row-center');
+            h += row('Unexplored Lanes', f.get('Unexplored'));
             return h;
         }
     };

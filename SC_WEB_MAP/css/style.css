@@ -115,6 +115,28 @@ body {
 .sc-search-input:focus { outline: 2px solid #5a5acb; }
 .sc-search-input.sc-search-miss { outline: 2px solid #d22b30; }
 
+/* --- Search "pulse" highlight on the located system --- */
+.sc-pulse-anchor { position: absolute; pointer-events: none; }
+.sc-pulse-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 9px rgba(150, 210, 255, 0.85);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+    pointer-events: none;
+}
+.sc-pulse-ring.go { animation: sc-pulse-kf 1000ms ease-out; }
+@keyframes sc-pulse-kf {
+    0%   { opacity: 0.95; transform: translate(-50%, -50%) scale(0.5); }
+    55%  { opacity: 0.65; }
+    100% { opacity: 0;    transform: translate(-50%, -50%) scale(3.6); }
+}
+
 /* --- Info ("i") button (top-right, under the fullscreen control) --- */
 .sc-info-btn {
     position: absolute;
@@ -304,6 +326,13 @@ body {
 }
 .sc-popup-table td { padding: 2px 0; vertical-align: top; }
 .sc-popup-table .sys-tag { text-align: center; font-weight: 700; color: #2a2a5a; }
+/* value vertically centred against a two-line label (e.g. Minable Bodies / Rogue Planets) */
+.sc-popup-table tr.row-center th,
+.sc-popup-table tr.row-center td { vertical-align: middle; }
+/* System-name wrap threshold: the name column is this wide, so names wider than it wrap to a
+   new line while shorter ones stay on one line. Raise the width to keep longer names on one
+   line, lower it to wrap sooner. */
+.sys-name-val { display: inline-block; width: 118px; }
 
 /* Ruler spoiler chip (ported from the Leaflet inline styles) */
 .spoiler {
@@ -345,6 +374,7 @@ body {
     cursor: pointer;
 }
 .filter-clear:hover { background: #25257a; }
+.filter-note { color: #9a9ac0; font-size: 11px; line-height: 1.35; text-align: center; margin: 8px 14px 0; }
 /* noUiSlider — dark-theme tweaks */
 .noUi-target { background: #2a2a44; border: 1px solid #4a4a66; box-shadow: none; }
 .noUi-connect { background: #5a5acb; }

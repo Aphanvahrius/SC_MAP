@@ -52,12 +52,31 @@
     /* ---- name → feature index (built once the systems load) ---- */
     const index = {};   // lowercased name -> feature
 
+    /* ---- brief pulse highlight on the searched system (expanding, fading ring) ---- */
+    const pulseAnchor = document.createElement('div');
+    pulseAnchor.className = 'sc-pulse-anchor';
+    const pulseRing = document.createElement('div');
+    pulseRing.className = 'sc-pulse-ring';
+    pulseAnchor.appendChild(pulseRing);
+    const pulseOverlay = new ol.Overlay({ element: pulseAnchor, positioning: 'center-center', stopEvent: false });
+    map.addOverlay(pulseOverlay);
+    pulseRing.addEventListener('animationend', function () {
+        pulseOverlay.setPosition(undefined);
+        pulseRing.classList.remove('go');
+    });
+    function pulse(coord) {
+        pulseOverlay.setPosition(coord);
+        pulseRing.classList.remove('go');
+        void pulseRing.offsetWidth;         // force reflow so the animation restarts each time
+        pulseRing.classList.add('go');
+    }
+
     function flyTo(f) {
-        view.animate({
-            center: f.getGeometry().getCoordinates(),
-            zoom: Math.max(view.getZoom(), 13),
-            duration: 600
-        });
+        const coord = f.getGeometry().getCoordinates();
+        view.animate(
+            { center: coord, zoom: Math.max(view.getZoom(), 13), duration: 600 },
+            function (done) { if (done) pulse(coord); }   // pulse once the view has settled
+        );
         input.value = f.get('System_Nam');   // normalise to the canonical name
         input.classList.remove('sc-search-miss');
     }

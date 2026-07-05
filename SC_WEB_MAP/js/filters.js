@@ -112,7 +112,7 @@
         container.appendChild(wrap);
     }
 
-    function sliderFilter(container, label, stateKey, min, max) {
+    function sliderFilter(container, label, stateKey, min, max, note) {
         const wrap = document.createElement('div'); wrap.className = 'filter-block';
         const head = document.createElement('div'); head.className = 'filter-label';
         const title = document.createElement('span'); title.className = 'filter-label-text';
@@ -120,6 +120,7 @@
         head.appendChild(title);
         wrap.appendChild(head);
         const sl = document.createElement('div'); sl.className = 'filter-slider'; wrap.appendChild(sl);
+        if (note) { const n = document.createElement('div'); n.className = 'filter-note'; n.textContent = note; wrap.appendChild(n); }
         container.appendChild(wrap);
         noUiSlider.create(sl, {
             start: [min, max], connect: true, step: 1,
@@ -149,7 +150,8 @@
 
     // ---- Other tab ----
     const otherTab = document.getElementById('otherTab'); otherTab.innerHTML = '';
-    sliderFilter(otherTab, 'ORBITALS / COLONIES', 'Orbtl_Clny', 0, 258);
+    sliderFilter(otherTab, 'ORBITALS / COLONIES', 'Orbtl_Clny', 0, 258,
+        'Number of orbitals and/or colonies on uninhabitable bodies.');
     sliderFilter(otherTab, 'INHABITABLE WORLDS', 'Inhabitabl', 0, 4);
     checkboxFilter(otherTab, 'SYSTEMS WITH UNSURVEYED BODIES', 'Unsurv_bod', [{ value: '1', label: 'Show' }]);
     checkboxFilter(otherTab, 'SYSTEMS RESEARCHING A NEW STARLINE', 'New_Lane', [{ value: '1', label: 'Show' }]);
