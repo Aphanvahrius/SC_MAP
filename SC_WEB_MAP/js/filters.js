@@ -72,6 +72,10 @@
     }
 
     // ---- UI builders ----
+    // Per-filter API registry (programmatic set/reset — used by the 3-D view sync
+    // and the global "Reset all filters" button).
+    const FILTER_API = {};
+
     function clearBtn(onClick) {
         const b = document.createElement('button'); b.className = 'filter-clear'; b.textContent = 'clear';
         b.addEventListener('click', onClick); return b;
@@ -104,15 +108,51 @@
             const span = document.createElement('span'); span.textContent = opt.label || opt.value;
             row.appendChild(cb); row.appendChild(span); wrap.appendChild(row);
         });
-        head.appendChild(clearBtn(function () {            // "clear" resets to the defaults
-            F[stateKey] = new Set(defaults);
-            boxes.forEach(function (b) { b.cb.checked = defaults.indexOf(b.value) !== -1; });
+        function setValues(vals) {
+            F[stateKey] = new Set(vals);
+            boxes.forEach(function (b) { b.cb.checked = vals.indexOf(b.value) !== -1; });
             refresh();
-        }));
+        }
+        FILTER_API[stateKey] = { set: setValues, reset: function () { setValues(defaults.slice()); } };
+        head.appendChild(clearBtn(FILTER_API[stateKey].reset));
         container.appendChild(wrap);
     }
 
+    /* Two-ended book range (A1…A5) — replaces the old checkbox Book filter. */
+    const BOOK_LIST = ['A1', 'A2', 'A3', 'A4', 'A5'];
+    function bookRangeFilter(container) {
+        const wrap = document.createElement('div'); wrap.className = 'filter-block';
+        const head = document.createElement('div'); head.className = 'filter-label';
+        const title = document.createElement('span'); title.className = 'filter-label-text';
+        title.innerHTML = 'BOOK <span class="filter-val"></span>';
+        head.appendChild(title);
+        wrap.appendChild(head);
+        const sl = document.createElement('div'); sl.className = 'filter-slider'; wrap.appendChild(sl);
+        container.appendChild(wrap);
+        noUiSlider.create(sl, {
+            start: [1, 1], connect: true, step: 1,
+            range: { min: 1, max: BOOK_LIST.length }, format: wNumb({ decimals: 0 })
+        });
+        const valEl = head.querySelector('.filter-val');
+        sl.noUiSlider.on('update', function (values) {
+            const lo = parseInt(values[0], 10), hi = parseInt(values[1], 10);
+            valEl.textContent = lo === hi ? BOOK_LIST[lo - 1] : BOOK_LIST[lo - 1] + ' – ' + BOOK_LIST[hi - 1];
+            F.Book = new Set(BOOK_LIST.slice(lo - 1, hi));
+            refresh();
+        });
+        FILTER_API.Book = {
+            set: function (lo, hi) { sl.noUiSlider.set([lo, hi]); },
+            get: function () {
+                const v = sl.noUiSlider.get();
+                return [parseInt(v[0], 10), parseInt(v[1], 10)];
+            },
+            reset: function () { sl.noUiSlider.set([1, 1]); }
+        };
+        head.appendChild(clearBtn(FILTER_API.Book.reset));
+    }
+
     function sliderFilter(container, label, stateKey, min, max, note) {
+        // (reset registration happens at the bottom of this function)
         const wrap = document.createElement('div'); wrap.className = 'filter-block';
         const head = document.createElement('div'); head.className = 'filter-label';
         const title = document.createElement('span'); title.className = 'filter-label-text';
@@ -133,7 +173,8 @@
             F[stateKey] = (lo <= min && hi >= max) ? null : [lo, hi];
             refresh();
         });
-        head.appendChild(clearBtn(function () { sl.noUiSlider.set([min, max]); }));
+        FILTER_API[stateKey] = { reset: function () { sl.noUiSlider.set([min, max]); } };
+        head.appendChild(clearBtn(FILTER_API[stateKey].reset));
     }
 
     // ---- Main tab ----
@@ -144,7 +185,7 @@
         { value: 'Solar Imperium' }, { value: 'Solarian Federation' }, { value: 'Starlight Revolution' },
         { value: 'The Western Frontier Systems' }
     ]);
-    checkboxFilter(mainTab, 'BOOK', 'Book', [{ value: 'A1' }, { value: 'A2' }, { value: 'A3' }, { value: 'A4' }], ['A1'], true);
+    bookRangeFilter(mainTab);
     checkboxFilter(mainTab, 'CHARACTER', 'Character', [{ value: 'Abbey' }, { value: 'Alex' }, { value: 'Elis' }, { value: 'Thea' }, { value: 'Tia' }]);
     checkboxFilter(mainTab, 'STAR PRESENCE IN SYSTEM', 'Star_Presc', [{ value: '1', label: 'Yes' }, { value: '0', label: 'No' }]);
 
@@ -157,4 +198,29 @@
     checkboxFilter(otherTab, 'SYSTEMS RESEARCHING A NEW STARLINE', 'New_Lane', [{ value: '1', label: 'Show' }]);
     checkboxFilter(otherTab, 'STARLANE TYPE', 'Type', [{ value: 'International' }, { value: 'National' }]);
     checkboxFilter(otherTab, 'STARLANE STATUS', 'Status', [{ value: 'In Developement', label: 'In Development' }, { value: 'Operational' }]);
+
+    // ---- cross-view filter API (used by the 3-D module + Reset-all buttons) ----
+    window.SC_filters = {
+        getBookRange: function () { return FILTER_API.Book.get(); },
+        setBookRange: function (lo, hi) { FILTER_API.Book.set(lo, hi); },
+        getCharacters: function () { return Array.from(F.Character); },
+        setCharacters: function (arr) { FILTER_API.Character.set(arr); },
+        /* Reset EVERY filter in this (2-D) view to its default. */
+        reset2D: function () {
+            Object.keys(FILTER_API).forEach(function (k) { FILTER_API[k].reset(); });
+        }
+    };
+    /* Global reset across both views (the 3-D module registers SC_reset3D). */
+    window.SC_resetAllFilters = function () {
+        window.SC_filters.reset2D();
+        if (window.SC_reset3D) window.SC_reset3D();
+    };
+
+    // "Reset all filters" button at the bottom of the Main tab
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'sc-resetall';
+    resetBtn.textContent = 'Reset all filters';
+    resetBtn.title = 'Resets every filter in both the 2D and 3D views to its default';
+    resetBtn.addEventListener('click', window.SC_resetAllFilters);
+    mainTab.appendChild(resetBtn);
 })();

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>ShipCore — System Catalog</title>
+    <!-- The catalog is the READ-ONLY face of the planets.json editor: same script
+         (js/editor.js) and styles, with SC_READONLY switching off all editing. -->
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+    <header>
+        <h1>ShipCore System Catalog</h1>
+        <span class="hint" style="margin:0">Systems, planets, moons and orbital objects of the setting — data from the star catalog and the books.</span>
+        <span id="status">loading…</span>
+    </header>
+    <main>
+        <div id="listCol">
+            <input type="text" id="search" placeholder="Filter systems…">
+            <div id="sysList"></div>
+        </div>
+        <div id="detail"><p class="hint">Pick a system on the left.</p></div>
+    </main>
+    <script>window.SC_READONLY = true;</script>
+    <script src="js/editor.js"></script>
+</body>
+</html>

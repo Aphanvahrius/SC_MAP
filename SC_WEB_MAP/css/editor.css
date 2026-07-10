@@ -1,0 +1,71 @@
+/* Shared styles for the planets.json editor (editor.html) and the read-only
+ * System Catalog (catalog.html). Dark theme to match the map. */
+html, body { height: 100%; margin: 0; font: 13px/1.45 "Helvetica Neue", Arial, sans-serif; }
+body { display: flex; flex-direction: column; background: #14122b; color: #e9e9fb; }
+a { color: #8fb8ff; }
+button { cursor: pointer; border: none; border-radius: 4px; padding: 5px 10px; font-size: 12px;
+         background: #2f2f74; color: #fff; }
+button:hover { background: #3a3a8c; }
+button.danger { background: #6a1c1c; }
+button.danger:hover { background: #8c2626; }
+button.mv { padding: 5px 7px; background: #24406a; }
+button.mv:hover { background: #2f5488; }
+button.mv:disabled { opacity: 0.35; cursor: default; }
+button.subtle { background: #2a2a44; color: #b9b9d8; }
+button.subtle:hover { background: #3a3a5c; }
+input, select, textarea {
+    background: #1a1a2e; color: #fff; border: 1px solid #4a4a66; border-radius: 4px;
+    padding: 4px 7px; font-size: 12px; font-family: inherit;
+}
+textarea { width: 100%; box-sizing: border-box; min-height: 44px; resize: vertical; }
+header {
+    flex: 0 0 auto; display: flex; align-items: center; gap: 10px;
+    padding: 9px 14px; background: #0f0e26; border-bottom: 1px solid #333366;
+}
+header h1 { font-size: 15px; margin: 0 12px 0 0; }
+#status { color: #9a9ac0; font-size: 12px; margin-left: auto; }
+#status.dirty { color: #ffcf6a; }
+main { flex: 1 1 auto; display: flex; min-height: 0; }
+/* system list */
+#listCol { flex: 0 0 250px; display: flex; flex-direction: column; border-right: 1px solid #333366; min-height: 0; }
+#search { margin: 8px; }
+#sysList { flex: 1 1 auto; overflow-y: auto; }
+.sys-item { padding: 5px 12px; cursor: pointer; display: flex; justify-content: space-between; gap: 6px; }
+.sys-item:hover { background: rgba(255, 255, 255, 0.06); }
+.sys-item.active { background: #2f2f74; }
+.sys-item .badge { color: #8888ee; font-size: 11px; white-space: nowrap; }
+.sys-item.nodata { color: #77779a; }
+/* detail form */
+#detail { flex: 1 1 auto; overflow-y: auto; padding: 14px 18px 40px; min-width: 0; }
+#detail h2 { margin: 0 0 4px; font-size: 18px; }
+.hint { color: #9a9ac0; font-size: 11px; margin: 2px 0 10px; }
+.frow { display: flex; align-items: center; gap: 8px; margin: 5px 0; flex-wrap: wrap; }
+.frow label { color: #9a9ac0; min-width: 110px; font-size: 12px; }
+.frow input[type=text] { flex: 1 1 160px; }
+.card {
+    background: rgba(0, 0, 0, 0.25); border: 1px solid #333366; border-radius: 8px;
+    padding: 10px 12px; margin: 10px 0;
+}
+.card.moon { margin-left: 26px; border-color: #2a3f5f; }
+.card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.card-head .nm { font-weight: bold; flex: 1 1 auto; }
+.tag { font-size: 10px; padding: 1px 6px; border-radius: 3px; background: #24406a; color: #bcd6ff; }
+.tag.book { background: #6a4a12; color: #ffe0a3; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 4px 14px; }
+.grid2 .frow label { min-width: 76px; }
+h3.sect { color: #8888ee; text-transform: uppercase; letter-spacing: 0.5px; font-size: 12px; margin: 20px 0 4px; }
+.addrow { margin: 6px 0 0; }
+.catfields { color: #9a9ac0; font-size: 11px; margin: 3px 0; }
+
+/* --- catalog (read-only) additions --- */
+.cat-table { border-collapse: collapse; margin: 8px 0 4px; }
+.cat-table th {
+    text-align: left; padding: 2px 14px 2px 0; color: #9a9ac0;
+    font-weight: 600; vertical-align: top; white-space: nowrap; font-size: 12px;
+}
+.cat-table td { padding: 2px 0; vertical-align: top; }
+.cat-desc { color: #cfcff0; font-style: italic; margin: 6px 0 2px; line-height: 1.5; max-width: 700px; }
+.cat-body { margin: 3px 0 3px 0; line-height: 1.5; }
+.cat-body .dim, .dim { color: #9a9ac0; }
+.cat-kids { margin: 2px 0 6px 22px; }
+.cat-role { color: #ffd27a; }

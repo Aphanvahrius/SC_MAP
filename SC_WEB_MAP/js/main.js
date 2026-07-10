@@ -64,7 +64,10 @@ const LAYERS = {
     diplomacy:  makeLayer('diplomacy',  'diplomacy.geojson',  styleDiplomacy,  315, false),
     subregions: makeLayer('subregions', 'subregions.geojson', styleSubregions, 317, false),
     lanes:      makeLayer('lanes',      'lanes.geojson',      styleLanes,      320, true),
-    characters: makeLayer('characters', 'characters.geojson', styleCharacters, 340, false),
+    // visible by default: with no character selected the filter hides every feature,
+    // so the layer is invisible in practice — but choosing a character (in either
+    // view) shows journeys immediately without a separate layer toggle
+    characters: makeLayer('characters', 'characters.geojson', styleCharacters, 340, true),
     systems:    makeLayer('systems',    'systems.geojson',    styleSystems,    350, true),
     mining:     makeLayer('mining',     'mining.geojson',     styleMining,     351, false),
     industrial: makeLayer('industrial', 'industrial.geojson', styleIndustrial, 352, false),

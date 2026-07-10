@@ -2,7 +2,8 @@
 /*
  * UI shell: tab switching, the Layers tab (toggles + inline legends),
  * fullscreen control, and Leaflet-compatible URL-hash sync (#zoom/lat/lng).
- * Filters (Main/Other) and the Real-Distances tool are added in later steps.
+ * (Filters live in filters.js, the Real-Distances tool in distance.js, the
+ * route planner in route2d.js, and the 3-D view in js/view3d/.)
  */
 (function () {
     const map = SC.map, view = SC.view, layers = SC.layers;
@@ -54,6 +55,9 @@
     ];
 
     const layersTab = document.getElementById('layersTab');
+    // programmatic access to the layer toggles (checkbox + layer together) —
+    // used by the 3-D view to sync its special-system markers both ways
+    const layerToggleAPI = {};
     GROUPS.forEach(function (group) {
         const title = document.createElement('div');
         title.className = 'layerGroupTitle';
@@ -68,6 +72,7 @@
             cb.type = 'checkbox';
             cb.checked = layer.getVisible();
             cb.addEventListener('change', function () { layer.setVisible(cb.checked); });
+            layerToggleAPI[item[0]] = { cb: cb, layer: layer };
             const nm = document.createElement('span');
             nm.className = 'lt-name';
             nm.textContent = item[1];
@@ -82,6 +87,16 @@
             }
         });
     });
+
+    window.SC_layerToggles = {
+        get: function (id) { return layers[id] ? layers[id].getVisible() : false; },
+        set: function (id, v) {
+            const e = layerToggleAPI[id];
+            if (!e) return;
+            e.layer.setVisible(v);
+            e.cb.checked = v;
+        }
+    };
 
     /* ---- Fullscreen control (fullscreen the whole app, not just the map) ---- */
     map.addControl(new ol.control.FullScreen({ source: document.getElementById('app') }));

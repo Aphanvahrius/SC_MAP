@@ -47,7 +47,6 @@ body {
 .tab .tablinks.active { background: #ccccdc; font-weight: bold; }
 .tabcontent { flex: 1 1 auto; overflow-y: auto; display: none; padding: 8px 10px; }
 .tabcontent.active { display: block; }
-.wip { color: #9a9ac0; font-style: italic; text-align: center; margin-top: 24px; }
 
 /* Layers tab — toggles + inline legends */
 .layerGroupTitle { color: #8888ee; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; font-size: 12px; margin: 14px 0 4px; }
@@ -402,6 +401,274 @@ body {
     line-height: 1.45;
 }
 #diplomacy-indicator span { color: #b9b9d8; font-size: 11px; }
+
+/* ============================ 3D star view ============================ */
+/* Container swaps with #map (display toggle handled by js/view3d-boot.js) */
+#view3d {
+    display: none;
+    flex: 1 1 auto;
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+    background: #05060d;
+}
+#view3d.active { display: block; }
+#view3d canvas { display: block; }
+
+/* Overlay map buttons (2D/3D switch, catalog, and the 3-D twins of fullscreen/
+ * info). SIZE is set at runtime by js/view3d-boot.js from a hidden probe styled
+ * like an OpenLayers control button, so `.ol-control button` CSS (incl. the
+ * mobile @media bump below) governs every button uniformly — the values here are
+ * only pre-layout fallbacks and the shared look. */
+#v3d-switch, #v3d-catalog, #v3d-fs, #v3d-info3d {
+    position: absolute;
+    top: 64px;            /* fallback; positioned at runtime */
+    right: 9px;
+    z-index: 20;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    background: #fff;
+    color: #2a2a4a;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    font: bold 11px "Helvetica Neue", Arial, sans-serif;
+    line-height: 1;
+}
+#v3d-switch:hover, #v3d-catalog:hover, #v3d-fs:hover, #v3d-info3d:hover { background: #e8e8f0; }
+#v3d-catalog { font-size: 12px; }
+#v3d-fs { font-size: 13px; }
+#v3d-fs, #v3d-info3d { display: none; }   /* only shown in 3-D mode */
+#v3d-info3d svg { vertical-align: middle; }
+
+/* HTML label overlay (billboarded system names) */
+.v3d-labels { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 2; }
+.v3d-label {
+    position: absolute;
+    top: 0; left: 0;
+    color: #d7defc;
+    font-size: 11px;
+    white-space: nowrap;
+    text-shadow: 0 0 4px #000, 0 0 2px #000;
+    will-change: transform;
+}
+.v3d-label-hover { color: #ffffff; font-weight: bold; z-index: 3; }
+.v3d-label-sel { color: #ffe89a; font-weight: bold; }
+.v3d-grid-label { position: absolute; top: 0; left: 0; color: #56699c; font-size: 10px; white-space: nowrap; }
+
+/* 3D control panel — lives INSIDE the right sidebar and replaces the 2-D filter
+ * tabs while 3-D mode is active (#sidebar gets .v3d-mode from view3d-boot.js). */
+#sidebar .v3d-panel { display: none; }
+#sidebar.v3d-mode .v3d-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    font-size: 12px;
+    color: #e9e9fb;
+}
+#sidebar.v3d-mode > .sidebar-title,
+#sidebar.v3d-mode > .tab,
+#sidebar.v3d-mode > .tabcontent { display: none !important; }
+.v3d-panel-body { flex: 1 1 auto; overflow-y: auto; padding: 8px 12px 12px; }
+
+/* Gear button (visual settings) — top-LEFT corner, styled like the 2D/3D switch,
+ * so the opened window never collides with the system info panel on the right */
+.v3d-gear {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 20;
+    width: 22px;          /* fallback; sized by the OL probe at runtime (view3d-boot.js) */
+    height: 22px;
+    padding: 0;
+    background: #fff;
+    color: #2a2a4a;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    font: bold 13px "Helvetica Neue", Arial, sans-serif;
+    line-height: 1;
+}
+.v3d-gear:hover { background: #e8e8f0; }
+.v3d-gear.on { background: #2f2f74; color: #fff; }
+
+/* Visual-settings window */
+.v3d-settings {
+    position: absolute;
+    top: 42px;
+    left: 10px;
+    z-index: 12;
+    width: 240px;
+    max-height: calc(100% - 52px);
+    overflow-y: auto;
+    background: rgba(15, 14, 38, 0.94);
+    border: 1px solid rgba(120, 120, 200, 0.4);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #e9e9fb;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+.v3d-settings-head {
+    padding: 7px 12px;
+    font-weight: bold;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(120, 120, 200, 0.25);
+}
+.v3d-settings-body { padding: 8px 12px 12px; }
+
+/* Sliders (settings window) */
+.v3d-sliderwrap { margin: 4px 0 6px; }
+.v3d-sliderhead { display: flex; justify-content: space-between; color: #cfcff0; margin-bottom: 2px; }
+.v3d-sliderval { color: #8888ee; }
+.v3d-slider { width: 100%; accent-color: #5a5acb; }
+.v3d-nouislider { margin: 10px 8px 6px; }
+
+/* Reset-all button (2-D Main tab) */
+.sc-resetall {
+    display: block; width: calc(100% - 16px); margin: 14px 8px 8px;
+    padding: 6px 10px; background: #4a2a2a; color: #ffd9d9;
+    border: none; border-radius: 4px; font-size: 12px; cursor: pointer;
+}
+.sc-resetall:hover { background: #613434; }
+.v3d-block { margin-bottom: 12px; }
+.v3d-block-title {
+    color: #8888ee; text-transform: uppercase; letter-spacing: 0.5px;
+    font-size: 10px; font-weight: bold; margin-bottom: 4px;
+}
+.v3d-inline { display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.v3d-row { display: flex; align-items: center; gap: 6px; padding: 2px 0; cursor: pointer; }
+.v3d-row:hover { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
+.v3d-row input { margin: 0; width: 13px; height: 13px; flex: 0 0 auto; }
+.v3d-swatch {
+    display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.35); margin-right: 4px; flex: 0 0 auto;
+    vertical-align: -1px;
+}
+.v3d-legend { margin-top: 5px; }
+.v3d-subrow { margin-left: 18px; }
+.v3d-disabled { opacity: 0.45; }
+.v3d-legend-row { display: flex; align-items: center; gap: 6px; padding: 1px 0; color: #cfcff0; }
+.v3d-note { color: #9a9ac0; font-size: 10.5px; line-height: 1.4; margin-top: 6px; }
+
+/* Search inside the panel */
+.v3d-search {
+    width: 100%; box-sizing: border-box; padding: 5px 8px;
+    background: #1a1a2e; color: #fff; border: 1px solid #4a4a66; border-radius: 4px;
+    font-size: 12px;
+}
+.v3d-search:focus { outline: 2px solid #5a5acb; }
+.v3d-suggestions {
+    display: none; margin-top: 2px; background: #14142a;
+    border: 1px solid #4a4a66; border-radius: 4px; overflow: hidden;
+}
+.v3d-sugg-item { padding: 4px 8px; cursor: pointer; }
+.v3d-sugg-item:hover { background: #2f2f74; }
+.v3d-sugg-msg { padding: 4px 8px; color: #9a9ac0; font-style: italic; }
+
+/* Route planner */
+.v3d-routebtn {
+    flex: 1 1 auto; margin-top: 4px; padding: 5px 10px;
+    background: #2f2f74; color: #fff; border: none; border-radius: 4px;
+    font-size: 12px; cursor: pointer;
+}
+.v3d-routebtn:hover { background: #3a3a8c; }
+.v3d-routebtn-sub { background: #2a2a44; color: #b9b9d8; }
+.v3d-routebtn-sub:hover { background: #3a3a5c; }
+.v3d-routeout { margin-top: 6px; color: #cfcff0; line-height: 1.45; }
+.v3d-routepath { margin-top: 3px; color: #8fb8ff; font-size: 11px; }
+.v3d-routeerr { color: #ff9d9d; }
+
+/* Star / close-up info panel (top-right inside the 3D view). `right` clears the
+ * overlay button column (button 22px + 10px inset + gap); the mobile @media bump
+ * (30px buttons) is handled below. `top` aligns with the fullscreen button. */
+.v3d-info {
+    position: absolute;
+    top: 8px;
+    right: 44px;
+    z-index: 10;
+    width: 250px;
+    max-height: calc(100% - 16px);
+    overflow-y: auto;
+    padding: 10px 12px 12px;
+    background: rgba(15, 14, 38, 0.9);
+    border: 1px solid rgba(120, 120, 200, 0.4);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #e9e9fb;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+.v3d-info h3 { margin: 0 18px 8px 0; font-size: 15px; color: #fff; }
+.v3d-info h4 {
+    margin: 10px 0 4px; font-size: 10px; color: #8888ee;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+.v3d-info ul { margin: 0; padding-left: 16px; }
+.v3d-info li { margin: 2px 0; }
+.v3d-info-table { border-collapse: collapse; width: 100%; }
+.v3d-info-table th {
+    text-align: left; padding: 2px 8px 2px 0; color: #9a9ac0;
+    font-weight: 600; vertical-align: top; white-space: nowrap; font-size: 11px;
+}
+.v3d-info-table td { padding: 2px 0; vertical-align: top; }
+.v3d-dim { color: #9a9ac0; }
+.v3d-info-close {
+    position: absolute; top: 4px; right: 8px; background: none; border: none;
+    color: #b9b9d8; font-size: 18px; line-height: 1; cursor: pointer;
+}
+.v3d-info-close:hover { color: #fff; }
+.v3d-focus, .v3d-enter {
+    margin-top: 10px; padding: 5px 10px; width: 100%;
+    background: #2f2f74; color: #fff; border: none; border-radius: 4px;
+    font-size: 12px; cursor: pointer;
+}
+.v3d-focus:hover, .v3d-enter:hover { background: #3a3a8c; }
+.v3d-enter { margin-top: 6px; background: #6a4a12; }
+.v3d-enter:hover { background: #8a6118; }
+
+/* System close-up overlay */
+.v3d-sys-overlay { position: absolute; top: 10px; left: 44px; z-index: 11; max-width: 300px; pointer-events: none; }
+.v3d-sys-overlay button { pointer-events: auto; }
+.v3d-sys-back {
+    padding: 6px 12px;
+    background: #2f2f74; color: #fff; border: none; border-radius: 4px;
+    font-size: 13px; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.v3d-sys-back:hover { background: #3a3a8c; }
+.v3d-sys-title { margin-top: 10px; font-size: 16px; font-weight: bold; color: #fff; text-shadow: 0 0 5px #000; }
+.v3d-sys-note { margin-top: 5px; font-size: 11px; color: #9a9ac0; line-height: 1.4; text-shadow: 0 0 4px #000; }
+.v3d-label-book { color: #ffe0a3; }
+.v3d-label-moon { color: #9fb6d8; font-size: 10px; }
+.v3d-desc { color: #cfcff0; font-style: italic; margin: 0 0 8px; line-height: 1.4; }
+.v3d-sysinfo { z-index: 11; }
+
+@media (max-width: 768px) {
+    .v3d-info { width: 210px; right: 54px; }   /* buttons are ~30px wide on mobile */
+    /* (overlay buttons pick up the mobile size automatically via the OL probe) */
+}
+
+/* 2-D route planner (Other tab) */
+.rt2-input {
+    display: block; width: 100%; box-sizing: border-box; margin: 4px 0;
+    padding: 5px 8px; background: #1a1a2e; color: #fff;
+    border: 1px solid #4a4a66; border-radius: 4px; font-size: 13px;
+}
+.rt2-input:focus { outline: 2px solid #5a5acb; }
+.rt2-btns { display: flex; gap: 6px; margin-top: 4px; }
+.rt2-btn {
+    flex: 1 1 auto; padding: 5px 10px; background: #2f2f74; color: #fff;
+    border: none; border-radius: 4px; font-size: 12px; cursor: pointer;
+}
+.rt2-btn:hover { background: #3a3a8c; }
+.rt2-btn-sub { background: #2a2a44; color: #b9b9d8; }
+.rt2-btn-sub:hover { background: #3a3a5c; }
+.rt2-out { margin-top: 6px; color: #e9e9fb; font-size: 12px; line-height: 1.45; }
+.rt2-path { margin-top: 3px; color: #8fb8ff; font-size: 11px; }
+.rt2-err { color: #ff9d9d; }
 
 /* Real Distances tab */
 .dist-hint { color: #9a9ac0; font-size: 11px; text-align: center; margin: 2px 0 10px; }

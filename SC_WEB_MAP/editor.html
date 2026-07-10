@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>ShipCore — planets.json editor</title>
+    <!-- Styles are shared with the read-only System Catalog (catalog.html) -->
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+    <header>
+        <h1>ShipCore planets.json editor</h1>
+        <button id="btnSave" title="Save into the live data/planets.json — you pick the file once, later clicks save silently">💾 Save</button>
+        <button id="btnSaveAs" title="Save a copy elsewhere (or download, in browsers without the File System Access API)">⬇ Save as…</button>
+        <button id="btnNewSys" title="Add a planets.json entry for a system that is not listed yet (only affects planets.json — the map itself comes from systems.geojson)">+ New system</button>
+        <label style="color:#9a9ac0">Load: <input type="file" id="fileLoad" accept=".json"></label>
+        <span id="status">loading…</span>
+    </header>
+    <main>
+        <div id="listCol">
+            <input type="text" id="search" placeholder="Filter systems…">
+            <div id="sysList"></div>
+        </div>
+        <div id="detail"><p class="hint">Pick a system on the left.</p></div>
+    </main>
+    <script src="js/editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,3638 @@
+{
+ "_meta": {
+  "version": 2,
+  "note": "Schema v2: each system has planets[] (each planet may carry moons[] and other_objects[]) plus system-level other_objects[]. Every object: {name, source: book|catalog, type, status, first, description}; catalog planets also carry method/year/host/mass_earth/radius_earth/sources. System-level: description, binary ({mode: close|far, components:[spectral,...]} or null), confirmed_planets (catalog count), book_mentions. Edit with editor.html.",
+  "edited": "2026-07-09T20:49:16.916Z"
+ },
+ "1 Octantis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "1 Pavonis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "10 Cassiopeiae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "101 Leonis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "102 Leonis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "103 Leonis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "104 Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "106 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "107 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "109 Aquarii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "110 Aquarii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "111 Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 2,
+  "planets": [
+   {
+    "name": "eta Cet b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "eta Cet",
+    "method": "Radial Velocity",
+    "year": 2014,
+    "period_days": 403.5,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "eta Cet c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "eta Cet",
+    "method": "Radial Velocity",
+    "year": 2014,
+    "period_days": 751.9,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "111 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "112 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "113 Aquarii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "113 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "114 Aquarii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "114 Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "114 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "114 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "115 Aquarii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "115 Herculis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "115 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "115 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "116 Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "116 Herculis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "116 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "HD 8574 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 8574",
+    "method": "Radial Velocity",
+    "year": 2002,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "116 Ursae Majoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "116 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "117 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "118 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "118 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "119 Herculis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "119 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "119 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "120 Herculis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "120 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "120 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "121 Aquarii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "121 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "121 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "122 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "NLTT 5306 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "NLTT 5306",
+    "method": "Radial Velocity",
+    "year": 2013,
+    "period_days": 0.07,
+    "mass_earth": 17796.8,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "123 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 1,
+   "first": "A3 Ch 111 - A3123Y Status Update"
+  }
+ },
+ "124 Herculis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "124 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "125 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 2,
+   "first": "A2 Ch 070 - Annihilation Order"
+  }
+ },
+ "125 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "GJ 504 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "GJ 504",
+    "method": "Imaging",
+    "year": 2013,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "126 Piscium": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "126 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 1,
+   "first": "A3 Ch 085 - Planetary Conquest And Repairs"
+  }
+ },
+ "13 Centauri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 12,
+   "first": "A2 Ch 055 - Return"
+  }
+ },
+ "131 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 3,
+  "planets": [],
+  "other_objects": []
+ },
+ "132 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "135 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "14 Centauri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "142 Tauri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "144 Tauri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "15 Cassiopeiae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "16 Cassiopeiae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "2 Octantis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "25 Ursae Minoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "36 Cephei": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "52 Capricorni": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "WASP-111 Ab",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "WASP-111 A",
+    "method": "Primary Transit",
+    "year": 2014,
+    "period_days": 2.311,
+    "mass_earth": 587.93,
+    "radius_earth": 16.165,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "56 Cassiopeiae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [
+   {
+    "name": "Chala",
+    "source": "book",
+    "type": "Likely planet or inhabited world",
+    "status": "Uncertain type",
+    "first": "A1 Ch024",
+    "description": "",
+    "moons": [],
+    "other_objects": []
+   }
+  ],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 1,
+   "first": "A1 Ch 024 - 92 Pegasi"
+  }
+ },
+ "57 Cassiopeiae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "6 Centauri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "6 Lupi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "61 Hydrae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "61 Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 3,
+  "planets": [
+   {
+    "name": "61 Vir b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "61 Vir",
+    "method": "Radial Velocity",
+    "year": 2009,
+    "sources": [
+     "NASA(name:HD 115617)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "61 Vir c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "61 Vir",
+    "method": "Radial Velocity",
+    "year": 2009,
+    "sources": [
+     "NASA(name:HD 115617)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "61 Vir d",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "61 Vir",
+    "method": "Radial Velocity",
+    "year": 2009,
+    "sources": [
+     "NASA(name:HD 115617)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "63 Hydrae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [
+   {
+    "name": "Hydra Prime",
+    "source": "book",
+    "type": "Planet",
+    "status": "Confirmed",
+    "first": "A3 Ch102",
+    "description": "",
+    "moons": [],
+    "other_objects": []
+   }
+  ],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 22,
+   "first": "A3 Ch 082 - Conflict Zone"
+  }
+ },
+ "64 Hydrae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "69 Andromedae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "7 Centauri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "7 Octantis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "70 Andromedae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "70 Hydrae": {
+  "description": "",
+  "binary": {
+   "mode": "close"
+  },
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "73 Eridani": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "75 Ophiuchi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "76 Ophiuchi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "78 Ophiuchi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "80 Ophiuchi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "81 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 2,
+   "first": "A1 Ch 028 - Fog Of War Part 2"
+  }
+ },
+ "81 Orionis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "82 Eridani": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 8,
+  "planets": [
+   {
+    "name": "82 Eri b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "82 Eri",
+    "method": "Radial Velocity",
+    "year": 2011,
+    "period_days": 18.313,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "82 Eri c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "82 Eri",
+    "method": "Radial Velocity",
+    "year": 2011,
+    "period_days": 89.68,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "82 Eri d",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "82 Eri",
+    "method": "Radial Velocity",
+    "year": 2011,
+    "period_days": 648.2,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "82 Eri e",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "82 Eri",
+    "method": "Radial Velocity",
+    "year": 2017,
+    "period_days": 147.02,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "82 Eri f",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "82 Eri",
+    "method": "Radial Velocity",
+    "year": 2025,
+    "sources": [
+     "NASA(name:HD 20794)"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "83 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "84 Cancri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 3,
+  "planets": [
+   {
+    "name": "HD 80653 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 80653",
+    "method": "Transit",
+    "year": 2020,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "HD 80653 c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 80653",
+    "method": "Radial Velocity",
+    "year": 2023,
+    "period_days": 921.2,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "84 Orionis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "85 Ophiuchi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "85 Orionis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "86 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "86 Geminorum": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "87 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "88 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "88 Ophiuchi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "89 Ursae Majoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "9 Centauri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "90 Pegasi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 23,
+   "first": "A2 Ch 055 - Return"
+  }
+ },
+ "90 Ursae Majoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "91 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "91 Orionis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "92 Pegasi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [
+   {
+    "name": "Ackman",
+    "source": "book",
+    "type": "Planet, inhabited",
+    "status": "Confirmed",
+    "first": "A1 Ch025",
+    "description": "A frozen planet. The main exports are rare hydrogen isotopes mined from the ice.\nGravity: 0.731 g.\nAverage temperature: -175 C°\nHydro extent: 99%\nPopulation: ~3000",
+    "moons": [],
+    "other_objects": [
+     {
+      "name": "Ackman Station",
+      "source": "book",
+      "type": "Orbital station",
+      "status": "Named orbital feature",
+      "first": "A1 Ch025",
+      "description": "An orbital facility in an equatorial geosynchronous orbit over the planet's single city. Managed by Portmaster Whitely.",
+      "moons": [],
+      "other_objects": []
+     },
+     {
+      "name": "Ackman Asteroid Belt",
+      "source": "book",
+      "type": "Asteroid belt",
+      "status": "Named orbital feature",
+      "first": "A1 Ch025",
+      "description": "Aa extensive asteroid belt containing valuable metals "
+     }
+    ]
+   }
+  ],
+  "other_objects": [
+   {
+    "name": "A3123Y",
+    "source": "book",
+    "type": "Battlestation",
+    "status": "Named mobile feature",
+    "first": "?",
+    "description": ""
+   }
+  ],
+  "book_mentions": {
+   "hits": 215,
+   "first": "A1 Ch 024 - 92 Pegasi"
+  }
+ },
+ "94 Ursae Majoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "96 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "97 Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "97 Pegasi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "97 Ursae Majoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "98 Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "98 Pegasi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "99 Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "99 Leonis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "99 Ursae Majoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "AD Leonis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "AU Microscopii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 4,
+  "planets": [
+   {
+    "name": "AU Mic b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "AU Mic",
+    "method": "Transit",
+    "year": 2020,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "AU Mic c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "AU Mic",
+    "method": "Transit",
+    "year": 2021,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "AU Mic d",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "AU Mic",
+    "method": "Transit Timing Variations",
+    "year": 2023,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "AU Mic e",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "AU Mic",
+    "method": "Radial Velocity",
+    "year": 2025,
+    "sources": [
+     "NASA(cone)"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "AX Microscopii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Alpha Centauri": {
+  "description": "",
+  "binary": {
+   "mode": "close"
+  },
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Alpha Leonis Minoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Alpha Normae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Alpha Velorum": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 2,
+   "first": "A4 Ch 193 - Echoes Of Treason"
+  }
+ },
+ "Altair": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [
+   {
+    "name": "Altair (planet)",
+    "source": "book",
+    "type": "Planet, destroyed/burned",
+    "status": "Confirmed",
+    "first": "A4 Ch177",
+    "description": "",
+    "moons": [],
+    "other_objects": []
+   }
+  ],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 4,
+   "first": "A2 Ch 057 - Operation Rug Pull"
+  }
+ },
+ "Barnard's Star": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 4,
+  "planets": [
+   {
+    "name": "Barnard's star b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Barnard's star",
+    "method": "Radial Velocity",
+    "year": 2024,
+    "period_days": 3.1542,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "Barnard's star c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Barnard's star",
+    "method": "Radial Velocity",
+    "year": 2024,
+    "period_days": 4.1244,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "Barnard's star d",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Barnard's star",
+    "method": "Radial Velocity",
+    "year": 2024,
+    "period_days": 2.3402,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "Barnard's star e",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Barnard's star",
+    "method": "Radial Velocity",
+    "year": 2024,
+    "period_days": 6.7392,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Beta Antliae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 4,
+   "first": "A4 Ch 155 - SITREP Establishment Meltisar"
+  }
+ },
+ "Beta Hydri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Beta Puppis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Beta Telescopii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Beta Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "CD Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "CD Cet b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "CD Cet",
+    "method": "Radial Velocity",
+    "year": 2020,
+    "sources": [
+     "NASA(name:GJ 1057)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Chi Arietis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Chi Cephei": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Chi Draconis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Chi Librae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "DX Cancri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Delta Camelopardalis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Delta Capricorni": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Delta Carinae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "DENIS J0817-6155",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "",
+    "method": "Imaging",
+    "year": 2010,
+    "mass_earth": 14046.76,
+    "radius_earth": 10.537,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Delta Pavonis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Delta Pegasi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Donner 91": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "EV Lacertae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "EZ Aquarii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Epsilon Eridani": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "eps Eri b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "eps Eri",
+    "method": "Radial Velocity",
+    "year": 2000,
+    "sources": [
+     "NASA(name:HD 22049)"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Epsilon Horologii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Epsilon Indi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "eps Ind A b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "eps Ind A",
+    "method": "Radial Velocity",
+    "year": 2019,
+    "sources": [
+     "NASA(name:HD 209100)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Eta Boötis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Eta Cassiopeiae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Eta Monocerotis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 2,
+   "first": "A4 Ch 173 - Career Choices"
+  }
+ },
+ "Eta Sextantis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "FL Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "FN Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 2,
+   "first": "A4 Ch 182 - Conflict"
+  }
+ },
+ "GL Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Gamma Carinae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Gamma Leporis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Gamma Telescopii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 1,
+   "first": "A3 Ch 083 - A Long Conversation"
+  }
+ },
+ "Gamma Virginis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 6,
+   "first": "A2 Ch 065 - Resist"
+  }
+ },
+ "Gliese 290": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Groombridge 34": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 2,
+  "planets": [
+   {
+    "name": "GJ 15 A b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "GJ 15 A",
+    "method": "Radial Velocity",
+    "year": 2014,
+    "sources": [
+     "NASA(name:HD 1326)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "GJ 15 A c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "GJ 15 A",
+    "method": "Radial Velocity",
+    "year": 2018,
+    "sources": [
+     "NASA(name:HD 1326)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "HD 222834": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "HH Andromedae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Heintz 299": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Iota Comae Berenices": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Kappa Camelopardalis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Kappa Muscae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Kapteyn's Star": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "Kapteyn c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Kapteyn",
+    "method": "Radial Velocity",
+    "year": 2014,
+    "sources": [
+     "NASA(name:HD 33793)"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Kruger 60": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Lacaille 9352": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 4,
+  "planets": [
+   {
+    "name": "GJ 887 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "GJ 887",
+    "method": "Radial Velocity",
+    "year": 2020,
+    "sources": [
+     "NASA(name:HD 217987)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "GJ 887 c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "GJ 887",
+    "method": "Radial Velocity",
+    "year": 2020,
+    "sources": [
+     "NASA(name:HD 217987)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "GJ 887 d",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "GJ 887",
+    "method": "Radial Velocity",
+    "year": 2026,
+    "sources": [
+     "NASA(name:HD 217987)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "GJ 887 e",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "GJ 887",
+    "method": "Radial Velocity",
+    "year": 2026,
+    "sources": [
+     "NASA(name:HD 217987)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Lalande": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 5,
+  "planets": [
+   {
+    "name": "Lalande 21185 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Lalande 21185",
+    "method": "Radial Velocity",
+    "year": 2017,
+    "period_days": 12.94,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "Lalande 21185 c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Lalande 21185",
+    "method": "Radial Velocity",
+    "year": 2021,
+    "period_days": 2946,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "Lalande 21185 d",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Lalande 21185",
+    "method": "Other",
+    "year": 2022,
+    "period_days": 215,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Lambda Indi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Lambda Volantis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Luhman 16": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 2,
+  "planets": [
+   {
+    "name": "Luhman 16 a",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "",
+    "method": "Imaging",
+    "year": 2013,
+    "period_days": 10600,
+    "mass_earth": 10868.76,
+    "radius_earth": 11.658,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "Luhman 16 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Luhman 16 A",
+    "method": "Imaging",
+    "year": 2017,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Mu Camelopardalis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Mu Delphini": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Mu Pyxidis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Mu Reticuli": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Mu Tucanae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Mu Ursae Minoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Nu Crateris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "HD 98649 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 98649",
+    "method": "Radial Velocity",
+    "year": 2012,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "First planet",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation-only",
+    "first": "A2 ch007",
+    "description": "A small rocky planet close to its star.",
+    "moons": [],
+    "other_objects": []
+   },
+   {
+    "name": "Second planet",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation-only",
+    "first": "A2 ch007",
+    "description": "A small rocky planet close to its star.",
+    "moons": [],
+    "other_objects": []
+   },
+   {
+    "name": "Third planet",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation-only",
+    "first": "A2 ch007",
+    "description": "A small rocky planet close to its star.",
+    "moons": [],
+    "other_objects": []
+   },
+   {
+    "name": "Dedia IV",
+    "source": "book",
+    "type": "Planet",
+    "status": "Confirmed",
+    "first": "A1 Ch025",
+    "description": "A colony world, with around 60% of the surface covered by liquid water forming massive oceans. It has three major continents broken up by massive mountain ranges in the center of each, with large river networks flowing out from them. The human colony is situated in a small area near the equator on one of the continents. The largest city, Dedia Prime, is connected to orbit with a space elevator. The colony is managed by Governor John Tyler. The planet is also inhabited by a native species of Rexxor, an large insectoid species originally hostile to humans and ruled by verious queens.",
+    "moons": [],
+    "other_objects": []
+   },
+   {
+    "name": "Fifth Planet",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation-only",
+    "first": "A2 Ch040",
+    "description": "A larger rocky planet with no hydrosphere and a thin atmosphere. Temepratures during day barely above freezing.",
+    "moons": [],
+    "other_objects": [
+     {
+      "name": "Crateris station",
+      "source": "book",
+      "type": "Orbital station",
+      "status": "Confirmed",
+      "first": "A2 ch007",
+      "description": "An orbital station with around 50 thousand population.",
+      "moons": [],
+      "other_objects": []
+     }
+    ]
+   },
+   {
+    "name": "Sixth Planet",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation-only",
+    "first": "A2 Ch054",
+    "description": "A small gas giant with at least two dozen moons.",
+    "moons": [
+     {
+      "name": "Moon 5",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation-only",
+      "first": "A2 Ch054",
+      "description": ""
+     },
+     {
+      "name": "Hades / NU-53253235",
+      "source": "book",
+      "type": "Moon",
+      "status": "Confirmed",
+      "first": "A2 Ch062",
+      "description": "A decaying moon and an ancient construct."
+     }
+    ],
+    "other_objects": [
+     {
+      "name": "Debris cloud",
+      "source": "book",
+      "type": "Asteroid belt",
+      "status": "Confirmed",
+      "first": "A2 ch007",
+      "description": "A massive debris cloud created by a colission between two o the gas giant's moons at some point in the past. ",
+      "moons": [],
+      "other_objects": []
+     }
+    ]
+   },
+   {
+    "name": "Seventh planet",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation-only",
+    "first": "A2 ch007",
+    "description": "A very small ice planet in the outer region of the system.",
+    "moons": [
+     {
+      "name": "Seventh's First moon",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation-only",
+      "first": "A2 ch007",
+      "description": "",
+      "moons": [],
+      "other_objects": []
+     },
+     {
+      "name": "Seventh's Second moon",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation-only",
+      "first": "A2 ch007",
+      "description": "",
+      "moons": [],
+      "other_objects": []
+     }
+    ],
+    "other_objects": []
+   },
+   {
+    "name": "Eighth planet",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation-only",
+    "first": "A2 ch007",
+    "description": "A very small ice planet in the outer region of the system.",
+    "moons": [
+     {
+      "name": "Eighth's First moon",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation-only",
+      "first": "A2 ch007",
+      "description": "",
+      "moons": [],
+      "other_objects": []
+     }
+    ],
+    "other_objects": []
+   },
+   {
+    "name": "Ninth planet",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation-only",
+    "first": "A2 ch007",
+    "description": "A very small ice planet in the outer region of the system.",
+    "moons": [
+     {
+      "name": "Ninth's First moon",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation-only",
+      "first": "A2 ch007",
+      "description": "",
+      "moons": [],
+      "other_objects": []
+     },
+     {
+      "name": "Ninth's Second moon",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation-only",
+      "first": "A2 ch007",
+      "description": "",
+      "moons": [],
+      "other_objects": []
+     }
+    ],
+    "other_objects": []
+   }
+  ],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 185,
+   "first": "A1 Ch 025 - To Ackman Station"
+  }
+ },
+ "Nu Muscae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "HIP 63242 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HIP 63242",
+    "method": "Radial Velocity",
+    "year": 2013,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Nu Reticuli": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Nu Ursae Minoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Omega Arietis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Omega Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "HD 6718 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 6718",
+    "method": "Radial Velocity",
+    "year": 2009,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Omega Gruis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "HD 208487 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 208487",
+    "method": "Radial Velocity",
+    "year": 2004,
+    "sources": [
+     "NASA(cone)"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Omega Sculptoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Omicron Chamaeleontis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Omicron Hydri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Omicron Lyrae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Omikron Mensae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "P Eridani": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Phi Arietis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Phi Librae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "HD 141937 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 141937",
+    "method": "Radial Velocity",
+    "year": 2002,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Pi Leporis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "2MASS J0536-1920",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "",
+    "method": "Imaging",
+    "year": 2007,
+    "mass_earth": 921.62,
+    "radius_earth": 17.039,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Pi Librae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Pi Pyxidis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Pi-3 Orionis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Pollux": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "HD 62509 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 62509",
+    "method": "Radial Velocity",
+    "year": 2006,
+    "sources": [
+     "NASA(cone)"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Proxima Centauri": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 4,
+  "planets": [
+   {
+    "name": "Proxima Centauri b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Proxima Centauri",
+    "method": "Radial Velocity",
+    "year": 2016,
+    "period_days": 11.1881,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "Proxima Centauri d",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Proxima Centauri",
+    "method": "Radial Velocity",
+    "year": 2020,
+    "period_days": 5.167,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Psi Arietis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Psi Cephei": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "HD 202432 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 202432",
+    "method": "Radial Velocity",
+    "year": 2018,
+    "period_days": 418.8,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Psi Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Psi Gruis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 1,
+   "first": "A4 Ch 182 - Conflict"
+  }
+ },
+ "Psi Herculis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "QY Aurigae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Rho Canis Majoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Rho Librae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Ross 128": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "Ross 128 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Ross 128",
+    "method": "Radial Velocity",
+    "year": 2017,
+    "sources": [
+     "NASA(name:GJ 447)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "SOL": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [
+   {
+    "name": "Mercury",
+    "source": "book",
+    "type": "Planet",
+    "status": "Real",
+    "first": "",
+    "description": "The innermost and smallest of the eight planets, orbiting the Sun every 88 days at an average distance of 0.39 AU. Airless and heavily cratered, it has the widest surface temperature swing in the Solar system, from about -180C at night to 430C at midday. It has no natural moons and the most eccentric, tilted orbit of the classical planets.",
+    "moons": [],
+    "other_objects": [],
+    "order": "1"
+   },
+   {
+    "name": "Venus",
+    "source": "book",
+    "type": "Planet",
+    "status": "Real",
+    "first": "",
+    "description": "The second planet from the Sun, close to Earth in size and mass but wrapped in a thick CO2 atmosphere that traps heat in a runaway greenhouse effect, making it the hottest planet in the Solar system at roughly 465C even though it orbits farther out than Mercury. It rotates slowly and retrograde, so a single Venusian day (243 Earth days) is longer than its year (225 Earth days). No natural moons.",
+    "moons": [],
+    "other_objects": [],
+    "order": "2"
+   },
+   {
+    "name": "Earth",
+    "source": "book",
+    "type": "Planet",
+    "status": "Confirmed",
+    "first": "A1 Ch025",
+    "description": "The third planet from the Sun. Ancestral human homeworld. Currently the capital of the Solar Imperium.",
+    "moons": [
+     {
+      "name": "Luna",
+      "source": "book",
+      "type": "Battlemoon",
+      "status": "Confirmed",
+      "first": "A2 Ch054",
+      "description": "The seat of power of Empress Psi of the Solar Imperium."
+     }
+    ],
+    "other_objects": [],
+    "order": "3"
+   },
+   {
+    "name": "Mars",
+    "source": "book",
+    "type": "Planet",
+    "status": "Real",
+    "first": "",
+    "description": "The fourth planet, nicknamed the 'Red Planet' for the iron oxide dust covering its surface. Home to Olympus Mons, the largest volcano in the Solar system, and Valles Marineris, a canyon system over 4,000 km long. Its thin CO2 atmosphere and polar ice caps preserve evidence of a wetter, warmer ancient past.",
+    "moons": [
+     {
+      "name": "Phobos",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The larger and inner of Mars's two moons, orbiting so close (about 9,400 km) that it completes an orbit in under 8 hours, faster than Mars itself rotates. Its orbit is decaying; it is expected to break apart or crash into Mars within 30-50 million years."
+     },
+     {
+      "name": "Deimos",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The smaller and outer of Mars's two moons, roughly 12 km across with a smooth, dust-covered surface. Takes about 30 hours to complete an orbit. Like Phobos, likely a captured asteroid."
+     }
+    ],
+    "other_objects": [],
+    "order": "4"
+   },
+   {
+    "name": "Ceres",
+    "source": "book",
+    "type": "Dwarf Planet",
+    "status": "Real",
+    "first": "",
+    "description": "The largest object in the main asteroid belt between Mars and Jupiter, and the only dwarf planet of the inner Solar system. About 940 km across, it holds a significant reservoir of water ice - possibly more fresh water than Earth - and shows evidence of a subsurface ocean and past cryovolcanic activity.",
+    "moons": [],
+    "other_objects": [],
+    "order": "5"
+   },
+   {
+    "name": "Jupiter",
+    "source": "book",
+    "type": "Gas Giant",
+    "status": "Real",
+    "first": "",
+    "description": "The fifth planet and by far the largest in the Solar system - a gas giant more massive than all the other planets combined, with a diameter about 11 times Earth's. Famous for the Great Red Spot, a storm that has raged for centuries, and the strongest planetary magnetic field in the Solar system. At least 95 known moons, including the four large Galilean moons discovered by Galileo in 1610. Recently under Princess Celestia as Duchess of Jupiter before she escaped.",
+    "moons": [
+     {
+      "name": "Io",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The innermost Galilean moon and the most volcanically active body in the Solar system, with hundreds of active volcanoes driven by tidal heating from Jupiter's gravity. Its sulfur-coated surface gives it a mottled yellow-orange color."
+     },
+     {
+      "name": "Europa",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "An icy Galilean moon with a smooth, fractured surface hiding a liquid saltwater ocean beneath its ice shell, thought to hold more water than all of Earth's oceans combined. One of the most promising places in the Solar system to search for life."
+     },
+     {
+      "name": "Ganymede",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The largest moon in the Solar system, bigger than the planet Mercury, and the only moon known to generate its own magnetic field. Believed to hide a subsurface saltwater ocean beneath its icy crust."
+     },
+     {
+      "name": "Callisto",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The outermost Galilean moon and one of the most heavily cratered bodies in the Solar system, with an ancient, geologically inactive surface dating back roughly 4 billion years."
+     }
+    ],
+    "other_objects": [],
+    "order": "6"
+   },
+   {
+    "name": "Saturn",
+    "source": "book",
+    "type": "Gas Giant",
+    "status": "Real",
+    "first": "",
+    "description": "The sixth planet, a gas giant famous for its spectacular ring system of ice particles and rocky debris. The least dense planet in the Solar system - it would float in water - with roughly 146 known moons, including Titan, the second-largest moon in the Solar system.",
+    "moons": [
+     {
+      "name": "Mimas",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The smallest and innermost of Saturn's major moons, nicknamed the 'Death Star moon' for the enormous Herschel crater that dominates one hemisphere.",
+      "order": "1"
+     },
+     {
+      "name": "Saturn's rings",
+      "source": "book",
+      "type": "Ring belt",
+      "status": "Real",
+      "first": "",
+      "description": "",
+      "moons": [],
+      "other_objects": [],
+      "order": "1"
+     },
+     {
+      "name": "Enceladus",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "A small, icy moon with a subsurface ocean and geysers of water vapor and ice erupting from its south pole, feeding Saturn's E ring. One of the leading candidates for finding extraterrestrial microbial life.",
+      "order": "2"
+     },
+     {
+      "name": "Saturn's rings",
+      "source": "book",
+      "type": "Ring belt",
+      "status": "Real",
+      "first": "",
+      "description": "",
+      "moons": [],
+      "other_objects": [],
+      "order": "2"
+     },
+     {
+      "name": "Tethys",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "An icy moon dominated by the giant Odysseus crater and Ithaca Chasma, a vast canyon system that wraps most of the way around the moon.",
+      "order": "3"
+     },
+     {
+      "name": "Dione",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "An icy moon with a heavily cratered surface and bright, wispy fractures ('tiger stripes') on its trailing hemisphere caused by past tectonic activity.",
+      "order": "4"
+     },
+     {
+      "name": "Rhea",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "Saturn's second-largest moon, an icy, heavily cratered body that may have a faint ring system of its own - the first potential rings found around a moon.",
+      "order": "5"
+     },
+     {
+      "name": "Titan",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "Saturn's largest moon and the second-largest in the Solar system, and the only moon with a dense atmosphere (thicker than Earth's). Its surface has lakes and seas of liquid methane and ethane, making it the only other body known to have stable liquid on its surface.",
+      "order": "6"
+     },
+     {
+      "name": "Hyperion",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "Hyperion is the eighth-largest moon of Saturn. It is distinguished by its highly irregular shape, chaotic rotation, low density, and unusual sponge-like appearance. It was the first non-rounded moon to be discovered.",
+      "moons": [],
+      "other_objects": [],
+      "order": "7"
+     },
+     {
+      "name": "Iapetus",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "Saturn's third-largest moon, notable for its extreme two-toned coloring - one hemisphere dark as coal, the other bright ice - and a mysterious equatorial ridge that gives it a walnut-like shape.",
+      "order": "8"
+     }
+    ],
+    "other_objects": [],
+    "order": "7"
+   },
+   {
+    "name": "Uranus",
+    "source": "book",
+    "type": "Ice Giant",
+    "status": "Real",
+    "first": "",
+    "description": "The seventh planet, an ice giant tipped on its side with an axial tilt of about 98 degrees, so it essentially rolls around the Sun rather than spinning upright. Its pale blue-green color comes from methane in its atmosphere; it has a faint ring system and 28 known moons, most named after characters from Shakespeare and Pope.",
+    "moons": [
+     {
+      "name": "Miranda",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The smallest of Uranus's major moons but the most geologically bizarre, with a jumbled surface of canyons, ridges, and terraces up to 20 km deep - among the most varied terrain of any body in the Solar system."
+     },
+     {
+      "name": "Ariel",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "One of Uranus's major moons, with a relatively young, bright surface marked by canyons and valleys suggesting past geological activity."
+     },
+     {
+      "name": "Umbriel",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The darkest of Uranus's major moons, heavily cratered with an ancient, largely unchanged surface."
+     },
+     {
+      "name": "Titania",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The largest moon of Uranus, with a surface of canyons and fault scarps indicating past internal geological activity."
+     },
+     {
+      "name": "Oberon",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "The outermost of Uranus's major moons, heavily cratered with a mountain roughly 11 km high, one of the tallest known in the Solar system."
+     }
+    ],
+    "other_objects": [],
+    "order": "8"
+   },
+   {
+    "name": "Neptune",
+    "source": "book",
+    "type": "Ice Giant",
+    "status": "Real",
+    "first": "",
+    "description": "The eighth and outermost planet, an ice giant with the strongest sustained winds in the Solar system, reaching over 2,000 km/h. Its deep blue color comes from atmospheric methane. Neptune was the first planet located through mathematical prediction rather than direct observation, in 1846.",
+    "moons": [
+     {
+      "name": "Triton",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "Neptune's largest moon and the only large moon in the Solar system to orbit its planet retrograde (opposite to the planet's rotation), strongly suggesting it is a captured Kuiper Belt object. Geologically active, with nitrogen geysers erupting through its icy surface."
+     }
+    ],
+    "other_objects": [],
+    "order": "9"
+   },
+   {
+    "name": "Pluto",
+    "source": "book",
+    "type": "Dwarf Planet",
+    "status": "Real",
+    "first": "",
+    "description": "A dwarf planet in the Kuiper Belt, once considered the ninth planet until its 2006 reclassification. Roughly two-thirds the diameter of Earth's Moon, it has a heart-shaped plain of nitrogen ice called Tombaugh Regio and a thin, seasonal atmosphere. Pluto and its largest moon, Charon, are close enough in size that they orbit a shared point of gravity outside Pluto itself, sometimes described as a double dwarf-planet system.",
+    "moons": [
+     {
+      "name": "Charon",
+      "source": "book",
+      "type": "Moon",
+      "status": "Real",
+      "first": "",
+      "description": "Pluto's largest moon, about half of Pluto's diameter, making it the largest satellite relative to its parent body in the Solar system. Pluto and Charon are mutually tidally locked, each always showing the same face to the other."
+     }
+    ],
+    "other_objects": [],
+    "order": "10"
+   },
+   {
+    "name": "Haumea",
+    "source": "book",
+    "type": "Dwarf Planet",
+    "status": "Real",
+    "first": "",
+    "description": "An elongated, egg-shaped dwarf planet in the Kuiper Belt, spinning so fast (one rotation in about 4 hours) that it has been stretched into its unusual shape. It has a thin ring system and two known moons, Hi'iaka and Namaka.",
+    "moons": [],
+    "other_objects": [],
+    "order": "12"
+   },
+   {
+    "name": "Makemake",
+    "source": "book",
+    "type": "Dwarf Planet",
+    "status": "Real",
+    "first": "",
+    "description": "A reddish-brown dwarf planet in the Kuiper Belt, the second-brightest Kuiper Belt object as seen from Earth after Pluto. Has one known moon, informally nicknamed MK 2.",
+    "moons": [],
+    "other_objects": [],
+    "order": "12"
+   },
+   {
+    "name": "Eris",
+    "source": "book",
+    "type": "Dwarf Planet",
+    "status": "Real",
+    "first": "",
+    "description": "The most massive known dwarf planet, orbiting in the scattered disk beyond the Kuiper Belt. Its discovery in 2005, and the realization that it rivaled Pluto in size, directly led to the 2006 redefinition of 'planet' that reclassified both as dwarf planets. Has one known moon, Dysnomia.",
+    "moons": [],
+    "other_objects": [],
+    "order": "12"
+   }
+  ],
+  "other_objects": [
+   {
+    "name": "Main Asteroid Belt",
+    "source": "book",
+    "type": "Asteroid Belt",
+    "status": "Real",
+    "first": "",
+    "description": "A torus-shaped region between the orbits of Mars and Jupiter, roughly 2.2 to 3.2 AU from the Sun, containing millions of rocky asteroids left over from planetesimals that never coalesced into a planet due to Jupiter's gravitational influence. Ceres, the region's only dwarf planet, holds about a third of the belt's total mass.",
+    "order": "5"
+   },
+   {
+    "name": "Kuiper Belt",
+    "source": "book",
+    "type": "Asteroid Belt",
+    "status": "Real",
+    "first": "",
+    "description": "A vast, disc-shaped region of icy bodies beyond Neptune's orbit, extending from about 30 to 50 AU from the Sun. Similar to the asteroid belt but far larger and made mainly of ices such as methane, ammonia, and water. Home to the dwarf planets Pluto, Haumea, and Makemake, and the source of many short-period comets.",
+    "order": "12"
+   }
+  ],
+  "book_mentions": {
+   "hits": 12,
+   "first": "A1 Ch 025 - To Ackman Station"
+  }
+ },
+ "SZ Crateris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "SZ Ursae Majoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Sanford 128": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Scholz's Star": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "Scholz's Star b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Scholz's Star",
+    "method": "Imaging, Astrometry",
+    "year": 2015,
+    "period_days": 2941.9,
+    "mass_earth": 11440.8,
+    "radius_earth": 9.215,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 3,
+   "first": "A4 Ch 153 - Opening Movements"
+  }
+ },
+ "Sigma Cephei": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Sigma Tucanae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Sirius": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Struve 2398": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "Gl 725 Ab",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "Gl 725 A",
+    "method": "Radial Velocity",
+    "year": 2024,
+    "period_days": 11.2202,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "TW Piscis Austrini": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "TZ Arietis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "GJ 9066 c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "GJ 9066",
+    "method": "Radial Velocity",
+    "year": 2020,
+    "period_days": 772.05,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Tau Tucanae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 4,
+  "planets": [
+   {
+    "name": "HD 213885 Ab",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 213885 A",
+    "method": "Primary Transit",
+    "year": 2019,
+    "period_days": 1.008,
+    "mass_earth": 8.835,
+    "radius_earth": 1.745,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "HD 213885 Ac",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 213885 A",
+    "method": "Radial Velocity",
+    "year": 2019,
+    "period_days": 4.785,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Theta Corvi": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 23,
+   "first": "A1 Ch 025 - To Ackman Station"
+  }
+ },
+ "Theta Horologii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Unknown Yellow Dwarf": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [
+   {
+    "name": "Unknown Gas Giant",
+    "source": "book",
+    "type": "Planet",
+    "status": "Confirmed",
+    "first": "A1 ch004",
+    "description": "",
+    "moons": [],
+    "other_objects": [
+     {
+      "name": "Debris field",
+      "source": "book",
+      "type": "Asteroid belt",
+      "status": "Confirmed",
+      "first": "?",
+      "description": "A debris field from the battle between the human resistance and the Entity, during which both were destroyed. Currently infested with rogue autonomous units controlled by a human fleet, GAI Athena gone mad.",
+      "moons": [],
+      "other_objects": []
+     },
+     {
+      "name": "A3123Y",
+      "source": "book",
+      "type": "Asteroid facility",
+      "status": "destroyed",
+      "first": "A1 ch019",
+      "description": "An asteroid base built by the first A3123Y Alpha NAI subcore. Equipped with a wormhole drive.",
+      "moons": [],
+      "other_objects": []
+     }
+    ]
+   }
+  ],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 36,
+   "first": "A1 Ch 001 - Awakening"
+  }
+ },
+ "Upsilon Cephei": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "V1216 Sagittarii": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "V547 Cassiopeiae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Van Biesbroeck's Star": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [
+   {
+    "name": "Meltisar Gas Giant",
+    "source": "book",
+    "type": "Gas giant (unnamed in text)",
+    "status": "Inferred parent body",
+    "first": "A2 Ch093",
+    "description": "Close-orbiting gas giant; the inhabited moon Meltisar orbits it.",
+    "moons": [
+     {
+      "name": "M1",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation-only",
+      "first": "",
+      "description": "",
+      "moons": [],
+      "other_objects": []
+     },
+     {
+      "name": "Meltisar",
+      "source": "book",
+      "type": "Moon",
+      "status": "Confirmed",
+      "first": "A2 Ch063",
+      "description": "Inhabited moon, capital world of Meltisar. [Note: the order of the moons except the 3rd one not confirmed.]"
+     },
+     {
+      "name": "M3",
+      "source": "book",
+      "type": "Moon",
+      "status": "Confirmed",
+      "first": "A4 Ch174",
+      "description": ""
+     }
+    ],
+    "other_objects": []
+   }
+  ],
+  "other_objects": [
+   {
+    "name": "Thea's Hackjob",
+    "source": "book",
+    "type": "Constructed / mobile moonlet",
+    "status": "Constructed body",
+    "first": "A4 Ch188",
+    "description": ""
+   }
+  ],
+  "book_mentions": {
+   "hits": 63,
+   "first": "A3 Ch 080 - Heavens Fire"
+  }
+ },
+ "Van Maanens Star": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Vyssotsky McCormic 541": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Woolley 9833": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Xi Boötis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": [],
+  "book_mentions": {
+   "hits": 4,
+   "first": "A2 Ch 039 - A Mission"
+  }
+ },
+ "Xi Chamaeleontis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Xi Fornacis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 1,
+  "planets": [
+   {
+    "name": "LP 944-20",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "",
+    "method": "Imaging",
+    "year": 1996,
+    "mass_earth": 9413.236,
+    "radius_earth": 16.03,
+    "sources": [
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Xi Leporis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Xi Muscae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 2,
+  "planets": [
+   {
+    "name": "HD 111232 b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 111232",
+    "method": "Radial Velocity",
+    "year": 2003,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "HD 111232 c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "HD 111232",
+    "method": "Radial Velocity",
+    "year": 2022,
+    "sources": [
+     "NASA(cone)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "YZ Ceti": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 3,
+  "planets": [
+   {
+    "name": "YZ Cet b",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "YZ Cet",
+    "method": "Radial Velocity",
+    "year": 2017,
+    "sources": [
+     "NASA(name:GJ 54.1)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "YZ Cet c",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "YZ Cet",
+    "method": "Radial Velocity",
+    "year": 2017,
+    "sources": [
+     "NASA(name:GJ 54.1)",
+     "exoplanet.eu"
+    ]
+   },
+   {
+    "name": "YZ Cet d",
+    "source": "catalog",
+    "type": "",
+    "status": "",
+    "first": "",
+    "description": "",
+    "moons": [],
+    "other_objects": [],
+    "host": "YZ Cet",
+    "method": "Radial Velocity",
+    "year": 2017,
+    "sources": [
+     "NASA(name:GJ 54.1)",
+     "exoplanet.eu"
+    ]
+   }
+  ],
+  "other_objects": []
+ },
+ "Zeta Carinae": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Zeta Herculis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Zeta Sextantis": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Zeta-1 Reticuli": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "kappa Ursae Minoris": {
+  "description": "",
+  "binary": null,
+  "confirmed_planets": 0,
+  "planets": [],
+  "other_objects": []
+ },
+ "Gliese 1143": {
+  "description": "Gliese 1143 A\nType: K4 V (Orange Dwarf). Mass: 0.539   M ☉ . Luminosity: 0.095   L ☉ . Temperature: 4,250 K\n\nGliese 1143 B\nType: M-dwarf (Red Dwarf). Separation: 67 AU. Orbital period: Several hundred years.",
+  "binary": {
+   "mode": "far"
+  },
+  "confirmed_planets": 0,
+  "planets": [
+   {
+    "name": "Gliese 1143Ab",
+    "source": "book",
+    "type": "Planet",
+    "status": "Designation only",
+    "first": "A5 ch217",
+    "description": "A gas giant. Orbital Distance: 0.50 AU. Orbital Period: 180 Earth Days. Approximately 1.2 Jupiter masses. Radius: 71,500 km. Strong magnetosphere that effectively deflects high-pressure solar winds. Abundant Helium-3 composition in the upper atmosphere. Additionally, Deuterium/Tritium present in processable quantities. Krypton and Xenon which are critical for transplutonic synthesis also present.",
+    "moons": [
+     {
+      "name": "1143Ab I",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation only",
+      "first": "A5 ch217",
+      "description": "A volcanic moon heated by extreme tidal stress with a surface tectonically ravaged with constant earthquakes and volcanic eruptions\nResources: Uraninite, Thorite, Monazite, Beryllium, Lithium, Iron, Nickel, Cobalt, Silicates ",
+      "moons": [],
+      "other_objects": []
+     },
+     {
+      "name": "1143Ab II",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation only",
+      "first": "A5 ch217",
+      "description": "A rocky moon with an inactive tectonics present an opportunity for deep core mining for a multitude of common elements.\nResources: Copper, Silver, Gold, Platinum, Palladium, Iridium, Tantalum, Niobium",
+      "moons": [],
+      "other_objects": []
+     },
+     {
+      "name": "1143Ab III",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation only",
+      "first": "A5 ch217",
+      "description": "A rocky moon with a collapsed frozen carbon dioxide atmosphere, constantly melting and refreezing with its day-night cycle. Cryovolcanic activity presents opportunities for extracting rare superconducting materials in high quantities.\nResources: Water Ice, Methane, Phosphates",
+      "moons": [],
+      "other_objects": []
+     },
+     {
+      "name": "1143Ab IV",
+      "source": "book",
+      "type": "Moon",
+      "status": "Designation only",
+      "first": "A5 ch217",
+      "description": "A nitrogen-carbon dioxide moon with a strong magnetic field and trace oxygen.Not tidally locked unlike the other moons. A magnetic field that deflects radiation. A gravity of 0.5 g and an average temperature around the equator ranging between -5 and 25 degrees Celsius.\nResources: Carbon Dioxide, Nitrogen, Neodymium, Yttrium, Cerium, Magnesium, Silicates, Base Metals, Uranium, Thorium, Zeolites, Graphene Precursor Materials",
+      "moons": [],
+      "other_objects": []
+     }
+    ],
+    "other_objects": [
+     {
+      "name": "Ring",
+      "source": "book",
+      "type": "Asteroid belt",
+      "status": "Designation only",
+      "first": "A5 ch217",
+      "description": "A material ring around 1143Ab gas giant.",
+      "moons": [],
+      "other_objects": []
+     }
+    ]
+   }
+  ],
+  "other_objects": []
+ }
+}

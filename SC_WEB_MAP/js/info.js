@@ -40,14 +40,19 @@
         const f = document.querySelector('.ol-full-screen button');
         if (!f) return;
         const fr = f.getBoundingClientRect(), mr = mapEl.getBoundingClientRect();
+        if (!fr.width || !mr.width) return;   // mid-layout / hidden (3-D mode): keep last position
         btn.style.width = fr.width + 'px';
         btn.style.height = fr.height + 'px';
         btn.style.right = (mr.right - fr.right) + 'px';          // match the fullscreen button's right edge
         btn.style.left = 'auto';
         btn.style.top = (fr.bottom - mr.top + CTRL_GAP) + 'px';  // sit CTRL_GAP below the fullscreen control
     }
+    // layout timing is hostile (async OL controls, @media flips) — retry in bursts
+    function scheduleAlign() {
+        [0, 120, 400].forEach(function (t) { setTimeout(alignToFullscreen, t); });
+    }
     requestAnimationFrame(alignToFullscreen);
-    window.addEventListener('resize', alignToFullscreen);
-    document.addEventListener('fullscreenchange', function () { setTimeout(alignToFullscreen, 60); });
-    if (window.SC && SC.map) SC.map.once('rendercomplete', alignToFullscreen);
+    window.addEventListener('resize', scheduleAlign);
+    document.addEventListener('fullscreenchange', scheduleAlign);
+    if (window.SC && SC.map) SC.map.once('rendercomplete', scheduleAlign);
 })();

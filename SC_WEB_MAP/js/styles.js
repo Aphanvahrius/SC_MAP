@@ -4,7 +4,6 @@
  * Styles are CACHED (built once per distinct value and reused across features and
  * renders) — sharing style instances is the recommended OpenLayers practice and keeps
  * panning/zooming and hit-detection fast.
- * (Nation fills are flat for now; radial-gradient fidelity is a follow-up refinement.)
  */
 
 const NATION_COLORS = {

@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="lib/ol.css">
     <link rel="stylesheet" href="lib/nouislider.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Import map: lets the lazily-loaded 3D module (and OrbitControls) resolve the
+         bare "three" specifier to the locally vendored build — no bundler, no CDN. -->
+    <script type="importmap">
+    { "imports": { "three": "./lib/three/three.module.min.js" } }
+    </script>
 </head>
 <body>
     <div id="app">
@@ -23,9 +28,11 @@
                 <button class="tablinks" data-tab="distancesTab">Real Distances</button>
                 <button class="tablinks" data-tab="layersTab">Layers</button>
             </div>
-            <div id="mainTab" class="tabcontent active"><p class="wip">Filters — coming in the next step.</p></div>
-            <div id="otherTab" class="tabcontent"><p class="wip">Filters — coming in the next step.</p></div>
-            <div id="distancesTab" class="tabcontent"><p class="wip">Real-distance tool — coming in the next step.</p></div>
+            <!-- populated at runtime: filters.js + route2d.js (Main/Other),
+                 distance.js (Real Distances), ui.js (Layers) -->
+            <div id="mainTab" class="tabcontent active"></div>
+            <div id="otherTab" class="tabcontent"></div>
+            <div id="distancesTab" class="tabcontent"></div>
             <div id="layersTab" class="tabcontent"></div>
         </aside>
 
@@ -81,6 +88,21 @@
         <div id="popup-content"></div>
     </div>
 
+    <!-- Default willReadFrequently:true for 2-D canvas contexts (only when the caller
+         didn't specify it). Silences Chrome's getImageData perf hint from OpenLayers'
+         hit-detection and the geotiff.js COG readback, and speeds those readbacks.
+         Scoped to '2d' so WebGL (the 3-D view) is untouched. Must run before ol.js. -->
+    <script>
+    (function () {
+        var g = HTMLCanvasElement.prototype.getContext;
+        HTMLCanvasElement.prototype.getContext = function (type, attrs) {
+            if (type === '2d' && (attrs === undefined || attrs.willReadFrequently === undefined)) {
+                attrs = Object.assign({ willReadFrequently: true }, attrs || {});
+            }
+            return g.call(this, type, attrs);
+        };
+    })();
+    </script>
     <!-- Vendored OpenLayers 10.9.0 (global `ol`) + noUiSlider -->
     <!-- geotiff.js provides the global `GeoTIFF` that OL's GeoTIFF source needs (COG basemap) -->
     <script src="lib/geotiff.js"></script>
@@ -94,10 +116,13 @@
     <script src="js/popups.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/filters.js"></script>
+    <script src="js/route2d.js"></script>
     <script src="js/diplomacy.js"></script>
     <script src="js/distance.js"></script>
     <script src="js/search.js"></script>
     <script src="js/info.js"></script>
     <script src="js/responsive.js"></script>
+    <!-- 3D star view: button + container only; Three.js code loads on first use -->
+    <script src="js/view3d-boot.js"></script>
 </body>
 </html>
