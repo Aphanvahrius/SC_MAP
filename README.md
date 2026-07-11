@@ -38,7 +38,7 @@ browsers block over `file://`. Use a server.
 ## Feature overview
 
 ### 2-D map (OpenLayers)
-- Layers: regions (nation territories with radial-gradient fills), hyperlanes, star systems
+- Layers: regions (nation territories with gradient fills), hyperlanes, star systems
   (star / no-star markers), diplomacy, subregions, character journeys, and special-system
   overlays (mining ◆ / industrial ▲ / core ■ / capital ★).
 - Sidebar tabs: **Main** (region, book range, character, star-presence filters + Reset-all),
