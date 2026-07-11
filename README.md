@@ -154,9 +154,8 @@ The site continously auto-deploys from GitHub (Netlify serves the repo's `SC_WEB
 
 - **Routing**: per-lane weights (edges already carry the lane records) → distance/time-aware
   routes; optionally per-book routing if lanes gain a Book field.
-- **Remote data editing** on the live site (author-editable catalog): needs a small
-  server-side component — Decap CMS or a Netlify Function that commits to GitHub. Full
-  options in `future_prompts/REMOTE_EDITING_OPTIONS.md`.
+- **Remote data editing** on the live site (editable catalog by authorized users): needs a small
+  server-side component — Decap CMS or a Netlify Function that commits to GitHub.
 - **System close-up polish**: camera fly-in from the star field, distinct WD/NS close-up looks, a pause-orbits button.
 
 ---
