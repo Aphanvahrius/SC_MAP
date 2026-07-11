@@ -133,7 +133,7 @@ SC_MAP_OpenLayers/
 - **`audio/`** — ambient tracks + `playlist.json`; drop audio files here and they loop in the
   3-D view (see `audio/README.txt`).
 
-## Coordinates, in one paragraph
+## Coordinates
 
 Two coordinate systems coexist. The **2-D map** geometry is CRS84 lon/lat with tiny values near
 the origin, drawn in an EPSG:3857 view — a relative topological layout, not geography. The
@@ -150,7 +150,7 @@ The site continously auto-deploys from GitHub (Netlify serves the repo's `SC_WEB
 
 ---
 
-## Future directions
+## Possible future directions
 
 - **Routing**: per-lane weights (edges already carry the lane records) → distance/time-aware
   routes; optionally per-book routing if lanes gain a Book field.
