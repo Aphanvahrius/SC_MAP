@@ -15,7 +15,7 @@ local server.
 
 ## Quick start
 
-No bundler, no npm. Serve this folder statically and open `index.html`:
+No bundler, no npm. To use a cloned version locally serve this folder statically and open `index.html`:
 
 - **VS Code Live Server** (the usual dev workflow) → `http://127.0.0.1:5500/index.html`
 - or any static server (`python -m http.server`, etc.)
